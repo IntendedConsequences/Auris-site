@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How it works — Auris</title>
+<meta name="description" content="The hotkey loop, the tone sliders, app-specific rules, the learning dictionary, snippets. The full picture of how Auris turns speech into clean text.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #010100; --ink-2: #040302; --ink-3: #0c0806; --ink-4: #120f0c;
+    --paper: #ede7df; --paper-2: #bcb6af; --paper-3: #9b948d;
+    --line: #15110d; --line-2: #28231f; --line-3: #3a342e;
+    --signal: #fae353; --signal-soft: #efcc36; --signal-deep: #c4a020;
+    --ember: #ea6a64; --warn: #e0a050; --ok: #75d079;
+    --mist: #7a736d; --dim: #4a4540;
+    --sans: 'Albert Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--ink); color: var(--paper); font-family: var(--sans);
+    font-size: 16.5px; line-height: 1.55; font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'kern', 'liga'; text-rendering: optimizeLegibility;
+  }
+  ::selection { background: var(--signal); color: var(--ink); }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; }
+  em.sig { font-style: italic; color: var(--signal); font-weight: 500; letter-spacing: -0.005em; }
+
+  .page { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+
+  /* MASTHEAD ------------------------------------------------ */
+  .masthead {
+    position: sticky; top: 0; z-index: 40;
+    background: rgba(1, 1, 0, 0.94);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    display: grid; grid-template-columns: auto 1fr auto;
+    align-items: center; padding: 22px 0 18px; gap: 40px;
+    border-bottom: 1px solid var(--line-2);
+  }
+  .wordmark {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 24px; letter-spacing: -0.030em; color: var(--paper);
+  }
+  .wordmark .text { display: inline-flex; align-items: baseline; }
+  .wordmark .dot { color: var(--signal); }
+  .wordmark .glyph { color: var(--signal); width: 30px; height: 28px; display: block; }
+  .masthead-nav { display: flex; gap: 28px; align-items: center; justify-content: flex-end; }
+  .masthead-nav a {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase; transition: color 180ms;
+  }
+  .masthead-nav a:hover { color: var(--signal); }
+  .masthead-nav a.on { color: var(--paper); }
+  .masthead-nav a.on::after { content: ''; display: block; height: 1px; background: var(--signal); margin-top: 4px; }
+  .masthead-nav .buy {
+    background: var(--signal); color: var(--ink);
+    padding: 9px 16px; font-weight: 700; letter-spacing: 0.04em;
+    transition: background 180ms;
+  }
+  .masthead-nav .buy:hover { background: var(--signal-soft); color: var(--ink); }
+
+  /* PAGE HERO ----------------------------------------------- */
+  .page-hero {
+    padding: 80px 0 64px;
+    border-bottom: 1px solid var(--line-2);
+    position: relative;
+  }
+  .page-hero::before {
+    content: ''; position: absolute; left: 0; right: 0; top: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(250,227,83,0.45) 50%, transparent 100%);
+    pointer-events: none;
+  }
+  .page-eyebrow {
+    display: inline-flex; align-items: center; gap: 14px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase; margin-bottom: 28px;
+  }
+  .page-eyebrow::before {
+    content: ''; display: block; width: 28px; height: 1px; background: var(--signal);
+  }
+  .page-hero h1 {
+    font-weight: 800; font-size: clamp(56px, 7.2vw, 108px);
+    line-height: 0.94; letter-spacing: -0.034em; color: var(--paper);
+    max-width: 16ch;
+  }
+  .page-hero .dek {
+    margin-top: 28px; font-size: 19px; font-weight: 400; line-height: 1.5;
+    color: var(--paper); max-width: 50ch; letter-spacing: -0.005em;
+  }
+
+  /* CHAPTER ------------------------------------------------- */
+  .chapter { padding: 64px 0; border-bottom: 1px solid var(--line-2); }
+  .ch-head {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    gap: 64px; align-items: end; margin-bottom: 36px;
+  }
+  .ch-eyebrow {
+    display: inline-flex; align-items: center; gap: 14px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase; margin-bottom: 22px;
+  }
+  .ch-eyebrow::before {
+    content: ''; display: block; width: 28px; height: 1px; background: var(--signal);
+  }
+  .ch-eyebrow b { color: var(--paper); font-weight: 700; }
+  .ch-head h2 {
+    font-weight: 700; font-size: clamp(36px, 4.4vw, 56px);
+    line-height: 1.02; letter-spacing: -0.030em; color: var(--paper); max-width: 18ch;
+  }
+  .ch-head h2 em.sig { font-weight: 500; }
+  .ch-tag {
+    font-size: 19px; font-weight: 400; color: var(--paper);
+    letter-spacing: -0.005em; line-height: 1.5; max-width: 52ch;
+  }
+  .ch-body { max-width: 70ch; }
+  .ch-body p {
+    font-weight: 400; font-size: 17px; line-height: 1.6;
+    color: var(--paper-2); margin-bottom: 18px; letter-spacing: -0.003em;
+  }
+  .ch-body p b { font-weight: 700; color: var(--paper); }
+  .ch-body p .sg { color: var(--signal); font-weight: 600; }
+  .ch-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 700; letter-spacing: 0.02em;
+    color: var(--signal); padding-bottom: 2px;
+    border-bottom: 1px solid var(--signal-deep);
+    transition: color 180ms, border-color 180ms;
+  }
+  .ch-link:hover { color: var(--signal-soft); border-color: var(--signal); }
+
+  /* STEP/HOW GRID ------------------------------------------- */
+  .how-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+    margin: 0;
+  }
+  .how-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+  .how-card {
+    background: var(--ink-3); border: 1px solid var(--line-2);
+    padding: 28px 28px 26px; display: flex; flex-direction: column; gap: 16px;
+    min-height: 280px; position: relative; border-radius: 6px; overflow: hidden;
+  }
+  .how-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(250,227,83,0.35) 50%, transparent 100%);
+  }
+  .how-card .num {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.12em;
+    color: var(--signal); text-transform: uppercase;
+  }
+  .how-card h3 {
+    font-weight: 700; font-size: 32px; letter-spacing: -0.024em;
+    color: var(--paper); line-height: 1;
+  }
+  .how-card .keys { display: flex; gap: 8px; align-items: center; margin-top: -4px; flex-wrap: wrap; }
+  .kbd {
+    display: inline-block; padding: 4px 10px; border-radius: 3px;
+    background: var(--ink-4); border: 1px solid var(--line-2);
+    color: var(--paper); font-family: inherit; font-weight: 600;
+    font-size: 13px; letter-spacing: 0.04em;
+  }
+  .kbd-plus { color: var(--paper-3); font-weight: 500; }
+  .how-card p { font-size: 15px; line-height: 1.55; color: var(--paper-2); }
+  .how-card p b { color: var(--paper); font-weight: 600; }
+
+  /* SLIDER PANEL -------------------------------------------- */
+  .control {
+    margin: 0; background: var(--ink-3); border: 1px solid var(--line-2);
+    position: relative; overflow: hidden; border-radius: 6px;
+  }
+  .control::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(250,227,83,0.4) 50%, transparent 100%);
+  }
+  .control-tb {
+    border-bottom: 1px solid var(--line-2); padding: 0 18px;
+    display: grid; grid-template-columns: auto 1fr auto;
+    align-items: center; gap: 16px; height: 42px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+    background: var(--ink-2);
+  }
+  .control-tb .l { display: inline-flex; align-items: center; gap: 12px; }
+  .control-tb .l .mk {
+    font-weight: 800; font-size: 13px; letter-spacing: 0.14em;
+    color: var(--paper); text-transform: none;
+  }
+  .control-tb .l .mk .cy { color: var(--signal); }
+  .control-tb .c { text-align: center; }
+  .control-tb .r { display: inline-flex; align-items: center; gap: 7px; color: var(--signal); }
+  .control-tb .r .led {
+    width: 6px; height: 6px; border-radius: 99px; background: var(--signal);
+    box-shadow: 0 0 8px rgba(250,227,83,0.5);
+  }
+  .control-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 36px; padding: 28px 28px 24px;
+  }
+  .control-sliders { display: grid; gap: 22px; }
+  .slider { display: grid; gap: 10px; }
+  .slider .top { display: flex; justify-content: space-between; align-items: baseline; }
+  .slider .name {
+    font-weight: 600; font-size: 14px; color: var(--paper); letter-spacing: -0.005em;
+  }
+  .slider .v {
+    font-size: 12px; font-weight: 700; color: var(--signal); letter-spacing: 0.04em;
+  }
+  .slider input[type="range"] {
+    -webkit-appearance: none; appearance: none;
+    background: transparent; width: 100%; padding: 6px 0;
+  }
+  .slider input[type="range"]::-webkit-slider-runnable-track { height: 2px; background: var(--line-2); }
+  .slider input[type="range"]::-moz-range-track { height: 2px; background: var(--line-2); }
+  .slider input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 14px; height: 14px; background: var(--signal); border: 0;
+    transform: translateY(-6px); transition: transform 160ms;
+    box-shadow: 0 0 8px rgba(250,227,83,0.45);
+  }
+  .slider input[type="range"]::-moz-range-thumb { width: 14px; height: 14px; background: var(--signal); border: 0; }
+  .slider input[type="range"]:active::-webkit-slider-thumb { transform: translateY(-6px) scale(1.15); }
+  .slider input[type="range"]:focus { outline: none; }
+  .slider .ends {
+    display: flex; justify-content: space-between;
+    font-size: 10px; font-weight: 700; color: var(--paper-3);
+    letter-spacing: 0.10em; text-transform: uppercase;
+  }
+  .control-preview {
+    display: grid; grid-template-rows: auto 1fr; gap: 12px;
+    border-left: 1px solid var(--line-2); padding-left: 28px;
+  }
+  .control-preview .lbl {
+    font-size: 10.5px; font-weight: 700; color: var(--paper-3);
+    letter-spacing: 0.10em; text-transform: uppercase;
+  }
+  .control-preview .out {
+    font-weight: 500; font-size: 17px; line-height: 1.5;
+    color: var(--paper); letter-spacing: -0.005em;
+    transition: opacity 180ms; font-style: italic;
+  }
+  .control-foot {
+    border-top: 1px solid var(--line-2); padding: 14px 18px;
+    font-size: 11px; font-weight: 700; color: var(--paper-3);
+    letter-spacing: 0.10em; text-transform: uppercase;
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    background: var(--ink-2);
+  }
+  .control-foot b { color: var(--paper); font-weight: 700; }
+
+  /* SLIDER DETAILS — three named blocks below the panel */
+  .slider-details {
+    margin-top: 36px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+    border: 1px solid var(--line-2); border-radius: 6px; overflow: hidden;
+  }
+  .slider-details .cell {
+    padding: 26px 24px;
+    border-right: 1px solid var(--line-2);
+    background: var(--ink-3);
+    position: relative;
+  }
+  .slider-details .cell:last-child { border-right: 0; }
+  .slider-details .cell::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(250,227,83,0.25) 50%, transparent 100%);
+  }
+  .slider-details .cell h4 {
+    font-weight: 700; font-size: 22px; color: var(--paper);
+    letter-spacing: -0.018em; margin-bottom: 14px;
+  }
+  .slider-details .cell .range {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--signal); text-transform: uppercase; margin-bottom: 10px;
+  }
+  .slider-details .cell p {
+    font-size: 14px; line-height: 1.55; color: var(--paper-2);
+  }
+  .slider-details .cell p b { color: var(--paper); font-weight: 600; }
+
+  /* MODE PRESETS GRID (per-app behavior) -------------------- */
+  .modes-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+    border: 1px solid var(--line-2); border-radius: 6px; overflow: hidden;
+  }
+  .mode {
+    padding: 24px 22px;
+    border-right: 1px solid var(--line-2);
+    border-bottom: 1px solid var(--line-2);
+    background: var(--ink-3);
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .mode:nth-child(3n) { border-right: 0; }
+  .mode:nth-last-child(-n+3) { border-bottom: 0; }
+  .mode .lbl {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .mode h4 {
+    font-weight: 700; font-size: 22px; color: var(--paper);
+    letter-spacing: -0.018em;
+  }
+  .mode h4 .sg { color: var(--signal); }
+  .mode p {
+    font-size: 13.5px; line-height: 1.55; color: var(--paper-2);
+    margin-top: auto;
+  }
+  .mode p b { color: var(--paper); font-weight: 600; }
+  .mode.default {
+    background:
+      radial-gradient(ellipse 60% 80% at 50% 0%, rgba(250, 227, 83, 0.06) 0%, transparent 70%),
+      var(--ink-3);
+  }
+  .mode.default::before {
+    content: ''; position: absolute; top: -1px; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(250,227,83,0.45) 50%, transparent 100%);
+  }
+  .mode.default h4 { color: var(--signal); }
+
+  /* SNIPPETS / TERMINAL ------------------------------------- */
+  .term {
+    margin: 24px 0;
+    border-radius: 6px; overflow: hidden;
+    background:
+      radial-gradient(ellipse 50% 90% at 0% 0%, rgba(250, 227, 83, 0.06) 0%, transparent 70%),
+      var(--ink-4);
+    border: 1px solid var(--line-2);
+    position: relative;
+  }
+  .term::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(250,227,83,0.5) 50%, transparent 100%);
+  }
+  .term-head {
+    padding: 12px 18px; border-bottom: 1px solid var(--line-2);
+    background: var(--ink-2);
+    display: flex; align-items: center; gap: 14px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .term-head .dots { display: inline-flex; gap: 5px; }
+  .term-head .dots i {
+    display: inline-block; width: 9px; height: 9px; border-radius: 99px;
+    background: var(--line-3);
+  }
+  .term-head .dots i:first-child { background: var(--signal); box-shadow: 0 0 6px rgba(250,227,83,0.45); }
+  .term-head b { color: var(--signal); font-weight: 700; margin-left: auto; }
+  .term-body {
+    padding: 8px 22px 14px;
+    font-size: 14px; line-height: 1.85; color: var(--paper-2);
+    letter-spacing: 0.005em;
+  }
+  .term-row {
+    display: grid; grid-template-columns: 160px minmax(0, 1fr) auto;
+    gap: 24px; padding: 10px 0;
+    border-bottom: 1px dashed var(--line-2);
+    align-items: baseline;
+  }
+  .term-row:last-child { border-bottom: 0; }
+  .term-row .k {
+    color: var(--signal); font-weight: 700; letter-spacing: 0.02em;
+    background: var(--ink-2); padding: 4px 10px;
+    border: 1px solid var(--line-2);
+    font-size: 13.5px;
+    display: inline-block;
+  }
+  .term-row .v { color: var(--paper-2); font-weight: 500; }
+  .term-row .ex {
+    color: var(--paper); font-weight: 500; font-size: 13px;
+    letter-spacing: 0.02em; font-style: italic;
+  }
+  .term-row .ex small {
+    color: var(--paper-3); font-style: normal; margin-right: 6px; font-weight: 700;
+    letter-spacing: 0.10em; text-transform: uppercase; font-size: 10px;
+  }
+
+  /* STRIKE GRID (privacy-style) ----------------------------- */
+  .keep-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    margin: 0; border: 1px solid var(--line-2); border-radius: 6px; overflow: hidden;
+  }
+  .keep-card {
+    padding: 26px 24px 22px; background: var(--ink-3);
+    border-right: 1px solid var(--line-2);
+    display: flex; flex-direction: column; gap: 12px;
+    position: relative;
+  }
+  .keep-card:last-child { border-right: 0; }
+  .keep-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(250,227,83,0.30) 50%, transparent 100%);
+  }
+  .keep-card .strike {
+    font-weight: 700; font-size: 20px; color: var(--paper);
+    letter-spacing: -0.022em; position: relative;
+    display: inline-block; align-self: flex-start;
+  }
+  .keep-card .strike::after {
+    content: ''; position: absolute; left: -3px; right: -3px; top: 53%;
+    height: 3px; background: var(--signal); transform: rotate(-3deg);
+    box-shadow: 0 0 6px rgba(250,227,83,0.45);
+  }
+  .keep-card p {
+    font-size: 13.5px; line-height: 1.55; color: var(--paper-2);
+    letter-spacing: -0.002em;
+  }
+  .keep-card p b { color: var(--paper); font-weight: 600; }
+
+  /* FINAL CTA ----------------------------------------------- */
+  .final {
+    padding: 96px 0; text-align: center; position: relative;
+    border-bottom: 1px solid var(--line-2);
+    background: radial-gradient(ellipse 50% 60% at 50% 0%, rgba(250,227,83,0.06) 0%, transparent 70%);
+  }
+  .final::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(250,227,83,0.5) 50%, transparent 100%);
+  }
+  .final h2 {
+    font-weight: 800; font-size: clamp(44px, 6vw, 96px);
+    line-height: 0.94; letter-spacing: -0.030em;
+    color: var(--paper); max-width: 18ch; margin: 0 auto;
+  }
+  .final h2 em.sig { font-weight: 500; }
+  .final .dek {
+    margin-top: 24px; font-size: 17px; line-height: 1.55;
+    color: var(--paper-2); max-width: 50ch;
+    margin-left: auto; margin-right: auto;
+    font-weight: 400; letter-spacing: -0.003em;
+  }
+  .final .row {
+    margin-top: 36px; display: flex; align-items: center; justify-content: center;
+    gap: 14px; flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 14px;
+    padding: 13px 22px; letter-spacing: 0.02em;
+    transition: background 180ms, color 180ms, border-color 180ms;
+    border: 1px solid transparent; cursor: pointer;
+    border-radius: 6px;
+  }
+  .btn-primary { background: var(--signal); color: var(--ink); border-color: var(--signal); }
+  .btn-primary:hover { background: var(--signal-soft); border-color: var(--signal-soft); }
+  .btn-ghost { background: transparent; color: var(--paper); border: 1px solid var(--line-2); }
+  .btn-ghost:hover { border-color: var(--line-3); color: var(--signal); }
+  .btn-disabled {
+    background: var(--ink-3); color: var(--paper-3); border: 1px solid var(--line-2);
+    cursor: not-allowed; pointer-events: none;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .btn-disabled .led {
+    width: 7px; height: 7px; border-radius: 99px; background: var(--signal);
+    box-shadow: 0 0 0 3px rgba(250,227,83,0.18), 0 0 12px rgba(250,227,83,0.4);
+    animation: led 1.4s ease-in-out infinite;
+  }
+  @keyframes led { 0%, 60%, 100% { opacity: 1; } 30% { opacity: 0.3; } }
+  .btn .arr { opacity: 0.85; }
+  .final .links {
+    margin-top: 22px;
+    display: flex; gap: 18px; justify-content: center; flex-wrap: wrap;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .final .links a { transition: color 180ms; }
+  .final .links a:hover { color: var(--signal); }
+  .final .links .sep { color: var(--dim); }
+
+  /* COLOPHON ------------------------------------------------ */
+  .colophon {
+    padding: 22px 0 26px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 24px; flex-wrap: wrap;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .colophon a { color: var(--paper-3); transition: color 180ms; }
+  .colophon a:hover { color: var(--signal); }
+  .colophon .sep { color: var(--dim); margin: 0 4px; }
+
+  /* RESPONSIVE ---------------------------------------------- */
+  #loop .ch-head h2 { max-width: none; white-space: nowrap; }
+  #loop .ch-head { grid-template-columns: 1fr; }
+  @media (max-width: 980px) {
+    .page { padding: 0 22px; }
+    .masthead { grid-template-columns: 1fr auto; padding-top: 22px; gap: 16px; }
+    .masthead-nav { gap: 14px; }
+    .masthead-nav a:not(.buy) { display: none; }
+    .page-hero { padding: 56px 0 48px; }
+    .chapter { padding: 56px 0; }
+    .ch-head { grid-template-columns: 1fr; gap: 18px; margin-bottom: 32px; }
+    .how-grid, .how-grid.cols-4 { grid-template-columns: 1fr; }
+    .control-grid { grid-template-columns: 1fr; }
+    .control-preview { border-left: 0; padding-left: 0; padding-top: 18px; border-top: 1px solid var(--line-2); }
+    .slider-details { grid-template-columns: 1fr; }
+    .slider-details .cell { border-right: 0; border-bottom: 1px solid var(--line-2); }
+    .slider-details .cell:last-child { border-bottom: 0; }
+    .modes-grid { grid-template-columns: 1fr 1fr; }
+    .mode { border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
+    .mode:nth-child(2n) { border-right: 0; }
+    .mode:nth-last-child(-n+2) { border-bottom: 0; }
+    .keep-grid { grid-template-columns: 1fr 1fr; }
+    .keep-card { border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
+    .keep-card:nth-child(2n) { border-right: 0; }
+    .keep-card:nth-last-child(-n+2) { border-bottom: 0; }
+    .term-row { grid-template-columns: 1fr; gap: 6px; }
+    .term-row .k { justify-self: start; }
+    .final { padding: 64px 0; }
+  }
+
+  /* === MOBILE FIXES === */
+  @media (max-width: 700px) {
+    .page { padding: 0 18px; }
+    .masthead { padding: 14px 0 12px; gap: 10px; }
+    .masthead-nav { gap: 14px; flex-wrap: nowrap; }
+    .masthead-nav a {
+      font-size: 10px; letter-spacing: 0.06em; white-space: nowrap;
+    }
+    .wordmark { font-size: 20px; gap: 8px; }
+    .wordmark .glyph { width: 24px; height: 22px; }
+    .page-hero h1, .hero-polished h1, .final h2, .ch-head h2 {
+      font-size: clamp(36px, 9vw, 56px) !important;
+    }
+    .ch-head { gap: 14px !important; margin-bottom: 24px !important; }
+    .ch-tag, .hero-dek, .page-hero .dek { font-size: 16px !important; }
+    .ch-body p { font-size: 15px !important; }
+    .hero-raw, .hero-spine { display: none !important; }
+    .hero-polished { opacity: 1 !important; transform: none !important; padding: 0 !important; }
+    .hero-polished .stamp { display: none; }
+    .hero-eyebrow { gap: 10px !important; margin-bottom: 22px !important; }
+    .hero-eyebrow .ti, .pill { font-size: 10px !important; }
+    .hero { padding: 24px 0 36px !important; }
+    .chapter, .versus, .pricing, .langs { padding: 40px 0 !important; }
+    .bar-row .bar-label { font-size: 15px !important; }
+    .bar-val { font-size: 24px !important; }
+    .how-card { min-height: 0 !important; padding: 20px !important; }
+    .how-card h3 { font-size: 26px !important; }
+    .control-grid { padding: 20px !important; gap: 22px !important; }
+    .control-tb { padding: 0 14px !important; }
+    .control-foot { padding: 12px 14px !important; font-size: 10px !important; gap: 8px !important; }
+    .feature-grid, .keep-grid, .pricing-grid, .provider-grid, .modes-grid, .lives-grid, .ways-grid, .slider-details {
+      grid-template-columns: 1fr !important;
+    }
+    .vs-row { grid-template-columns: 1fr !important; }
+    .vs-row > * { padding: 8px 12px !important; }
+    .vs-tab { font-size: 14px !important; }
+    .vs-row .lbl { background: var(--ink-3); }
+    .vs-row > * { border-right: 0 !important; border-bottom: 1px solid var(--line-2) !important; }
+    .vs-row.head { display: none !important; }
+    .price-card { min-height: 0 !important; padding: 22px !important; }
+    .price-card .px { font-size: 40px !important; }
+    .final { padding: 56px 0 !important; }
+    .secnav-wrap { top: 56px; }
+    .secnav a { padding: 12px 14px; font-size: 10px; }
+    .colophon { font-size: 10px; gap: 14px; }
+    .keep-file { grid-template-columns: 1fr !important; gap: 8px !important; }
+    .cost-head, .cost-row { grid-template-columns: 1fr !important; gap: 4px !important; padding: 14px 18px !important; }
+    .cost-row .px { text-align: left !important; font-size: 20px !important; }
+    #license .lives-grid { grid-template-columns: 1fr !important; }
+    #license .lives h4 { white-space: normal !important; font-size: 22px !important; }
+    .team-block { grid-template-columns: 1fr !important; }
+    .langs-grid { grid-template-columns: 1fr 1fr; }
+    .stickbar { display: none !important; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="page" id="top">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <a href="index.html" class="wordmark">
+      <svg class="glyph" viewBox="0 0 53 52" aria-hidden="true">
+        <g fill="none" stroke="currentColor">
+          <circle cx="4" cy="26" r="3.5" fill="currentColor" stroke="none"/>
+          <ellipse cx="14" cy="26" rx="3.5" ry="9" stroke-width="4"/>
+          <ellipse cx="24" cy="26" rx="3.5" ry="15" stroke-width="3.5" opacity=".7"/>
+          <ellipse cx="34" cy="26" rx="3.5" ry="20" stroke-width="3" opacity=".42"/>
+          <ellipse cx="49" cy="26" rx="3.5" ry="26" stroke-width="2" opacity=".22"/>
+        </g>
+      </svg>
+      <span class="text">auris<span class="dot">.</span></span>
+    </a>
+    <nav class="masthead-nav">
+      <a href="how.html" class="on">How it works</a>
+      <a href="features.html">Features</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="pricing.html">Pricing</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <div class="page-eyebrow">How it works</div>
+    <h1>How Auris <em class="sig">works.</em></h1>
+    <p class="dek">The basic loop in three steps.<br>Everything else is how you shape what comes out.</p>
+  </section>
+
+  <!-- 1 · THE LOOP -->
+  <section class="chapter" id="loop">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">The loop · <b>001</b></div>
+        <h2>Hold. Speak. Release.</h2>
+      </div>
+    </div>
+
+    <div class="how-grid">
+      <article class="how-card">
+        <span class="num">01 · Hold</span>
+        <h3>Hold</h3>
+        <div class="keys">
+          <span class="kbd">Ctrl</span><span class="kbd-plus">+</span><span class="kbd">Cmd</span>
+          <span class="kbd-plus" style="margin: 0 6px;">or</span>
+          <span class="kbd">Ctrl</span><span class="kbd-plus">+</span><span class="kbd">Win</span>
+        </div>
+        <p>Press and hold the dictate hotkey. The hotkey is <b>global,</b> which means it works in whatever app or browser tab has focus. Hold for as long as you want to talk.</p>
+      </article>
+
+      <article class="how-card">
+        <span class="num">02 · Speak</span>
+        <h3>Speak</h3>
+        <div class="keys"><span class="kbd" style="background: transparent; border-style: dashed;">talk for as long as you need</span></div>
+        <p>Auris transcribes everything you say while you're holding the key. <b>No time limit, no character cap.</b></p>
+      </article>
+
+      <article class="how-card">
+        <span class="num">03 · Release</span>
+        <h3>Release</h3>
+        <div class="keys"><span class="kbd" style="border-color: var(--signal-deep); color: var(--signal);">clean text · 1–2s later</span></div>
+        <p>Let go. Auris cleans up the transcript and pastes the polished version <b>at your cursor.</b> The whole thing typically takes one to two seconds after you stop talking.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 2 · THREE SLIDERS -->
+  <section class="chapter" id="sliders">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Sliders · <b>002</b></div>
+        <h2>Three sliders that change the <em class="sig">output.</em></h2>
+      </div>
+      <div class="ch-tag">Auris ships with three global tone sliders. Move them.<br>The next dictation reflects the change.</div>
+    </div>
+
+    <div class="control" role="group" aria-label="Style controls">
+      <div class="control-tb">
+        <div class="l"><span class="mk">auris<span class="cy">.</span></span><span>style</span></div>
+        <div class="c">live preview</div>
+        <div class="r"><span class="led" aria-hidden="true"></span>private</div>
+      </div>
+      <div class="control-grid">
+        <div class="control-sliders">
+          <label class="slider">
+            <span class="top"><span class="name">Formality</span><span class="v" id="v1">3 / 5</span></span>
+            <input type="range" min="0" max="5" value="3" id="s1" aria-label="Formality">
+            <span class="ends"><span>casual</span><span>professional</span></span>
+          </label>
+          <label class="slider">
+            <span class="top"><span class="name">Conciseness</span><span class="v" id="v2">3 / 5</span></span>
+            <input type="range" min="0" max="5" value="3" id="s2" aria-label="Conciseness">
+            <span class="ends"><span>verbose</span><span>tight</span></span>
+          </label>
+          <label class="slider">
+            <span class="top"><span class="name">Assertiveness</span><span class="v" id="v3">3 / 5</span></span>
+            <input type="range" min="0" max="5" value="3" id="s3" aria-label="Assertiveness">
+            <span class="ends"><span>soft</span><span>direct</span></span>
+          </label>
+        </div>
+        <div class="control-preview">
+          <span class="lbl">same dictation, drag to repolish</span>
+          <p class="out" id="preview">Following up on Tuesday: shipping the redesign as an opt-in beta. Target: end of month.</p>
+        </div>
+      </div>
+      <div class="control-foot">
+        <span><b>global defaults</b> · overridden per app</span>
+        <span><b>updates instantly</b> · no reload</span>
+      </div>
+    </div>
+
+    <div class="slider-details">
+      <div class="cell">
+        <span class="range">Casual ⟶ Professional</span>
+        <h4>Formality</h4>
+        <p><b>Casual</b> keeps contractions and a friend-tone. <b>Professional</b> uses full grammar and a measured tone.</p>
+      </div>
+      <div class="cell">
+        <span class="range">Verbose ⟶ Tight</span>
+        <h4>Conciseness</h4>
+        <p><b>Verbose</b> preserves your phrasing. <b>Tight</b> cuts fillers, hedges, and redundant phrases.</p>
+      </div>
+      <div class="cell">
+        <span class="range">Soft ⟶ Direct</span>
+        <h4>Assertiveness</h4>
+        <p><b>Soft</b> keeps hedges, qualifiers, and politeness markers. <b>Direct</b> removes them and states the point.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · PER-APP BEHAVIOR -->
+  <section class="chapter" id="modes">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Per-app · <b>003</b></div>
+        <h2>Different apps, different <em class="sig">polish.</em></h2>
+      </div>
+      <div class="ch-tag">A casual Slack message and a board update email shouldn't sound the same. Auris ships with six app-aware mode presets.</div>
+    </div>
+
+    <div class="modes-grid">
+      <article class="mode default">
+        <span class="lbl">Mode · 01</span>
+        <h4>Default<span class="sg">.</span></h4>
+        <p>The global slider settings apply. Most apps you don't override end up here.</p>
+      </article>
+      <article class="mode">
+        <span class="lbl">Mode · 02</span>
+        <h4>Formal.</h4>
+        <p>Formality and assertiveness pushed up. Email clients, document editors, board updates.</p>
+      </article>
+      <article class="mode">
+        <span class="lbl">Mode · 03</span>
+        <h4>Casual.</h4>
+        <p>Formality pushed down. Chat apps: Slack, Discord, Messages.</p>
+      </article>
+      <article class="mode">
+        <span class="lbl">Mode · 04</span>
+        <h4>Minimal.</h4>
+        <p>Only fixes typos and grammar. Leaves your phrasing alone.</p>
+      </article>
+      <article class="mode">
+        <span class="lbl">Mode · 05</span>
+        <h4>Code.</h4>
+        <p>Preserves quotes and brackets. Doesn't auto-capitalize. Terminals and editors.</p>
+      </article>
+      <article class="mode">
+        <span class="lbl">Mode · 06</span>
+        <h4>Email.</h4>
+        <p>Full sentences, signature-ready phrasing. Mail, Outlook, Gmail.</p>
+      </article>
+    </div>
+
+    <p class="ch-body" style="margin-top: 24px; max-width: 64ch;">
+      Assign any mode to any app. <b>Override</b> with custom rules for anything specific.
+    </p>
+  </section>
+
+  <!-- 4 · LEARNING DICTIONARY -->
+  <section class="chapter" id="dict">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Dictionary · <b>004</b></div>
+        <h2>Fix it <em class="sig">once.</em></h2>
+      </div>
+      <div class="ch-tag">When you edit a polished output, either in Auris's history view or by fixing a typo within five minutes of dictating, Auris notices the diff.</div>
+    </div>
+
+    <div class="how-grid">
+      <article class="how-card">
+        <span class="num">01 · You speak it</span>
+        <h3 style="font-size: 22px; line-height: 1.2;">"Send to <span style="color:var(--ember); text-decoration: line-through; text-decoration-thickness: 2px;">Cassettoni</span>."</h3>
+        <p>Auris hears the word, doesn't know it. Best guess lands in the app.</p>
+      </article>
+      <article class="how-card">
+        <span class="num">02 · You fix it</span>
+        <h3 style="font-size: 22px; line-height: 1.2;">"Send to <span style="color:var(--signal);">Castoni</span>."</h3>
+        <p>You fix the typo in whichever app it landed in — within five minutes of dictating. Auris works in every app.</p>
+      </article>
+      <article class="how-card">
+        <span class="num">03 · Auris learns</span>
+        <h3 style="font-size: 22px; line-height: 1.2;"><span style="color:var(--signal);">Castoni</span> → dictionary</h3>
+        <p>The correction goes into your dictionary <b>automatically.</b> Next time you say it, it lands right.</p>
+      </article>
+    </div>
+
+    <p class="ch-body" style="margin-top: 24px; max-width: 64ch;">
+      The dictionary catches matches <b>before</b> the polish step ever sees them.<br>You stop fixing the same name, acronym, or technical term over and over.
+    </p>
+  </section>
+
+  <!-- 5 · SNIPPETS -->
+  <section class="chapter" id="snippets">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Snippets · <b>005</b></div>
+        <h2>Spoken triggers, written <em class="sig">shortcuts.</em></h2>
+      </div>
+      <div class="ch-tag">Snippets fire on phrases you say. Say "today's date," get the current date. Say "meeting template," get a notes skeleton with the date already filled in.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="dots"><i></i><i></i><i></i></span><span>Snippet variables</span><b>auris/snippets</b></div>
+      <div class="term-body">
+        <div class="term-row"><span class="k">{date}</span><span class="v">today's date</span><span class="ex"><small>→</small>May 18, 2026</span></div>
+        <div class="term-row"><span class="k">{signature}</span><span class="v">your name and title from Settings</span><span class="ex"><small>→</small>Jane Doe · VP Design</span></div>
+        <div class="term-row"><span class="k">{time}</span><span class="v">current time</span><span class="ex"><small>→</small>3:42 pm</span></div>
+        <div class="term-row"><span class="k">{clipboard}</span><span class="v">paste from your clipboard</span><span class="ex"><small>→</small>contents of ⌘V</span></div>
+      </div>
+    </div>
+
+    <p class="ch-body" style="margin-top: 16px; max-width: 64ch;">
+      Build your own snippets in the <b>Memos</b> tab. Edit them whenever.<br><b>They live on your machine.</b>
+    </p>
+  </section>
+
+  <!-- 6 · THINGS AURIS DOESN'T SAVE -->
+  <section class="chapter" id="sensitive">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Sensitive · <b>006</b></div>
+        <h2>Sensitive content stays <em class="sig">out</em> of your history.</h2>
+      </div>
+      <div class="ch-tag">Speak a credit card number and it lands in the app you're typing in.<br>It doesn't get saved to your transcript history.</div>
+    </div>
+
+    <div class="keep-grid">
+      <article class="keep-card">
+        <span class="strike">Email</span>
+        <p>Anything matching an email pattern.<br>Never saved to your transcript history.</p>
+      </article>
+      <article class="keep-card">
+        <span class="strike">Phone</span>
+        <p>North American and international phone numbers.<br>Lands in the app, never in history.</p>
+      </article>
+      <article class="keep-card">
+        <span class="strike">SSN</span>
+        <p>Social Security Numbers.<br>Used in the moment, not stored.</p>
+      </article>
+      <article class="keep-card">
+        <span class="strike">Credit card</span>
+        <p>16-digit card numbers, all major schemes.<br>Typed once, gone after.</p>
+      </article>
+    </div>
+
+    <p class="ch-body" style="margin-top: 24px; max-width: 64ch;">
+      <b>Add your own patterns</b> with regex for company-specific things you want kept out of saved transcripts: employee IDs, internal project codes, anything else.
+    </p>
+  </section>
+
+  <!-- 7 · FIRST-RUN SETUP -->
+  <section class="chapter" id="setup">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Setup · <b>007</b></div>
+        <h2>Two minutes to <em class="sig">start.</em></h2>
+      </div>
+      <div class="ch-tag">First time you open Auris, a setup walks you through four steps.<br>None of them take long.</div>
+    </div>
+
+    <div class="how-grid cols-4">
+      <article class="how-card">
+        <span class="num">01 · Microphone</span>
+        <h3 style="font-size: 24px;">Microphone access</h3>
+        <p>Click <b>"Allow"</b> when the system prompt appears. On Windows, you might also need to grant access in <b>Settings → Privacy → Microphone.</b></p>
+      </article>
+      <article class="how-card">
+        <span class="num">02 · Polish path</span>
+        <h3 style="font-size: 24px;">Pick your polish path</h3>
+        <p>Choose where Auris runs the polish step: <b>OpenAI, Anthropic, or Groq</b> with your own key, or a <b>local model</b> on your machine.</p>
+      </article>
+      <article class="how-card">
+        <span class="num">03 · Hotkey</span>
+        <h3 style="font-size: 24px;">Confirm hotkeys</h3>
+        <p><b>Ctrl + Cmd</b> on Mac, <b>Ctrl + Win</b> on Windows by default. Change them if you want.</p>
+      </article>
+      <article class="how-card">
+        <span class="num">04 · Speak</span>
+        <h3 style="font-size: 24px;">Start talking</h3>
+        <p>Hold the key. Say something. <b>Watch your words land</b> in the text field.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final" id="final">
+    <h2>See it run on <em class="sig">your machine.</em></h2>
+    <p class="dek">Buy Auris, run the setup, dictate your first sentence. If it doesn't earn its place inside two weeks, the 30-day money-back is right there.</p>
+    <div class="row">
+      <span class="btn btn-disabled" aria-disabled="true"><span class="led" aria-hidden="true"></span>Still in Beta</span>
+      <a href="privacy.html" class="btn btn-ghost">Read privacy details <span class="arr">→</span></a>
+    </div>
+    <div class="links">
+      <a href="privacy.html">Read privacy details</a>
+    </div>
+  </section>
+
+  <!-- COLOPHON -->
+  <footer class="colophon">
+    <span>© 2026 Auris</span>
+    <span><a href="mailto:hello@auris.talk">hello@auris.talk</a></span>
+    <span>Mac &amp; Windows <span class="sep">·</span> Linux on the way</span>
+    <span><a href="privacy.html">Privacy</a></span>
+  </footer>
+
+</div>
+
+<script>
+  /* SLIDER PREVIEW — same 11-variant pattern as the home page. */
+  (function () {
+    const sliders = ['s1','s2','s3'].map(id => document.getElementById(id));
+    const values  = ['v1','v2','v3'].map(id => document.getElementById(id));
+    const preview = document.getElementById('preview');
+    if (sliders.some(s => !s) || !preview) return;
+
+    const variants = [
+      { max: 1,  text: "hey yeah so um following up on tuesday like, the team and i, we talked about your suggestion and basically you know, we kinda agree that we should ship the redesign as like an opt-in beta first, and we're thinking end of the month maybe" },
+      { max: 3,  text: "hey, following up on tuesday \u2014 the team talked about your suggestion and we basically agree, we'll ship the redesign as an opt-in beta first, probably end of month" },
+      { max: 5,  text: "following up on tuesday's chat \u2014 the team agrees on shipping the redesign as an opt-in beta first. targeting end of month." },
+      { max: 7,  text: "Following up on Tuesday. The team agrees on shipping the redesign as an opt-in beta first. Targeting end of month." },
+      { max: 9,  text: "Following up on Tuesday: the team agrees on shipping the redesign as an opt-in beta. Target: end of month." },
+      { max: 11, text: "Following up on Tuesday: shipping the redesign as an opt-in beta. Target: end of month." },
+      { max: 13, text: "Tuesday follow-up: opt-in beta for the redesign. Target: end of month." },
+      { max: 14, text: "Opt-in beta for the redesign. End of month." },
+      { max: 15, text: "Opt-in beta. End of month." }
+    ];
+    function render() {
+      const sum = sliders.reduce((acc, s, i) => { values[i].textContent = s.value + ' / 5'; return acc + Number(s.value); }, 0);
+      const v = variants.find(x => sum <= x.max) || variants[variants.length - 1];
+      preview.style.opacity = '0';
+      setTimeout(() => { preview.textContent = v.text; preview.style.opacity = '1'; }, 90);
+    }
+    sliders.forEach(s => s.addEventListener('input', render));
+    render();
+  })();
+</script>
+
+</body>
+</html>

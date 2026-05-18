@@ -1,0 +1,788 @@
+<!DOCTYPE html><html lang="en"><head>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy — Auris</title>
+<meta name="description" content="Auris doesn't store your audio or your transcripts. We don't have servers for them. Here's the full story.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #010100; --ink-2: #040302; --ink-3: #0c0806; --ink-4: #120f0c;
+    --paper: #ede7df; --paper-2: #bcb6af; --paper-3: #9b948d;
+    --line: #15110d; --line-2: #28231f; --line-3: #3a342e;
+    --signal: #fae353; --signal-soft: #efcc36; --signal-deep: #c4a020;
+    --ember: #ea6a64; --warn: #e0a050; --ok: #75d079;
+    --mist: #7a736d; --dim: #4a4540;
+    --sans: 'Albert Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--ink); color: var(--paper); font-family: var(--sans);
+    font-size: 16.5px; line-height: 1.55; font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'kern', 'liga'; text-rendering: optimizeLegibility;
+  }
+  ::selection { background: var(--signal); color: var(--ink); }
+  a { color: inherit; text-decoration: none; }
+  em.sig { font-style: italic; color: var(--signal); font-weight: 500; letter-spacing: -0.005em; }
+
+  .page { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+
+  /* MASTHEAD ------------------------------------------------ */
+  .masthead {
+    position: sticky; top: 0; z-index: 40;
+    background: rgba(1, 1, 0, 0.94);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    display: grid; grid-template-columns: auto 1fr auto;
+    align-items: center; padding: 22px 0 18px; gap: 40px;
+    border-bottom: 1px solid var(--line-2);
+  }
+  .wordmark {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 24px; letter-spacing: -0.030em; color: var(--paper);
+  }
+  .wordmark .text { display: inline-flex; align-items: baseline; }
+  .wordmark .dot { color: var(--signal); }
+  .wordmark .glyph { color: var(--signal); width: 30px; height: 28px; display: block; }
+  .masthead-nav { display: flex; gap: 28px; align-items: center; justify-content: flex-end; }
+  .masthead-nav a {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase; transition: color 180ms;
+  }
+  .masthead-nav a:hover { color: var(--signal); }
+  .masthead-nav a.on { color: var(--paper); }
+  .masthead-nav a.on::after { content: ''; display: block; height: 1px; background: var(--signal); margin-top: 4px; }
+  .masthead-nav .buy {
+    background: var(--signal); color: var(--ink);
+    padding: 9px 16px; font-weight: 700; letter-spacing: 0.04em;
+    transition: background 180ms;
+  }
+  .masthead-nav .buy:hover { background: var(--signal-soft); color: var(--ink); }
+
+  /* PAGE HERO ----------------------------------------------- */
+  .page-hero {
+    padding: 80px 0 64px; border-bottom: 1px solid var(--line-2); position: relative;
+  }
+  .page-hero::before {
+    content: ''; position: absolute; left: 0; right: 0; top: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(250,227,83,0.45) 50%, transparent 100%);
+  }
+  .page-eyebrow {
+    display: inline-flex; align-items: center; gap: 14px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase; margin-bottom: 28px;
+  }
+  .page-eyebrow::before {
+    content: ''; display: block; width: 28px; height: 1px; background: var(--signal);
+  }
+  .page-hero h1 {
+    font-weight: 800; font-size: clamp(56px, 7.4vw, 116px);
+    line-height: 0.94; letter-spacing: -0.034em; color: var(--paper);
+    max-width: 14ch;
+  }
+  .page-hero .dek {
+    margin-top: 28px; font-size: 19px; font-weight: 400; line-height: 1.5;
+    color: var(--paper); max-width: 52ch; letter-spacing: -0.005em;
+  }
+
+  /* CHAPTER ------------------------------------------------- */
+  .chapter { padding: 64px 0; border-bottom: 1px solid var(--line-2); }
+  .ch-head {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    gap: 64px; align-items: end; margin-bottom: 36px;
+  }
+  .ch-eyebrow {
+    display: inline-flex; align-items: center; gap: 14px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase; margin-bottom: 22px;
+  }
+  .ch-eyebrow::before {
+    content: ''; display: block; width: 28px; height: 1px; background: var(--signal);
+  }
+  .ch-eyebrow b { color: var(--paper); font-weight: 700; }
+  .ch-head h2 {
+    font-weight: 700; font-size: clamp(36px, 4.4vw, 56px);
+    line-height: 1.02; letter-spacing: -0.030em; color: var(--paper); max-width: 18ch;
+  }
+  .ch-head h2 em.sig { font-weight: 500; }
+  .ch-tag {
+    font-size: 19px; font-weight: 400; color: var(--paper);
+    letter-spacing: -0.005em; line-height: 1.5; max-width: 52ch;
+  }
+  .ch-body { max-width: 70ch; }
+  .ch-body p {
+    font-weight: 400; font-size: 17px; line-height: 1.6;
+    color: var(--paper-2); margin-bottom: 18px; letter-spacing: -0.003em;
+  }
+  .ch-body p b { font-weight: 700; color: var(--paper); }
+  .ch-body p .sg { color: var(--signal); font-weight: 600; }
+
+  /* FLOW DIAGRAM (data path) -------------------------------- */
+  .flow {
+    margin: 0;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    border: 1px solid var(--line-2); position: relative;
+    border-radius: 6px; overflow: hidden;
+  }
+  .flow::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(250,227,83,0.4) 50%, transparent 100%);
+  }
+  .flow-step {
+    padding: 28px 22px 26px; background: var(--ink-3);
+    border-right: 1px solid var(--line-2);
+    display: flex; flex-direction: column; gap: 12px;
+    position: relative;
+  }
+  .flow-step:last-child { border-right: 0; }
+  .flow-step .num {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--signal); text-transform: uppercase;
+  }
+  .flow-step h4 {
+    font-weight: 700; font-size: 22px; color: var(--paper);
+    letter-spacing: -0.018em; line-height: 1.1;
+  }
+  .flow-step h4 em { font-style: italic; color: var(--signal); font-weight: 500; }
+  .flow-step p {
+    font-size: 13.5px; line-height: 1.55; color: var(--paper-2);
+    margin-top: auto;
+  }
+  .flow-step p b { color: var(--paper); font-weight: 600; }
+  .flow-step .arrow {
+    position: absolute; right: -10px; top: 50%; transform: translateY(-50%);
+    width: 20px; height: 20px; background: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--signal); font-size: 14px; font-weight: 700;
+    border: 1px solid var(--line-2); z-index: 2;
+  }
+  .flow-step:last-child .arrow { display: none; }
+
+  .flow-after {
+    margin-top: 22px;
+    padding: 22px 24px;
+    border-radius: 6px;
+    background:
+      radial-gradient(ellipse 50% 80% at 50% 0%, rgba(250, 227, 83, 0.06) 0%, transparent 70%),
+      var(--ink-3);
+    border: 1px solid var(--line-2);
+    position: relative;
+  }
+  .flow-after::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(250,227,83,0.4) 50%, transparent 100%);
+  }
+  .flow-after .lbl {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--signal); text-transform: uppercase; margin-bottom: 8px;
+  }
+  .flow-after p { font-size: 16px; line-height: 1.5; color: var(--paper); font-weight: 500; max-width: 70ch; }
+  .flow-after p b { color: var(--signal); font-weight: 700; }
+
+  /* TWO-WAY GRID (Cloud / Local) ---------------------------- */
+  .ways-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    margin: 0;
+  }
+  .way {
+    background: var(--ink-3);
+    border: 1px solid var(--line-2);
+    border-radius: 6px; overflow: hidden;
+    padding: 32px 30px 28px;
+    display: flex; flex-direction: column; gap: 14px;
+    min-height: 280px; position: relative;
+  }
+  .way::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(250,227,83,0.35) 50%, transparent 100%);
+  }
+  .way .tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .way .tag .dot { width: 7px; height: 7px; border-radius: 99px; }
+  .way.cloud .tag .dot { background: #5fc8ff; }
+  .way.local .tag .dot { background: var(--signal); box-shadow: 0 0 6px rgba(250,227,83,0.5); }
+  .way h3 {
+    font-weight: 700; font-size: 32px; color: var(--paper);
+    letter-spacing: -0.024em; line-height: 1.05;
+  }
+  .way.local h3 { color: var(--signal); }
+  .way p {
+    font-size: 14.5px; line-height: 1.55; color: var(--paper-2);
+  }
+  .way p b { color: var(--paper); font-weight: 600; }
+  .way .meta {
+    margin-top: auto; padding-top: 14px;
+    border-top: 1px dashed var(--line-2);
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .way .meta b { color: var(--paper); font-weight: 700; }
+  .way .meta .sg { color: var(--signal); }
+
+  /* LIVES WHERE (3 cards: machine / auris / nowhere) -------- */
+  .lives-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+    border: 1px solid var(--line-2);
+    border-radius: 6px; overflow: hidden;
+  }
+  .lives {
+    padding: 28px 26px 24px; background: var(--ink-3);
+    border-right: 1px solid var(--line-2);
+    display: flex; flex-direction: column; gap: 14px;
+    position: relative;
+  }
+  .lives:last-child { border-right: 0; }
+  .lives::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(250,227,83,0.30) 50%, transparent 100%);
+  }
+  .lives .num {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .lives h4 {
+    font-weight: 700; font-size: 24px; color: var(--paper);
+    letter-spacing: -0.022em;
+  }
+  .lives.nowhere h4 {
+    color: var(--paper); position: relative; display: inline-block; align-self: flex-start;
+  }
+  .lives.nowhere h4::after {
+    content: ''; position: absolute; left: -3px; right: -3px; top: 53%;
+    height: 3px; background: var(--signal); transform: rotate(-3deg);
+    box-shadow: 0 0 6px rgba(250,227,83,0.45);
+  }
+  .lives ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .lives ul li {
+    font-size: 14px; line-height: 1.5; color: var(--paper-2);
+    display: grid; grid-template-columns: 16px 1fr; gap: 8px; align-items: baseline;
+  }
+  .lives ul li::before {
+    content: '·'; color: var(--paper-3); font-weight: 700;
+  }
+  .lives ul li b { color: var(--paper); font-weight: 600; }
+  .lives p {
+    font-size: 14px; line-height: 1.55; color: var(--paper-2);
+  }
+  .lives p b { color: var(--paper); font-weight: 600; }
+
+  /* STRIKE GRID (sensitive patterns) ----------------------- */
+  .keep-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    margin: 0; border: 1px solid var(--line-2);
+    border-radius: 6px; overflow: hidden;
+  }
+  .keep-card {
+    padding: 26px 24px 22px; background: var(--ink-3);
+    border-right: 1px solid var(--line-2);
+    display: flex; flex-direction: column; gap: 12px;
+    position: relative;
+  }
+  .keep-card:last-child { border-right: 0; }
+  .keep-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(250,227,83,0.30) 50%, transparent 100%);
+  }
+  .keep-card .strike {
+    font-weight: 700; font-size: 20px; color: var(--paper);
+    letter-spacing: -0.022em; position: relative;
+    display: inline-block; align-self: flex-start;
+  }
+  .keep-card .strike::after {
+    content: ''; position: absolute; left: -3px; right: -3px; top: 53%;
+    height: 3px; background: var(--signal); transform: rotate(-3deg);
+    box-shadow: 0 0 6px rgba(250,227,83,0.45);
+  }
+  .keep-card p {
+    font-size: 13.5px; line-height: 1.55; color: var(--paper-2);
+  }
+  .keep-card p b { color: var(--paper); font-weight: 600; }
+
+  /* NOTES (FAQ) --------------------------------------------- */
+  .notes-list { display: grid; margin-top: 36px; }
+  .note {
+    padding: 24px 0; border-top: 1px solid var(--line-2);
+    display: grid; grid-template-columns: 50px 1fr; gap: 18px;
+  }
+  .note:last-child { border-bottom: 1px solid var(--line-2); }
+  .note .tag {
+    font-size: 11px; font-weight: 700; color: var(--signal);
+    letter-spacing: 0.10em; padding-top: 6px;
+  }
+  .note h4 {
+    font-weight: 700; font-size: 19px; color: var(--paper);
+    letter-spacing: -0.012em; margin-bottom: 10px;
+  }
+  .note p {
+    font-size: 15.5px; line-height: 1.6; color: var(--paper-2);
+    font-weight: 400; letter-spacing: -0.003em;
+  }
+  .note p b { color: var(--paper); font-weight: 600; }
+  .note p a { color: var(--signal); }
+
+  /* FINAL CTA ----------------------------------------------- */
+  .final {
+    padding: 96px 0; text-align: center; position: relative;
+    border-bottom: 1px solid var(--line-2);
+    background: radial-gradient(ellipse 50% 60% at 50% 0%, rgba(250,227,83,0.06) 0%, transparent 70%);
+  }
+  .final::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(250,227,83,0.5) 50%, transparent 100%);
+  }
+  .final h2 {
+    font-weight: 800; font-size: clamp(40px, 5vw, 80px);
+    line-height: 0.94; letter-spacing: -0.030em;
+    color: var(--paper); max-width: 18ch; margin: 0 auto;
+  }
+  .final h2 em.sig { font-weight: 500; }
+  .final .dek {
+    margin-top: 24px; font-size: 17px; line-height: 1.55;
+    color: var(--paper-2); max-width: 52ch;
+    margin-left: auto; margin-right: auto;
+    font-weight: 400; letter-spacing: -0.003em;
+  }
+  .final .row {
+    margin-top: 36px; display: flex; align-items: center; justify-content: center;
+    gap: 14px; flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 14px;
+    padding: 13px 22px; letter-spacing: 0.02em;
+    transition: background 180ms, color 180ms, border-color 180ms;
+    border: 1px solid transparent; cursor: pointer;
+    border-radius: 6px;
+  }
+  .btn-primary { background: var(--signal); color: var(--ink); border-color: var(--signal); }
+  .btn-primary:hover { background: var(--signal-soft); border-color: var(--signal-soft); }
+  .btn-ghost { background: transparent; color: var(--paper); border: 1px solid var(--line-2); }
+  .btn-ghost:hover { border-color: var(--line-3); color: var(--signal); }
+  .btn-disabled {
+    background: var(--ink-3); color: var(--paper-3); border: 1px solid var(--line-2);
+    cursor: not-allowed; pointer-events: none;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .btn-disabled .led {
+    width: 7px; height: 7px; border-radius: 99px; background: var(--signal);
+    box-shadow: 0 0 0 3px rgba(250,227,83,0.18), 0 0 12px rgba(250,227,83,0.4);
+    animation: led 1.4s ease-in-out infinite;
+  }
+  @keyframes led { 0%, 60%, 100% { opacity: 1; } 30% { opacity: 0.3; } }
+  .btn .arr { opacity: 0.85; }
+  .final .links {
+    margin-top: 22px; display: flex; gap: 18px;
+    justify-content: center; flex-wrap: wrap;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .final .links a { transition: color 180ms; }
+  .final .links a:hover { color: var(--signal); }
+  .final .links .sep { color: var(--dim); }
+
+  /* COLOPHON ------------------------------------------------ */
+  .colophon {
+    padding: 22px 0 26px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 24px; flex-wrap: wrap;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .colophon a { color: var(--paper-3); transition: color 180ms; }
+  .colophon a:hover { color: var(--signal); }
+  .colophon .sep { color: var(--dim); margin: 0 4px; }
+
+  #license .lives { padding: 36px 32px 30px; min-height: 240px; }
+  #license .lives h4 { font-size: 24px; white-space: nowrap; }
+  #license .lives h4 em.sig { font-weight: 500; }
+  #license .lives p .sg { color: var(--signal); font-weight: 700; }
+  #license .lives.featured {
+    background:
+      radial-gradient(ellipse 60% 80% at 50% 0%, rgba(250, 227, 83, 0.08) 0%, transparent 70%),
+      var(--ink-3);
+  }
+  #license .lives.featured::before {
+    background: linear-gradient(90deg, transparent 0%, rgba(250,227,83,0.55) 50%, transparent 100%);
+  }
+  #license { padding-bottom: 32px; }
+  #license .lives-grid {
+    grid-template-columns: repeat(3, 1fr);
+    border-radius: 6px; overflow: hidden;
+  }
+  @media (max-width: 980px) {
+    #license { padding-bottom: 24px; }
+    #license .lives { padding: 26px 22px 22px; }
+  }
+
+  /* RESPONSIVE ---------------------------------------------- */
+  @media (max-width: 980px) {
+    .page { padding: 0 22px; }
+    .masthead { grid-template-columns: 1fr auto; padding-top: 22px; gap: 16px; }
+    .masthead-nav { gap: 14px; }
+    .masthead-nav a:not(.buy) { display: none; }
+    .page-hero { padding: 56px 0 48px; }
+    .chapter { padding: 56px 0; }
+    .ch-head { grid-template-columns: 1fr; gap: 18px; margin-bottom: 32px; }
+    .flow { grid-template-columns: 1fr 1fr; }
+    .flow-step:nth-child(2n) { border-right: 0; }
+    .flow-step:nth-child(2n) .arrow { display: none; }
+    .flow-step:nth-child(-n+2) { border-bottom: 1px solid var(--line-2); }
+    .ways-grid { grid-template-columns: 1fr; }
+    .lives-grid { grid-template-columns: 1fr; }
+    .lives { border-right: 0; border-bottom: 1px solid var(--line-2); }
+    .lives:last-child { border-bottom: 0; }
+    .keep-grid { grid-template-columns: 1fr 1fr; }
+    .keep-card { border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
+    .keep-card:nth-child(2n) { border-right: 0; }
+    .keep-card:nth-last-child(-n+2) { border-bottom: 0; }
+    .final { padding: 64px 0; }
+  }
+</style>
+<style>
+  /* === MOBILE FIXES === */
+  @media (max-width: 700px) {
+    .page { padding: 0 18px; }
+    .masthead { padding: 14px 0 12px; gap: 10px; }
+    .masthead-nav { gap: 14px; flex-wrap: nowrap; }
+    .masthead-nav a {
+      font-size: 10px; letter-spacing: 0.06em; white-space: nowrap;
+    }
+    .wordmark { font-size: 20px; gap: 8px; }
+    .wordmark .glyph { width: 24px; height: 22px; }
+    .page-hero h1, .hero-polished h1, .final h2, .ch-head h2 {
+      font-size: clamp(36px, 9vw, 56px) !important;
+    }
+    .ch-head { gap: 14px !important; margin-bottom: 24px !important; }
+    .ch-tag, .hero-dek, .page-hero .dek { font-size: 16px !important; }
+    .ch-body p { font-size: 15px !important; }
+    .hero-raw, .hero-spine { display: none !important; }
+    .hero-polished { opacity: 1 !important; transform: none !important; padding: 0 !important; }
+    .hero-polished .stamp { display: none; }
+    .hero-eyebrow { gap: 10px !important; margin-bottom: 22px !important; }
+    .hero-eyebrow .ti, .pill { font-size: 10px !important; }
+    .hero { padding: 24px 0 36px !important; }
+    .chapter, .versus, .pricing, .langs { padding: 40px 0 !important; }
+    .bar-row .bar-label { font-size: 15px !important; }
+    .bar-val { font-size: 24px !important; }
+    .how-card { min-height: 0 !important; padding: 20px !important; }
+    .how-card h3 { font-size: 26px !important; }
+    .control-grid { padding: 20px !important; gap: 22px !important; }
+    .control-tb { padding: 0 14px !important; }
+    .control-foot { padding: 12px 14px !important; font-size: 10px !important; gap: 8px !important; }
+    .feature-grid, .keep-grid, .pricing-grid, .provider-grid, .modes-grid, .lives-grid, .ways-grid, .slider-details {
+      grid-template-columns: 1fr !important;
+    }
+    .vs-row { grid-template-columns: 1fr !important; }
+    .vs-row > * { padding: 8px 12px !important; }
+    .vs-tab { font-size: 14px !important; }
+    .vs-row .lbl { background: var(--ink-3); }
+    .vs-row > * { border-right: 0 !important; border-bottom: 1px solid var(--line-2) !important; }
+    .vs-row.head { display: none !important; }
+    .price-card { min-height: 0 !important; padding: 22px !important; }
+    .price-card .px { font-size: 40px !important; }
+    .final { padding: 56px 0 !important; }
+    .secnav-wrap { top: 56px; }
+    .secnav a { padding: 12px 14px; font-size: 10px; }
+    .colophon { font-size: 10px; gap: 14px; }
+    .keep-file { grid-template-columns: 1fr !important; gap: 8px !important; }
+    .cost-head, .cost-row { grid-template-columns: 1fr !important; gap: 4px !important; padding: 14px 18px !important; }
+    .cost-row .px { text-align: left !important; font-size: 20px !important; }
+    #license .lives-grid { grid-template-columns: 1fr !important; }
+    #license .lives h4 { white-space: normal !important; font-size: 22px !important; }
+    .team-block { grid-template-columns: 1fr !important; }
+    .langs-grid { grid-template-columns: 1fr 1fr; }
+    .stickbar { display: none !important; }
+  }
+
+</style></head>
+<body style="" data-new-gr-c-s-check-loaded="14.1292.0" data-gr-ext-installed="" data-new-gr-c-s-loaded="14.1292.0">
+
+<div class="page" id="top">
+
+  <header class="masthead">
+    <a href="index.html" class="wordmark">
+      <svg class="glyph" viewBox="0 0 53 52" aria-hidden="true">
+        <g fill="none" stroke="currentColor">
+          <circle cx="4" cy="26" r="3.5" fill="currentColor" stroke="none"></circle>
+          <ellipse cx="14" cy="26" rx="3.5" ry="9" stroke-width="4"></ellipse>
+          <ellipse cx="24" cy="26" rx="3.5" ry="15" stroke-width="3.5" opacity=".7"></ellipse>
+          <ellipse cx="34" cy="26" rx="3.5" ry="20" stroke-width="3" opacity=".42"></ellipse>
+          <ellipse cx="49" cy="26" rx="3.5" ry="26" stroke-width="2" opacity=".22"></ellipse>
+        </g>
+      </svg>
+      <span class="text">auris<span class="dot">.</span></span>
+    </a>
+    <nav class="masthead-nav">
+      <a href="how.html">How it works</a>
+      <a href="features.html">Features</a>
+      <a href="privacy.html" class="on">Privacy</a>
+      <a href="pricing.html">Pricing</a>
+    </nav>
+  </header>
+
+  <section class="page-hero">
+    <div class="page-eyebrow">Privacy</div>
+    <h1>We don't have <em class="sig">servers.</em></h1>
+    <p class="dek">That's the short version. Auris stores no audio and no transcripts on our infrastructure, because we don't run any for those things.<br>Here's exactly how the architecture works.</p>
+  </section>
+
+  <!-- 1 · DATA FLOW -->
+  <section class="chapter" id="flow">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Flow · <b>001</b></div>
+        <h2>What happens when you <em class="sig">dictate.</em></h2>
+      </div>
+    </div>
+
+    <div class="flow">
+      <div class="flow-step">
+        <span class="num">01 · You</span>
+        <h4>Hold the <em>hotkey.</em></h4>
+        <p style="">Your microphone, your machine. Audio captured locally.</p>
+        <span class="arrow">→</span>
+      </div>
+      <div class="flow-step">
+        <span class="num">02 · Transcribe</span>
+        <h4>Auris <em>transcribes.</em></h4>
+        <p>Speech-to-text runs <b>locally</b> by default. Pick cloud STT and audio routes <b>directly to Groq.</b> Either way, never to us.</p>
+        <span class="arrow">→</span>
+      </div>
+      <div class="flow-step">
+        <span class="num">03 · Polish</span>
+        <h4>Your <em>provider.</em></h4>
+        <p>Transcript goes to your API key (or your <b>local model</b>) for polish. Auris never sees it.</p>
+        <span class="arrow">→</span>
+      </div>
+      <div class="flow-step">
+        <span class="num">04 · Cursor</span>
+        <h4>Clean text <em>lands.</em></h4>
+        <p style="">Polished result pastes at your cursor.<br><b>No round trip</b> through us.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · TWO WAYS -->
+  <section class="chapter" id="setup">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Setup · <b>002</b></div>
+        <h2>Your speech goes one of <em class="sig">two places.</em></h2>
+      </div>
+      <div class="ch-tag">Pick one when you set Auris up. Switch any time. Both work the same from your side. The difference is whether anything touches a network.</div>
+    </div>
+
+    <div class="ways-grid">
+      <article class="way cloud">
+        <span class="tag"><span class="dot"></span>Cloud · your own account</span>
+        <h3>Through your API key.</h3>
+        <p>The polish step runs through your account at <b>OpenAI, Anthropic, or Groq.</b> Your transcript goes from your machine to the provider you chose, then back.</p>
+        <p><b>Auris never sees it.</b> The provider's privacy policy applies to that hop.</p>
+        <span class="meta"><b>Cost</b> · most people pay $2 to $5/month</span>
+      </article>
+      <article class="way local">
+        <span class="tag"><span class="dot"></span>Local · no internet needed</span>
+        <h3>On your machine.</h3>
+        <p>The polish step runs locally through <b>Ollama, LM Studio,</b> or any compatible local server. <b>Nothing leaves your computer.</b></p>
+        <p>No API calls. No network. Works on a plane.</p>
+        <span class="meta"><b>Cost</b> · <span class="sg">$0 in API fees</span></span>
+      </article>
+    </div>
+  </section>
+
+  <!-- 3 · WHAT LIVES WHERE -->
+  <section class="chapter" id="lives">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Storage · <b>003</b></div>
+        <h2>What lives <em class="sig">where.</em></h2>
+      </div>
+      <div class="ch-tag" style="">Three places data could live.&nbsp;<div contenteditable="true">Two of them store almost nothing. The third stores nothing at all.</div></div>
+    </div>
+
+    <div class="lives-grid">
+      <article class="lives">
+        <span class="num">01 · On your machine</span>
+        <h4>What stays with you.</h4>
+        <ul>
+          <li><b>Dictation history</b></li>
+          <li><b>Custom rules</b></li>
+          <li><b>Dictionary additions</b></li>
+          <li><b>Snippets &amp; settings</b></li>
+        </ul>
+        <p>All as files on your machine. <b>Delete any of it</b> whenever.</p>
+      </article>
+
+      <article class="lives">
+        <span class="num">02 · On Auris's side</span>
+        <h4>What we keep.</h4>
+        <ul>
+          <li><b>Your email</b></li>
+          <li><b>Your license key</b></li>
+        </ul>
+        <p>That's what we need to send you the license and let you know when there's a meaningful update. <b>Unsubscribe any time</b> with one click. Not shared with anyone.</p>
+      </article>
+
+      <article class="lives nowhere">
+        <span class="num">03 · Nowhere</span>
+        <h4>What no one keeps.</h4>
+        <ul>
+          <li><b>Your audio</b></li>
+          <li><b>Your transcripts</b></li>
+          <li><b>Your edits</b></li>
+          <li><b>Your vocabulary</b></li>
+        </ul>
+        <p><b>No copy. No backup. No analytics.</b></p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 4 · SENSITIVE PATTERNS -->
+  <section class="chapter" id="sensitive">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Sensitive · <b>004</b></div>
+        <h2>Sensitive content stays <em class="sig">out</em> of your history.</h2>
+      </div>
+      <div class="ch-tag" style="">Auris ships with four built-in patterns. When you dictate something that matches, the value lands in the app you're typing in, but doesn't get saved to your transcript history.</div>
+    </div>
+
+    <div class="keep-grid">
+      <article class="keep-card">
+        <span class="strike">Email</span>
+        <p>Anything matching an email pattern.<br>Never saved to your transcript history.</p>
+      </article>
+      <article class="keep-card">
+        <span class="strike">Phone</span>
+        <p style="">US and international phone numbers. Lands in the app, never in history.</p>
+      </article>
+      <article class="keep-card">
+        <span class="strike">SSN</span>
+        <p>Social Security Numbers.<br>Used in the moment, not stored.</p>
+      </article>
+      <article class="keep-card">
+        <span class="strike">Credit card</span>
+        <p style="">16-digit card numbers, all major schemes. Typed once, gone after.</p>
+      </article>
+    </div>
+
+    <p class="ch-body" style="margin-top: 24px; max-width: 64ch;">
+      <b>Add your own patterns</b> with regex for company-specific things: employee IDs, internal project codes, anything else you want kept out of saved transcripts.
+    </p>
+  </section>
+
+  <!-- 5 · LICENSE TERMS -->
+  <section class="chapter" id="license" style="">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">License · <b>005</b></div>
+        <h2>What you <em class="sig">own.</em></h2>
+      </div>
+    </div>
+
+    <div class="lives-grid">
+      <article class="lives">
+        <span class="num">01 · Yours</span>
+        <h4>Now and <em class="sig">forever.</em></h4>
+        <p>Your license is yours, <b>now and forever.</b> There's no server-side check that can turn it off, because <span class="sg">there is no server.</span></p>
+      </article>
+      <article class="lives">
+        <span class="num">02 · Updates</span>
+        <h4>Future <em class="sig">updates.</em></h4>
+        <p>Anyone who buys Auris gets access to <b>all future updates.</b> <span class="sg">No version cliffs, no upgrade fees.</span></p>
+      </article>
+      <article class="lives featured">
+        <span class="num">03 · Transfer</span>
+        <h4>Yours to <em class="sig">hand off.</em></h4>
+        <p>The license is yours to <b>keep, gift, or transfer.</b> Sell it, hand it down, or recover it after a machine change. <span class="sg">It's a license, not a leash.</span></p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 6 · FAQ -->
+  <section class="chapter" id="faq">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">FAQ · <b>006</b></div>
+        <h2>The questions, <em class="sig">answered.</em></h2>
+      </div>
+    </div>
+
+    <div class="ch-body" style="max-width: 80ch;">
+      <div class="notes-list">
+        <article class="note">
+          <span class="tag">N.01</span>
+          <div>
+            <h4>What happens if Auris goes out of business?</h4>
+            <p>Your installed copy <b>keeps working.</b> There's no server to turn off, no license check that calls home, no subscription to lapse. You own the binary on your machine.</p>
+          </div>
+        </article>
+        <article class="note">
+          <span class="tag">N.02</span>
+          <div>
+            <h4>Do you sell or share data with anyone?</h4>
+            <p><b>No.</b> We don't have audio or transcript data to sell, and the email we hold for licensing isn't shared.</p>
+          </div>
+        </article>
+        <article class="note">
+          <span class="tag">N.03</span>
+          <div>
+            <h4>Where is my email stored?</h4>
+            <p style="">In our customer database (<b>Stripe</b> for billing, a standard email provider for product updates). <br>Request deletion any time at <b><a href="mailto:hello@auris.talk">hello@auris.talk</a></b>.</p>
+          </div>
+        </article>
+        <article class="note">
+          <span class="tag">N.04</span>
+          <div>
+            <h4>Is Auris GDPR-compliant?</h4>
+            <p>The architecture makes most of GDPR easy. We don't process audio. We don't store transcripts. The data we do hold (email, license key) is subject to standard <b>subject-access and deletion requests.</b><br>Email <b><a href="mailto:hello@auris.talk">hello@auris.talk</a></b> to request either.</p>
+          </div>
+        </article>
+        <article class="note">
+          <span class="tag">N.05</span>
+          <div>
+            <h4>Can I see what's in my local history file?</h4>
+            <p>Yes. Use the <b>in-app History tab</b> to view, edit, or delete entries.</p>
+          </div>
+        </article>
+        <article class="note">
+          <span class="tag">N.06</span>
+          <div>
+            <h4>What about telemetry or crash reports?</h4>
+            <p><b>No automatic crash reports.</b> Internal diagnostics live in <b>Settings → Diagnostics</b>. Review them on your machine, send them to us manually if you'd like our help. Never sent without your action.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final" id="final">
+    <h2>Read the <em class="sig">rest.</em></h2>
+    <p class="dek">The how-it-works page walks through the loop and the polish controls. The pricing page covers the tiers.</p>
+    <div class="row">
+      <span class="btn btn-disabled" aria-disabled="true"><span class="led" aria-hidden="true"></span>Currently in Beta</span>
+      <a href="how.html" class="btn btn-ghost">How it works <span class="arr">→</span></a>
+    </div>
+  </section>
+
+  <footer class="colophon">
+    <span>© 2026 Auris</span>
+    <span><a href="mailto:hello@auris.talk">hello@auris.talk</a></span>
+    <span>Mac &amp; Windows <span class="sep">·</span> Linux on the way</span>
+    <span><a href="privacy.html">Privacy</a></span>
+  </footer>
+
+</div>
+
+
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
