@@ -1,20 +1,23 @@
-# Auris UI
+# Auris site
 
-Five-page static site for Auris, ready for GitHub Pages.
+Static HTML site, 5 pages, ready for GitHub Pages.
 
 ## Pages
-- `index.html` — Home / landing
+- `index.html` — Home (entry point)
+- `home.html` — Home (same as index)
 - `how.html` — How it works
-- `features.html` — Features spec sheet
-- `privacy.html` — Privacy story
+- `features.html` — Features
 - `pricing.html` — Pricing
+- `privacy.html` — Privacy
 
-## Deploy
-Drop the whole folder into a GitHub repo. In **Settings → Pages**, set the source to your default branch root. The site loads at `https://<user>.github.io/<repo>/` and resolves `index.html` automatically.
+## Deploy to GitHub Pages
+1. Create a new GitHub repo (e.g. `auris-site`).
+2. Drop the contents of this folder into the repo root and push.
+3. Repo → **Settings** → **Pages**.
+4. **Source**: Deploy from a branch.
+5. **Branch**: `main` (or your default), folder `/ (root)`.
+6. Save. Your site goes live at `https://<user>.github.io/<repo>/` within a minute.
 
-For a custom domain, add a `CNAME` file in the root with one line (e.g. `auris.talk`) and point your DNS at GitHub Pages.
+If you'd rather keep the HTML in a subfolder, move everything into `/docs` and pick `/docs` as the Pages folder instead.
 
-## Notes
-- Single font: Albert Sans (loaded from Google Fonts).
-- All pages share the same masthead nav. If you change it on one page, update the others to match.
-- No build step. No JavaScript framework. Edit any `.html` file directly.
+No build step. No dependencies. Open `index.html` locally to preview.

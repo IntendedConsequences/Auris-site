@@ -457,6 +457,7 @@
     }
     .wordmark { font-size: 20px; gap: 8px; }
     .wordmark .glyph { width: 24px; height: 22px; }
+    .page-hero { padding: 28px 0 32px !important; }
     .page-hero h1, .hero-polished h1, .final h2, .ch-head h2 {
       font-size: clamp(36px, 9vw, 56px) !important;
     }
@@ -502,13 +503,90 @@
     .stickbar { display: none !important; }
   }
 
-</style></head>
+</style><!-- __hamburger_v1 -->
+<style>
+  /* === HAMBURGER MENU =================================== */
+  .nav-burger {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--line-2);
+    border-radius: 6px;
+    width: 40px; height: 40px;
+    padding: 0; cursor: pointer;
+    flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 5px;
+    flex-shrink: 0;
+    transition: border-color 180ms, background 180ms;
+  }
+  .nav-burger:hover { border-color: var(--line-3); }
+  .nav-burger span {
+    display: block;
+    width: 16px; height: 1.5px;
+    background: var(--paper);
+    transition: transform 220ms cubic-bezier(.4,.2,.2,1), opacity 180ms;
+    transform-origin: center;
+  }
+  .nav-burger[aria-expanded="true"] { border-color: var(--signal); }
+  .nav-burger[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+    background: var(--signal);
+  }
+  .nav-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .nav-burger[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+    background: var(--signal);
+  }
+
+  .mobile-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: -22px; right: -22px;
+    background: rgba(1,1,0,0.98);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line-2);
+    padding: 4px 22px 18px;
+    flex-direction: column;
+    z-index: 39;
+  }
+  .mobile-menu a {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 4px;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--paper-3);
+    border-bottom: 1px solid var(--line-2);
+    transition: color 180ms;
+  }
+  .mobile-menu a:last-child { border-bottom: 0; }
+  .mobile-menu a:hover { color: var(--paper); }
+  .mobile-menu a.on { color: var(--signal); }
+  .mobile-menu a::after {
+    content: '→';
+    color: var(--dim);
+    transition: transform 220ms cubic-bezier(.4,.2,.2,1), color 180ms;
+  }
+  .mobile-menu a:hover::after { color: var(--signal); transform: translateX(4px); }
+  .mobile-menu a.on::after { color: var(--signal); }
+
+  @media (max-width: 980px) {
+    .masthead-nav { gap: 0 !important; }
+    .masthead-nav a:not(.buy) { display: none !important; }
+    .nav-burger { display: inline-flex; }
+    .masthead.nav-open .mobile-menu { display: flex; }
+  }
+  @media (min-width: 981px) {
+    .mobile-menu { display: none !important; }
+  }
+</style>
+</head>
 <body style="" data-new-gr-c-s-check-loaded="14.1292.0" data-gr-ext-installed="" data-new-gr-c-s-loaded="14.1292.0">
 
 <div class="page" id="top">
 
   <header class="masthead">
-    <a href="index.html" class="wordmark">
+    <a href="home.html" class="wordmark">
       <svg class="glyph" viewBox="0 0 53 52" aria-hidden="true">
         <g fill="none" stroke="currentColor">
           <circle cx="4" cy="26" r="3.5" fill="currentColor" stroke="none"></circle>
@@ -525,7 +603,16 @@
       <a href="features.html">Features</a>
       <a href="privacy.html" class="on">Privacy</a>
       <a href="pricing.html">Pricing</a>
+      <button class="nav-burger" aria-label="Menu" aria-controls="mobile-menu" aria-expanded="false" type="button">
+        <span></span><span></span><span></span>
+      </button>
     </nav>
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="how.html">How it works</a>
+      <a href="features.html">Features</a>
+      <a href="privacy.html" class="on">Privacy</a>
+      <a href="pricing.html">Pricing</a>
+    </div>
   </header>
 
   <section class="page-hero">
@@ -721,40 +808,33 @@
         <article class="note">
           <span class="tag">N.01</span>
           <div>
-            <h4>What happens if Auris goes out of business?</h4>
-            <p>Your installed copy <b>keeps working.</b> There's no server to turn off, no license check that calls home, no subscription to lapse. You own the binary on your machine.</p>
-          </div>
-        </article>
-        <article class="note">
-          <span class="tag">N.02</span>
-          <div>
             <h4>Do you sell or share data with anyone?</h4>
             <p><b>No.</b> We don't have audio or transcript data to sell, and the email we hold for licensing isn't shared.</p>
           </div>
         </article>
         <article class="note">
-          <span class="tag">N.03</span>
+          <span class="tag">N.02</span>
           <div>
             <h4>Where is my email stored?</h4>
             <p style="">In our customer database (<b>Stripe</b> for billing, a standard email provider for product updates). <br>Request deletion any time at <b><a href="mailto:hello@auris.talk">hello@auris.talk</a></b>.</p>
           </div>
         </article>
         <article class="note">
-          <span class="tag">N.04</span>
+          <span class="tag">N.03</span>
           <div>
             <h4>Is Auris GDPR-compliant?</h4>
             <p>The architecture makes most of GDPR easy. We don't process audio. We don't store transcripts. The data we do hold (email, license key) is subject to standard <b>subject-access and deletion requests.</b><br>Email <b><a href="mailto:hello@auris.talk">hello@auris.talk</a></b> to request either.</p>
           </div>
         </article>
         <article class="note">
-          <span class="tag">N.05</span>
+          <span class="tag">N.04</span>
           <div>
             <h4>Can I see what's in my local history file?</h4>
             <p>Yes. Use the <b>in-app History tab</b> to view, edit, or delete entries.</p>
           </div>
         </article>
         <article class="note">
-          <span class="tag">N.06</span>
+          <span class="tag">N.05</span>
           <div>
             <h4>What about telemetry or crash reports?</h4>
             <p><b>No automatic crash reports.</b> Internal diagnostics live in <b>Settings → Diagnostics</b>. Review them on your machine, send them to us manually if you'd like our help. Never sent without your action.</p>
@@ -769,7 +849,7 @@
     <h2>Read the <em class="sig">rest.</em></h2>
     <p class="dek">The how-it-works page walks through the loop and the polish controls. The pricing page covers the tiers.</p>
     <div class="row">
-      <span class="btn btn-disabled" aria-disabled="true"><span class="led" aria-hidden="true"></span>Currently in Beta</span>
+      <span class="btn btn-disabled" aria-disabled="true"><span class="led" aria-hidden="true"></span>Still in Beta</span>
       <a href="how.html" class="btn btn-ghost">How it works <span class="arr">→</span></a>
     </div>
   </section>
@@ -777,12 +857,42 @@
   <footer class="colophon">
     <span>© 2026 Auris</span>
     <span><a href="mailto:hello@auris.talk">hello@auris.talk</a></span>
-    <span>Mac &amp; Windows <span class="sep">·</span> Linux on the way</span>
-    <span><a href="privacy.html">Privacy</a></span>
   </footer>
 
 </div>
 
 
 
+
+<script>
+  // Hamburger toggle — single delegated listener
+  (function () {
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest && e.target.closest('.nav-burger');
+      if (btn) {
+        var header = btn.closest('.masthead');
+        var open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!open));
+        if (header) header.classList.toggle('nav-open', !open);
+        return;
+      }
+      // Click outside an open menu closes it
+      var openHeader = document.querySelector('.masthead.nav-open');
+      if (openHeader && !e.target.closest('.masthead')) {
+        openHeader.classList.remove('nav-open');
+        var b = openHeader.querySelector('.nav-burger');
+        if (b) b.setAttribute('aria-expanded', 'false');
+      }
+    });
+    // Esc closes
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      var openHeader = document.querySelector('.masthead.nav-open');
+      if (!openHeader) return;
+      openHeader.classList.remove('nav-open');
+      var b = openHeader.querySelector('.nav-burger');
+      if (b) b.setAttribute('aria-expanded', 'false');
+    });
+  })();
+</script>
 </body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
