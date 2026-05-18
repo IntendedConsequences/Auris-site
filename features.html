@@ -103,7 +103,6 @@
     background: rgba(1, 1, 0, 0.94);
     backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--line-2);
-    margin: 0 -40px;
   }
   .secnav {
     max-width: 1280px; margin: 0 auto; padding: 0 40px;
@@ -112,7 +111,7 @@
   }
   .secnav::-webkit-scrollbar { display: none; }
   .secnav a {
-    padding: 14px 18px;
+    padding: 22px 18px 16px;
     font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
     color: var(--paper-3); text-transform: uppercase;
     transition: color 180ms;
@@ -285,7 +284,7 @@
     .masthead { grid-template-columns: 1fr auto; padding-top: 18px; gap: 16px; }
     .masthead-nav { gap: 14px; }
     .masthead-nav a:not(.buy) { display: none; }
-    .secnav-wrap { margin: 0 -22px; }
+    .secnav-wrap { margin: 0; }
     .secnav { padding: 0 22px; }
     .page-hero { padding: 40px 0 40px; }
     .chapter { padding: 56px 0; }
@@ -878,6 +877,24 @@
       var b = openHeader.querySelector('.nav-burger');
       if (b) b.setAttribute('aria-expanded', 'false');
     });
+  })();
+</script>
+<!-- __viewport_scale_v1 -->
+<script>
+  // Scale the page up on monitors wider than 1440px so the layout always
+  // matches the 1440-wide desktop design. Below 1440 nothing changes.
+  (function () {
+    function fit() {
+      var w = window.innerWidth || document.documentElement.clientWidth;
+      var root = document.documentElement;
+      if (w > 1440) {
+        root.style.zoom = (w / 1440).toFixed(3);
+      } else {
+        root.style.zoom = '';
+      }
+    }
+    fit();
+    window.addEventListener('resize', fit);
   })();
 </script>
 </body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>

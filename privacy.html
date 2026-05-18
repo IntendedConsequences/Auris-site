@@ -895,4 +895,22 @@
     });
   })();
 </script>
+<!-- __viewport_scale_v1 -->
+<script>
+  // Scale the page up on monitors wider than 1440px so the layout always
+  // matches the 1440-wide desktop design. Below 1440 nothing changes.
+  (function () {
+    function fit() {
+      var w = window.innerWidth || document.documentElement.clientWidth;
+      var root = document.documentElement;
+      if (w > 1440) {
+        root.style.zoom = (w / 1440).toFixed(3);
+      } else {
+        root.style.zoom = '';
+      }
+    }
+    fit();
+    window.addEventListener('resize', fit);
+  })();
+</script>
 </body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
