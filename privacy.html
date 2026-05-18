@@ -904,9 +904,8 @@
       var w = window.innerWidth || document.documentElement.clientWidth;
       var root = document.documentElement;
       if (w > 1440) {
-        // Halfway between no zoom (1.0) and full-fit zoom (w/1440) so the
-        // page scales up gently on large monitors without going edge-to-edge.
-        var z = (1 + (w / 1440)) / 2;
+        // Gentle scale: 40% of the way between no zoom and full-fit zoom.
+        var z = 1 + 0.4 * ((w / 1440) - 1);
         root.style.zoom = z.toFixed(3);
       } else {
         root.style.zoom = '';
