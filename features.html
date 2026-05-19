@@ -4,15 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Features · Auris</title>
+<link rel="canonical" href="https://auris.talk/features.html">
+<meta property="og:image" content="https://auris.talk/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://auris.talk/og-image.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://auris.talk/" },
+    { "@type": "ListItem", "position": 2, "name": "Features", "item": "https://auris.talk/features.html" }
+  ]
+}
+</script>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
 <link rel="shortcut icon" href="favicon.ico">
 <meta name="theme-color" content="#010100">
-<meta name="description" content="Every feature in Auris, grouped to skim. Capture, polish, vocabulary, per-app presets, memos, history, privacy, customization.">
+<meta name="description" content="Every feature in Auris, grouped to skim. Capture, polish, vocabulary, per-app presets, history, privacy.">
 <meta property="og:title" content="Features · Auris">
-<meta property="og:description" content="Every feature in Auris, grouped to skim. Capture, polish, vocabulary, per-app presets, memos, history, privacy, customization.">
+<meta property="og:description" content="Every feature in Auris, grouped to skim. Capture, polish, vocabulary, per-app presets, history, privacy.">
 <meta property="og:url" content="https://auris.talk/features">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -166,6 +182,16 @@
     font-style: italic;
     color: var(--paper-2);
   }
+
+  /* CHAPTER SCREENSHOT ------------------------------------- */
+  .chapter-shot {
+    display: block; width: 100%; height: auto;
+    margin: 28px 0 0;
+    border: 1px solid var(--line-2);
+    border-radius: 8px; overflow: hidden;
+    background: var(--ink-3);
+  }
+  .chapter-shot-light { display: none; }
 
   /* FEATURE GRID ------------------------------------------ */
   .feature-grid {
@@ -525,7 +551,7 @@
     .secnav-wrap { top: 56px; }
     .secnav {
       display: grid !important;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       overflow: visible !important;
     }
     .secnav a {
@@ -540,8 +566,8 @@
       white-space: nowrap;
     }
     .secnav a:not(:last-child)::after { display: none !important; }
-    .secnav a:nth-child(4n) { border-right: 0; }
-    .secnav a:nth-last-child(-n+4) { border-bottom: 0; }
+    .secnav a:nth-child(3n) { border-right: 0; }
+    .secnav a:nth-last-child(-n+3) { border-bottom: 0; }
     .secnav a .idx { margin: 0 !important; font-size: 11px; opacity: 0.9; }
     .colophon { font-size: 11px; gap: 14px; }
     .keep-file { grid-template-columns: 1fr !important; gap: 8px !important; }
@@ -681,10 +707,8 @@
       <a href="#polish"><span class="idx">02</span>Polish</a>
       <a href="#vocabulary"><span class="idx">03</span>Vocabulary</a>
       <a href="#app-aware"><span class="idx">04</span>App-aware</a>
-      <a href="#compose"><span class="idx">05</span>Compose</a>
-      <a href="#recall"><span class="idx">06</span>Recall</a>
-      <a href="#privacy-ctrl"><span class="idx">07</span>Privacy</a>
-      <a href="#customize"><span class="idx">08</span>Customize</a>
+      <a href="#recall"><span class="idx">05</span>Recall</a>
+      <a href="#privacy-ctrl"><span class="idx">06</span>Privacy</a>
     </nav>
   </div>
 
@@ -711,8 +735,8 @@
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Replay last dictation.</h4>
-        <p>Re-inject the most recent polished output with a <b>third hotkey.</b></p>
+        <h4>Replay-polish.</h4>
+        <p>Tap <span class="kbd-inline">Ctrl</span>+<span class="kbd-inline">Z</span> to <b>re-polish the last raw transcript</b> with your current settings. Polish went wrong? Tweak it and try again.</p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
@@ -725,6 +749,7 @@
         <p style="" spellcheck="false">Any input device. <b>Survives USB reconnects.</b>&nbsp;<div>Respects the OS privacy toggle.</div></p>
       </article>
     </div>
+    <img class="chapter-shot chapter-shot-dark" src="assets/screenshots/whisper-models-editorial.png" alt="Auris Whisper model picker showing five options — tiny (39 MB, fastest), base (74 MB, fast, selected and downloaded), small (244 MB, balanced, downloaded), medium (769 MB, slower), large-v3 (1.55 GB, highest accuracy) — with size and accuracy tradeoff annotations">
   </section>
 
   <!-- 02 · POLISH -->
@@ -758,6 +783,8 @@
         <b>Plus:</b> choice of model (Anthropic, OpenAI, Groq, Ollama, LM Studio), seven cleanup toggles, five output formats, role-break guard, polish bench for testing settings on pasted text.
       </div>
     </div>
+
+    <img class="chapter-shot chapter-shot-dark" src="assets/screenshots/polish-settings-editorial.png" alt="Auris Style panel showing tone sliders for Formality, Conciseness, and Assertiveness alongside cleanup toggles">
   </section>
 
   <!-- 03 · VOCABULARY -->
@@ -797,6 +824,9 @@
         <p>Upload a Markdown style guide. <b style=""><br>Switch between voices per project.</b></p>
       </article>
     </div>
+
+    <img class="chapter-shot chapter-shot-dark" src="assets/screenshots/dictionary-auto-editorial.png" alt="Auris Dict tab showing the custom dictionary and snippets side by side, with auto-learned corrections labeled and a recap-template snippet expanded">
+    <img class="chapter-shot chapter-shot-dark" src="assets/screenshots/brand-voice-editorial.png" alt="Auris Brand tab showing brand voice configurations with style guide rules">
   </section>
 
   <!-- 04 · APP-AWARE -->
@@ -809,120 +839,28 @@
       <div class="ch-tag">Mode, tone, format, language, free-text override. Stack the five per app. Auris reads which app has focus and applies the right preset.</div>
     </div>
 
-    <div class="preset-matrix-wrap">
-      <table class="preset-matrix" aria-label="Preset stack per app">
-        <thead>
-          <tr>
-            <th class="app-col" scope="col">App</th>
-            <th scope="col">Mode</th>
-            <th scope="col">Tone</th>
-            <th scope="col">Format</th>
-            <th scope="col">Language</th>
-            <th scope="col">Override</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="app-name">Slack</td>
-            <td>Casual</td>
-            <td>Conversational</td>
-            <td>Plain</td>
-            <td>English</td>
-            <td class="override"><em>"Replace 'circle back' with 'follow up.'"</em></td>
-          </tr>
-          <tr>
-            <td class="app-name">Gmail</td>
-            <td>Email</td>
-            <td>Polite</td>
-            <td>Headed</td>
-            <td>English</td>
-            <td class="override"><em>"Sign off 'Best,' never 'Cheers.'"</em></td>
-          </tr>
-          <tr>
-            <td class="app-name">Cursor</td>
-            <td>Technical</td>
-            <td>Precise</td>
-            <td>Bullets</td>
-            <td>English</td>
-            <td class="override"><em>"Type 'foo' and 'bar' verbatim. Don't autocorrect."</em></td>
-          </tr>
-          <tr>
-            <td class="app-name">Notes</td>
-            <td>Default</td>
-            <td>Neutral</td>
-            <td>Plain</td>
-            <td>Mixed</td>
-            <td class="override empty">none</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <img class="chapter-shot chapter-shot-dark" src="assets/screenshots/app-aware-modes-editorial.png" alt="Auris App-aware modes panel with real per-app rows: excel, notepad, outlook on email-mode, slack on casual, teams, vscode on code-mode, word. Each row has dropdowns for Mode, Tone, Format, Language plus edit and remove links.">
   </section>
 
-  <!-- 05 · COMPOSE -->
-  <section class="chapter" id="compose">
-    <div class="ch-head">
-      <div>
-        <div class="ch-eyebrow">Compose · <b>005</b></div>
-        <h2>When dictation is the destination.</h2>
-      </div>
-      <div class="ch-tag">For when you're not pasting into another app. Memos as real files. Studio Mode for long-form.</div>
-    </div>
-
-    <div class="feature-grid">
-      <article class="feature">
-        <span class="dot" aria-hidden="true"></span>
-        <h4>Memos.</h4>
-        <p>Long-form notes saved as <b>Markdown files</b> in a folder you control.</p>
-      </article>
-      <article class="feature featured">
-        <span class="dot" aria-hidden="true"></span>
-        <h4>Studio Mode.</h4>
-        <p>Fullscreen, distraction-free canvas. <b>Open multiple in parallel.</b></p>
-      </article>
-      <article class="feature">
-        <span class="dot" aria-hidden="true"></span>
-        <h4>Real files on disk.</h4>
-        <p><span class="sg">No export step</span> because there's nothing to export from.</p>
-      </article>
-    </div>
-  </section>
-
-  <!-- 06 · RECALL -->
+  <!-- 05 · RECALL -->
   <section class="chapter" id="recall">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Recall · <b>006</b></div>
+        <div class="ch-eyebrow">Recall · <b>005</b></div>
         <h2>Past dictations, <em class="sig">measured.</em></h2>
       </div>
       <div class="ch-tag">No cloud, no telemetry. Your history is a local file you can search, edit, and re-polish.</div>
     </div>
 
-    <div class="recall-stats">
-      <div class="recall-stat">
-        <div class="stat-num">32,000</div>
-        <div class="stat-unit">Words per week</div>
-        <div class="stat-cap">A heavy week, stamped and recallable on your machine.</div>
-      </div>
-      <div class="recall-stat">
-        <div class="stat-num"><small>&lt;</small>11<small> ms</small></div>
-        <div class="stat-unit">To search</div>
-        <div class="stat-cap">Local file. Inline edits, re-polish with new settings anytime.</div>
-      </div>
-      <div class="recall-stat">
-        <div class="stat-num">3</div>
-        <div class="stat-unit">Live insights</div>
-        <div class="stat-cap">Time saved, average pace, where Auris does the most work. Computed locally.</div>
-      </div>
-    </div>
+    <img class="chapter-shot chapter-shot-dark" src="assets/screenshots/insights-editorial.png" alt="Auris Insights tab showing 3.7 hours time saved, 3.2 times faster than typing, 13,288 total words dictated, 5-day streak, top apps bar chart, and backend latency stats">
     <span class="recall-aside">History · Inline editing · Range filters · Insights · Time saved</span>
   </section>
 
-  <!-- 07 · PRIVACY CONTROLS -->
+  <!-- 06 · PRIVACY CONTROLS -->
   <section class="chapter" id="privacy-ctrl">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Privacy · <b>007</b></div>
+        <div class="ch-eyebrow">Privacy · <b>006</b></div>
         <h2>Flip per session.</h2>
       </div>
       <div class="ch-tag" spellcheck="false" style="">Redact patterns, force offline, audit the network, archive or delete.</div>
@@ -958,50 +896,6 @@
         <span class="dot" aria-hidden="true"></span>
         <h4>Wipe everything.</h4>
         <p>One-click destructive reset. <span class="sg">No undo.</span></p>
-      </article>
-    </div>
-  </section>
-
-  <!-- 08 · CUSTOMIZE -->
-  <section class="chapter" id="customize">
-    <div class="ch-head">
-      <div>
-        <div class="ch-eyebrow">Customize · <b>008</b></div>
-        <h2>Themes, setup, reliability.</h2>
-      </div>
-      <div class="ch-tag" spellcheck="false" style="">Twelve themes, a re-runnable wizard, reliable defaults.</div>
-    </div>
-
-    <div class="feature-grid">
-      <article class="feature featured">
-        <span class="dot" aria-hidden="true"></span>
-        <h4>Twelve themes.</h4>
-        <p>Default, Reading-room, and Expression families. <b>Pick the one that disappears.</b></p>
-      </article>
-      <article class="feature">
-        <span class="dot" aria-hidden="true"></span>
-        <h4>First-run wizard.</h4>
-        <p>Provider, API key, typing speed, theme. <b style=""><br>Re-runnable any time.</b></p>
-      </article>
-      <article class="feature">
-        <span class="dot" aria-hidden="true"></span>
-        <h4>Hotkey live-reload.</h4>
-        <p>Change the binding; <b>it takes effect immediately.</b></p>
-      </article>
-      <article class="feature">
-        <span class="dot" aria-hidden="true"></span>
-        <h4>Test connection.</h4>
-        <p>Verify your LLM and STT providers with a <span class="sg">round-trip latency check.</span></p>
-      </article>
-      <article class="feature">
-        <span class="dot" aria-hidden="true"></span>
-        <h4>Whisper model picker.</h4>
-        <p>Tiny, Small, Medium, Large as <b>on-demand downloads.</b></p>
-      </article>
-      <article class="feature">
-        <span class="dot" aria-hidden="true"></span>
-        <h4>Auto-start on login.</h4>
-        <p style="" spellcheck="false">Optional. Sets the tray icon, <b style="">doesn't open the dashboard.</b></p>
       </article>
     </div>
   </section>

@@ -4,6 +4,42 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Auris. Voice-to-text for Mac and Windows. $79 once.</title>
+<link rel="canonical" href="https://auris.talk/">
+<meta property="og:image" content="https://auris.talk/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://auris.talk/og-image.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://auris.talk/#organization",
+      "name": "Auris",
+      "url": "https://auris.talk/",
+      "logo": "https://auris.talk/favicon-512.png"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://auris.talk/#software",
+      "name": "Auris",
+      "operatingSystem": "macOS, Windows",
+      "applicationCategory": "ProductivityApplication",
+      "description": "Voice-to-text for Mac and Windows. Hold a hotkey, talk, release. Clean text appears in any app.",
+      "url": "https://auris.talk/",
+      "image": "https://auris.talk/og-image.png",
+      "publisher": { "@id": "https://auris.talk/#organization" },
+      "offers": {
+        "@type": "Offer",
+        "price": "79",
+        "priceCurrency": "USD"
+      }
+    }
+  ]
+}
+</script>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
@@ -166,6 +202,20 @@
     color: var(--paper); max-width: 52ch; letter-spacing: -0.005em;
   }
   .hero-dek b { font-weight: 700; color: var(--signal); }
+  .hero-values {
+    list-style: none; padding: 0; margin: -8px 0 0;
+    display: flex; gap: 32px; flex-wrap: wrap;
+    font-size: 15px; line-height: 1.4; color: var(--paper-2);
+    letter-spacing: -0.003em;
+  }
+  .hero-values li { position: relative; padding-right: 0; }
+  .hero-values li + li::before {
+    content: ''; position: absolute; left: -16px; top: 50%;
+    width: 1px; height: 14px; background: var(--line-2);
+    transform: translateY(-50%);
+  }
+  .hero-values b { font-weight: 700; color: var(--paper); }
+  .hero-values .hl { font-weight: 700; color: var(--signal); }
   .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
 
   /* BUTTONS ------------------------------------------------- */
@@ -458,6 +508,14 @@
   .provider.anthropic .tag .dot { background: #ff7757; }
   .provider.groq .tag .dot { background: #5fc8ff; }
   .provider.local .tag .dot { background: var(--signal); box-shadow: 0 0 6px rgba(250,227,83,0.5); }
+  .provider-head { display: flex; align-items: center; gap: 10px; }
+  .provider-icon {
+    width: 22px; height: 22px; flex: none;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--paper-3);
+  }
+  .provider-icon svg { width: 100%; height: 100%; display: block; }
+  .provider.local .provider-icon { color: var(--signal); }
 
   /* PRIVACY STRIKE GRID ------------------------------------- */
   .keep-grid {
@@ -508,6 +566,30 @@
     letter-spacing: 0.02em; display: inline-block;
   }
   .keep-file .hint { font-size: 15px; color: var(--paper-2); font-weight: 500; }
+
+  /* FEATURE GRID (For + Run it chapters) ------------------- */
+  .feature-grid {
+    display: grid; gap: 14px; margin: 0;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+  .feature {
+    background: var(--ink-3); border: 1px solid var(--line-2);
+    padding: 22px 22px 20px;
+    border-radius: 6px; overflow: hidden;
+    display: flex; flex-direction: column; gap: 8px;
+    position: relative;
+    min-height: 132px;
+  }
+  .feature h4 {
+    font-weight: 700; font-size: 19px; color: var(--paper);
+    letter-spacing: -0.012em; line-height: 1.25;
+  }
+  .feature h4 em.sig { font-weight: 500; color: var(--signal); font-style: italic; }
+  .feature p {
+    font-size: 15px; line-height: 1.55; color: var(--paper-2);
+    letter-spacing: -0.002em;
+  }
+  .feature p b { color: var(--paper); font-weight: 600; }
 
   /* VERSUS TABLE -------------------------------------------- */
   .vs-tab {
@@ -731,6 +813,8 @@
 
   /* === MOBILE FIXES === */
   @media (max-width: 700px) {
+    .hero-values { flex-direction: column; gap: 6px; }
+    .hero-values li + li::before { display: none; }
     .page { padding: 0 18px; }
     .masthead { padding: 14px 0 12px; gap: 10px; }
     .masthead-nav { gap: 14px; flex-wrap: nowrap; }
@@ -986,7 +1070,11 @@
 
     <div class="hero-deck">
       <div class="hero-deck-l">
-        <p class="hero-dek">Voice-to-text for Mac and Windows. Hold a hotkey, talk, release.<br>Clean text appears in any app.</p>
+        <p class="hero-dek"><b>BYOK</b> voice-to-text for Mac and Windows.</p>
+        <ul class="hero-values" aria-label="What you get">
+          <li><b>Your AI, your key.</b></li>
+          <li>Or <span class="hl">fully local.</span></li>
+        </ul>
         <div class="hero-cta">
           <form class="notify" action="https://app.kit.com/forms/9456910/subscriptions" method="POST" novalidate>
             <input type="hidden" name="fields[source]" value="home-hero">
@@ -1002,11 +1090,45 @@
     </div>
   </section>
 
+  <!-- FOR (use cases) -->
+  <section class="chapter" id="for">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">For · <b>001</b></div>
+        <h2>What people do with <em class="sig">Auris.</em></h2>
+      </div>
+      <div class="ch-tag">Five workflows, five ways Auris polishes what you say.</div>
+    </div>
+
+    <div class="feature-grid">
+      <article class="feature">
+        <h4>Easier on your hands.</h4>
+        <p>Tap-and-release <b>hands-free mode</b> with auto-stop on silence. Useful when you have RSI, a sprained wrist, or just need a break from typing all day.</p>
+      </article>
+      <article class="feature">
+        <h4>Writers drafting prose.</h4>
+        <p>Memos save as <b>real Markdown files</b> on your disk. Sync them via Dropbox, iCloud, or git. Studio Mode disappears the UI for distraction-free long-form composition.</p>
+      </article>
+      <article class="feature">
+        <h4>Slack, Gmail, Notion.</h4>
+        <p>Auris reads the active app and switches tone. <b>Casual</b> for chat, <b>professional</b> for email, <b>plain</b> for notes. Set rules per app once, forget them.</p>
+      </article>
+      <article class="feature">
+        <h4>English here, Spanish there.</h4>
+        <p>Lock the transcription language per app. English in Slack, Spanish in personal Notes. Whisper picks the right one and drops the wrong one.</p>
+      </article>
+      <article class="feature">
+        <h4>Sensitive work.</h4>
+        <p>Built-in pattern redaction for <b>email, phone, SSN, credit card</b>, plus custom regex you add. Matched dictations never get saved to history. Or run the whole stack fully offline.</p>
+      </article>
+    </div>
+  </section>
+
   <!-- MATH -->
   <section class="chapter" id="speed">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Math · <b>001</b></div>
+        <div class="ch-eyebrow">Math · <b>002</b></div>
         <h2>You <em class="sig">speak</em> faster than you type.</h2>
       </div>
       <div class="ch-tag">Average typing: <b>forty words a minute.</b> Productive typing: <b>sixty-five.</b> Speaking: <em class="sig">one sixty.</em> Auris puts the <b>speaking speed</b> wherever you write.</div>
@@ -1035,7 +1157,7 @@
   <section class="chapter" id="how">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">How · <b>002</b></div>
+        <div class="ch-eyebrow">How · <b>003</b></div>
         <h2>Hold. Speak. Release.</h2>
       </div>
     </div>
@@ -1072,7 +1194,7 @@
   <section class="chapter" id="style">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Voice · <b>003</b></div>
+        <div class="ch-eyebrow">Voice · <b>004</b></div>
         <h2>It sounds like you.</h2>
       </div>
       <div class="ch-tag">Three sliders set the tone. Different tones for different apps. Custom rules. A vocabulary that learns. Snippets on spoken triggers.</div>
@@ -1139,11 +1261,37 @@
     </div>
   </section>
 
+  <!-- RUN IT (BYOK + modes) -->
+  <section class="chapter" id="run">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Run it · <b>005</b></div>
+        <h2>Three ways to <em class="sig">run Auris.</em></h2>
+      </div>
+      <div class="ch-tag">Auris doesn't host an AI. You bring your own, or run one on your own machine.</div>
+    </div>
+
+    <div class="feature-grid">
+      <article class="feature">
+        <h4>Bring your keys.</h4>
+        <p>Use your <b>OpenAI</b>, <b>Anthropic</b>, or <b>Groq</b> account. Auris talks to them directly with your API key. <b>Groq currently has a free tier.</b> No payment method needed to start.</p>
+      </article>
+      <article class="feature">
+        <h4>Fully local.</h4>
+        <p>Run a local LLM with <b>Ollama</b>, <b>LM Studio</b>, <b>llama.cpp</b>, or anything that speaks the OpenAI API. You pay nothing past your electric bill. Audio never leaves your machine.</p>
+      </article>
+      <article class="feature">
+        <h4>Mixed.</h4>
+        <p>Local for sensitive work, health notes, legal drafts, internal codebases. Cloud when you want the heavy hitters like <b>Claude</b> or <b>ChatGPT</b>. Switch in Settings any time.</p>
+      </article>
+    </div>
+  </section>
+
   <!-- AI -->
   <section class="chapter" id="ai">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Backend · <b>004</b></div>
+        <div class="ch-eyebrow">Backend · <b>006</b></div>
         <h2>Use any AI, or no cloud at all.</h2>
       </div>
       <div class="ch-tag">Bring your own key for OpenAI, Anthropic, or Groq.<br>Or run a local model and work fully offline. No internet needed.</div>
@@ -1152,22 +1300,34 @@
     <div class="provider-grid">
       <div class="provider openai">
         <span class="tag"><span class="dot"></span>BYOK</span>
-        <h4>OpenAI</h4>
-        <p>Use your existing OpenAI key. Most people pay <b>$2 to $5/month</b> in usage.</p>
+        <div class="provider-head">
+          <span class="provider-icon"><svg fill="currentColor" fill-rule="evenodd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="OpenAI"><path d="M9.205 8.658v-2.26c0-.19.072-.333.238-.428l4.543-2.616c.619-.357 1.356-.523 2.117-.523 2.854 0 4.662 2.212 4.662 4.566 0 .167 0 .357-.024.547l-4.71-2.759a.797.797 0 00-.856 0l-5.97 3.473zm10.609 8.8V12.06c0-.333-.143-.57-.429-.737l-5.97-3.473 1.95-1.118a.433.433 0 01.476 0l4.543 2.617c1.309.76 2.189 2.378 2.189 3.948 0 1.808-1.07 3.473-2.76 4.163zM7.802 12.703l-1.95-1.142c-.167-.095-.239-.238-.239-.428V5.899c0-2.545 1.95-4.472 4.591-4.472 1 0 1.927.333 2.712.928L8.23 5.067c-.285.166-.428.404-.428.737v6.898zM12 15.128l-2.795-1.57v-3.33L12 8.658l2.795 1.57v3.33L12 15.128zm1.796 7.23c-1 0-1.927-.332-2.712-.927l4.686-2.712c.285-.166.428-.404.428-.737v-6.898l1.974 1.142c.167.095.238.238.238.428v5.233c0 2.545-1.974 4.472-4.614 4.472zm-5.637-5.303l-4.544-2.617c-1.308-.761-2.188-2.378-2.188-3.948A4.482 4.482 0 014.21 6.327v5.423c0 .333.143.571.428.738l5.947 3.449-1.95 1.118a.432.432 0 01-.476 0zm-.262 3.9c-2.688 0-4.662-2.021-4.662-4.519 0-.19.024-.38.047-.57l4.686 2.71c.286.167.571.167.856 0l5.97-3.448v2.26c0 .19-.07.333-.237.428l-4.543 2.616c-.619.357-1.356.523-2.117.523zm5.899 2.83a5.947 5.947 0 005.827-4.756C22.287 18.339 24 15.84 24 13.296c0-1.665-.713-3.282-1.998-4.448.119-.5.19-.999.19-1.498 0-3.401-2.759-5.947-5.946-5.947-.642 0-1.26.095-1.88.31A5.962 5.962 0 0010.205 0a5.947 5.947 0 00-5.827 4.757C1.713 5.447 0 7.945 0 10.49c0 1.666.713 3.283 1.998 4.448-.119.5-.19 1-.19 1.499 0 3.401 2.759 5.946 5.946 5.946.642 0 1.26-.095 1.88-.309a5.96 5.96 0 004.162 1.713z"/></svg></span>
+          <h4>OpenAI</h4>
+        </div>
+        <p>Use your existing OpenAI key for the polish step.</p>
       </div>
       <div class="provider anthropic">
         <span class="tag"><span class="dot"></span>BYOK</span>
-        <h4>Anthropic</h4>
+        <div class="provider-head">
+          <span class="provider-icon"><svg fill="currentColor" fill-rule="evenodd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="Anthropic"><path d="M13.827 3.52h3.603L24 20h-3.603l-6.57-16.48zm-7.258 0h3.767L16.906 20h-3.674l-1.343-3.461H5.017l-1.344 3.46H0L6.57 3.522zm4.132 9.959L8.453 7.687 6.205 13.48H10.7z"/></svg></span>
+          <h4>Anthropic</h4>
+        </div>
         <p>Bring your Anthropic key for Claude polish. Same usage range as OpenAI.</p>
       </div>
       <div class="provider groq">
         <span class="tag"><span class="dot"></span>BYOK</span>
-        <h4>Groq</h4>
+        <div class="provider-head">
+          <span class="provider-icon"><svg fill="currentColor" fill-rule="evenodd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="Groq"><path d="M12.036 2c-3.853-.035-7 3-7.036 6.781-.035 3.782 3.055 6.872 6.908 6.907h2.42v-2.566h-2.292c-2.407.028-4.38-1.866-4.408-4.23-.029-2.362 1.901-4.298 4.308-4.326h.1c2.407 0 4.358 1.915 4.365 4.278v6.305c0 2.342-1.944 4.25-4.323 4.279a4.375 4.375 0 01-3.033-1.252l-1.851 1.818A7 7 0 0012.029 22h.092c3.803-.056 6.858-3.083 6.879-6.816v-6.5C18.907 4.963 15.817 2 12.036 2z"/></svg></span>
+          <h4>Groq</h4>
+        </div>
         <p>Fastest round-trips. Bring your Groq key for sub-second polish.</p>
       </div>
       <div class="provider local">
         <span class="tag"><span class="dot"></span>Local</span>
-        <h4>On your machine</h4>
+        <div class="provider-head">
+          <span class="provider-icon"><svg fill="currentColor" fill-rule="evenodd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="Ollama"><path d="M7.905 1.09c.216.085.411.225.588.41.295.306.544.744.734 1.263.191.522.315 1.1.362 1.68a5.054 5.054 0 012.049-.636l.051-.004c.87-.07 1.73.087 2.48.474.101.053.2.11.297.17.05-.569.172-1.134.36-1.644.19-.52.439-.957.733-1.264a1.67 1.67 0 01.589-.41c.257-.1.53-.118.796-.042.401.114.745.368 1.016.737.248.337.434.769.561 1.287.23.934.27 2.163.115 3.645l.053.04.026.019c.757.576 1.284 1.397 1.563 2.35.435 1.487.216 3.155-.534 4.088l-.018.021.002.003c.417.762.67 1.567.724 2.4l.002.03c.064 1.065-.2 2.137-.814 3.19l-.007.01.01.024c.472 1.157.62 2.322.438 3.486l-.006.039a.651.651 0 01-.747.536.648.648 0 01-.54-.742c.167-1.033.01-2.069-.48-3.123a.643.643 0 01.04-.617l.004-.006c.604-.924.854-1.83.8-2.72-.046-.779-.325-1.544-.8-2.273a.644.644 0 01.18-.886l.009-.006c.243-.159.467-.565.58-1.12a4.229 4.229 0 00-.095-1.974c-.205-.7-.58-1.284-1.105-1.683-.595-.454-1.383-.673-2.38-.61a.653.653 0 01-.632-.371c-.314-.665-.772-1.141-1.343-1.436a3.288 3.288 0 00-1.772-.332c-1.245.099-2.343.801-2.67 1.686a.652.652 0 01-.61.425c-1.067.002-1.893.252-2.497.703-.522.39-.878.935-1.066 1.588a4.07 4.07 0 00-.068 1.886c.112.558.331 1.02.582 1.269l.008.007c.212.207.257.53.109.785-.36.622-.629 1.549-.673 2.44-.05 1.018.186 1.902.719 2.536l.016.019a.643.643 0 01.095.69c-.576 1.236-.753 2.252-.562 3.052a.652.652 0 01-1.269.298c-.243-1.018-.078-2.184.473-3.498l.014-.035-.008-.012a4.339 4.339 0 01-.598-1.309l-.005-.019a5.764 5.764 0 01-.177-1.785c.044-.91.278-1.842.622-2.59l.012-.026-.002-.002c-.293-.418-.51-.953-.63-1.545l-.005-.024a5.352 5.352 0 01.093-2.49c.262-.915.777-1.701 1.536-2.269.06-.045.123-.09.186-.132-.159-1.493-.119-2.73.112-3.67.127-.518.314-.95.562-1.287.27-.368.614-.622 1.015-.737.266-.076.54-.059.797.042zm4.116 9.09c.936 0 1.8.313 2.446.855.63.527 1.005 1.235 1.005 1.94 0 .888-.406 1.58-1.133 2.022-.62.375-1.451.557-2.403.557-1.009 0-1.871-.259-2.493-.734-.617-.47-.963-1.13-.963-1.845 0-.707.398-1.417 1.056-1.946.668-.537 1.55-.849 2.485-.849zm0 .896a3.07 3.07 0 00-1.916.65c-.461.37-.722.835-.722 1.25 0 .428.21.829.61 1.134.455.347 1.124.548 1.943.548.799 0 1.473-.147 1.932-.426.463-.28.7-.686.7-1.257 0-.423-.246-.89-.683-1.256-.484-.405-1.14-.643-1.864-.643zm.662 1.21l.004.004c.12.151.095.37-.056.49l-.292.23v.446a.375.375 0 01-.376.373.375.375 0 01-.376-.373v-.46l-.271-.218a.347.347 0 01-.052-.49.353.353 0 01.494-.051l.215.172.22-.174a.353.353 0 01.49.051zm-5.04-1.919c.478 0 .867.39.867.871a.87.87 0 01-.868.871.87.87 0 01-.867-.87.87.87 0 01.867-.872zm8.706 0c.48 0 .868.39.868.871a.87.87 0 01-.868.871.87.87 0 01-.867-.87.87.87 0 01.867-.872zM7.44 2.3l-.003.002a.659.659 0 00-.285.238l-.005.006c-.138.189-.258.467-.348.832-.17.692-.216 1.631-.124 2.782.43-.128.899-.208 1.404-.237l.01-.001.019-.034c.046-.082.095-.161.148-.239.123-.771.022-1.692-.253-2.444-.134-.364-.297-.65-.453-.813a.628.628 0 00-.107-.09L7.44 2.3zm9.174.04l-.002.001a.628.628 0 00-.107.09c-.156.163-.32.45-.453.814-.29.794-.387 1.776-.23 2.572l.058.097.008.014h.03a5.184 5.184 0 011.466.212c.086-1.124.038-2.043-.128-2.722-.09-.365-.21-.643-.349-.832l-.004-.006a.659.659 0 00-.285-.239h-.004z"/></svg></span>
+          <h4>On your machine</h4>
+        </div>
         <p>Run a local model. <b>Fully offline.</b> Pay nothing past your electric bill.</p>
       </div>
     </div>
@@ -1181,7 +1341,7 @@
   <section class="chapter" id="privacy">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Privacy · <b>005</b></div>
+        <div class="ch-eyebrow">Privacy · <b>007</b></div>
         <h2>Auris keeps <em class="sig">nothing.</em></h2>
       </div>
       <div class="ch-tag">No account. No subscription. No server.<br>Your history is a local file. Delete it whenever.</div>
@@ -1221,7 +1381,7 @@
   <section class="versus" id="versus">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Versus · <b>006</b></div>
+        <div class="ch-eyebrow">Versus · <b>008</b></div>
         <h2>$79 <em class="sig">once.</em> <br>Not $15 every month.</h2>
       </div>
       <div class="ch-tag">Wispr Flow charges $15/mo, forever. <span class="m-block">Auris is $79 once.</span><br><span class="sg" style="font-weight: 700;">Same job. Different math.</span></div>
@@ -1240,7 +1400,7 @@
       </div>
       <div class="vs-row" role="row">
         <span class="lbl" role="cell">Monthly</span>
-        <span class="ours empty" role="cell">—</span>
+        <span class="ours" role="cell">~<b>$2 to $5</b> in API usage</span>
         <span class="others" role="cell"><span class="o-i">Wispr $15/mo</span><span class="o-i">Superwhisper $8.49/mo</span></span>
       </div>
       <div class="vs-row" role="row">
@@ -1292,7 +1452,7 @@
   <section class="pricing" id="pricing">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">License · <b>007</b></div>
+        <div class="ch-eyebrow">License · <b>009</b></div>
         <h2>One price.<br>Every feature.</h2>
       </div>
     </div>
@@ -1344,7 +1504,7 @@
   <section class="chapter" id="faq">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">FAQ · <b>008</b></div>
+        <div class="ch-eyebrow">FAQ · <b>010</b></div>
         <h2>The usual questions.</h2>
       </div>
     </div>
