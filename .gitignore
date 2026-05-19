@@ -1,4 +1,6 @@
 _upload.py
 _build_favicons.py
+_build_og_image.py
+_fonts/
 __pycache__/
 index-craft-v*.html

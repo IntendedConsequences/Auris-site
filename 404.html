@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Not found · Auris</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://auris.talk/">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="theme-color" content="#010100">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,400;0,500;0,700;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #010100;
+    --paper: #ede7df;
+    --paper-3: #9b948d;
+    --signal: #fae353;
+    --line-2: #28231f;
+    --line-3: #3a342e;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    background: var(--ink); color: var(--paper);
+    font-family: 'Albert Sans', system-ui, -apple-system, sans-serif;
+    font-weight: 400; letter-spacing: -0.011em;
+    display: grid; place-items: center; padding: 24px;
+  }
+  .wrap { max-width: 560px; text-align: center; }
+  .glyph { color: var(--signal); width: 64px; height: 60px; margin: 0 auto 28px; display: block; }
+  .code {
+    color: var(--paper-3); text-transform: uppercase; letter-spacing: 0.18em;
+    font-size: 12px; font-weight: 500; margin-bottom: 18px;
+  }
+  h1 {
+    font-size: clamp(40px, 7vw, 64px); line-height: 1.02; letter-spacing: -0.032em;
+    font-weight: 700; margin: 0 0 18px;
+  }
+  h1 em { font-style: italic; color: var(--signal); font-weight: 500; letter-spacing: -0.005em; }
+  p { color: var(--paper); opacity: 0.78; font-size: 17px; line-height: 1.5; margin: 0 0 32px; }
+  .links {
+    display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+  }
+  .links a {
+    color: var(--paper); text-decoration: none;
+    border: 1px solid var(--line-2); padding: 12px 18px; border-radius: 99px;
+    font-size: 14px; letter-spacing: -0.005em;
+    transition: border-color 180ms, color 180ms;
+  }
+  .links a:hover { border-color: var(--line-3); color: var(--signal); }
+  .links a.primary {
+    background: var(--signal); color: var(--ink); border-color: var(--signal); font-weight: 600;
+  }
+  .links a.primary:hover { background: #efcc36; border-color: #efcc36; color: var(--ink); }
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <svg class="glyph" viewBox="0 0 53 52" aria-hidden="true">
+      <g fill="none" stroke="currentColor">
+        <circle cx="4" cy="26" r="3.5" fill="currentColor" stroke="none"/>
+        <ellipse cx="14" cy="26" rx="3.5" ry="9" stroke-width="4"/>
+        <ellipse cx="24" cy="26" rx="3.5" ry="15" stroke-width="3.5" opacity=".7"/>
+        <ellipse cx="34" cy="26" rx="3.5" ry="20" stroke-width="3" opacity=".42"/>
+        <ellipse cx="49" cy="26" rx="3.5" ry="26" stroke-width="2" opacity=".22"/>
+      </g>
+    </svg>
+    <div class="code">404</div>
+    <h1>Nothing to <em>hear</em> here.</h1>
+    <p>This page didn't make it past the silence. Try one of these instead.</p>
+    <div class="links">
+      <a class="primary" href="/">Home</a>
+      <a href="/how.html">How it works</a>
+      <a href="/features.html">Features</a>
+      <a href="/pricing.html">Pricing</a>
+    </div>
+  </main>
+</body>
+</html>
