@@ -127,7 +127,7 @@
   em.sig { font-style: italic; color: var(--signal); font-weight: 500; letter-spacing: -0.005em; }
   em.alt { font-style: italic; color: inherit; font-weight: inherit; letter-spacing: -0.005em; }
 
-  .page { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+  .page { max-width: clamp(1280px, 92vw, 1480px); margin: 0 auto; padding: 0 40px; }
 
   /* MASTHEAD ------------------------------------------------ */
   .masthead {
@@ -390,7 +390,7 @@
     margin-top: 44px; padding-top: 32px;
     border-top: 1px solid var(--line-2);
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
-    max-width: 1280px;
+    max-width: clamp(1280px, 92vw, 1480px);
   }
   .page-hero .wedge {
     display: flex; flex-direction: column; gap: 10px;
@@ -925,7 +925,7 @@
     border-bottom: 1px solid var(--line-2);
   }
   .secnav {
-    max-width: 1280px; margin: 0 auto; padding: 0 40px;
+    max-width: clamp(1280px, 92vw, 1480px); margin: 0 auto; padding: 0 40px;
     display: flex; gap: 32px; align-items: center;
     overflow-x: auto;
     -ms-overflow-style: none;
