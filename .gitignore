@@ -4,3 +4,7 @@ _build_og_image.py
 _fonts/
 __pycache__/
 index-craft-v*.html
+
+# Internal context docs — keep source-only, don't publish.
+DESIGN.md
+PRODUCT.md

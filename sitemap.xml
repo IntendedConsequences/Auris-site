@@ -26,7 +26,13 @@
   </url>
   <url>
     <loc>https://auris.talk/privacy.html</loc>
-    <lastmod>2026-05-19</lastmod>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://auris.talk/terms.html</loc>
+    <lastmod>2026-05-25</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
