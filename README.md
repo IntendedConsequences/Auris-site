@@ -4,11 +4,11 @@ Static HTML site, 5 pages, ready for GitHub Pages.
 
 ## Pages
 - `index.html` — Home (entry point)
-- `home.html` — Home (same as index)
 - `how.html` — How it works
 - `features.html` — Features
 - `pricing.html` — Pricing
 - `privacy.html` — Privacy
+- `terms.html` — Terms
 
 ## Deploy to GitHub Pages
 1. Create a new GitHub repo (e.g. `auris-site`).

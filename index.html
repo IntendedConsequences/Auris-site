@@ -123,6 +123,9 @@
     -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     font-feature-settings: 'kern', 'liga'; text-rendering: optimizeLegibility;
   }
+  @media (min-width: 1200px) {
+    body { zoom: 0.95; }
+  }
   ::selection { background: var(--signal); color: var(--ink); }
   a { color: inherit; text-decoration: none; }
   button { font: inherit; cursor: pointer; }
