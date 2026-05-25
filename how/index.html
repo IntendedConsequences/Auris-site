@@ -1439,26 +1439,6 @@
     });
   })();
 </script>
-<!-- __viewport_scale_v1 -->
-<script>
-  // Scale the page up on monitors wider than 1440px so the layout always
-  // matches the 1440-wide desktop design. Below 1440 nothing changes.
-  (function () {
-    function fit() {
-      var w = window.innerWidth || document.documentElement.clientWidth;
-      var root = document.documentElement;
-      if (w > 1440) {
-        // Gentle scale: 40% of the way between no zoom and full-fit zoom.
-        var z = 1 + 0.4 * ((w / 1440) - 1);
-        root.style.zoom = z.toFixed(3);
-      } else {
-        root.style.zoom = '';
-      }
-    }
-    fit();
-    window.addEventListener('resize', fit);
-  })();
-</script>
 <!-- __notify_v1 -->
 <script>
   // Notify-form handler: POSTs form-encoded to ConvertKit, swaps UI on success.
