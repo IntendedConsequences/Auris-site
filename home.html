@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Auris. Voice-to-text for Mac and Windows. $79 once.</title>
+<title>Auris. Voice-to-text for Mac and Windows. $49 once.</title>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -22,7 +22,7 @@
       "name": "What does the API usage actually cost?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Most people pay $2 to $5 a month. Go local instead and the only cost is electricity."
+        "text": "Most people pay $2 to $4 a month. Go local instead and the only cost is electricity."
       }
     },
     {
@@ -35,18 +35,10 @@
     },
     {
       "@type": "Question",
-      "name": "Is there a free trial?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The 30-day money-back is the closest thing. Every tier gives you the full app. Buy it, use it for a month, refund if it isn't worth $79."
-      }
-    },
-    {
-      "@type": "Question",
       "name": "Will it run on my computer?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "If you're on Mac or Windows from this decade, yes. Linux is on the way, not in the box yet."
+        "text": "If you're on Mac or Windows from this decade, yes. Linux is on the way. For cloud STT and cloud polish, any modern laptop is fine. The work happens on the API. For local Whisper or local LLM polish, your CPU and GPU do the work. Apple M1 and newer handle it comfortably. Older Intel Macs and lower-end Windows machines will run it, but transcription and polish will be slower. If your hardware can't keep up, run the cloud backends for the fastest results."
       }
     },
     {
@@ -103,8 +95,8 @@
 <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
 <link rel="shortcut icon" href="favicon.ico">
 <meta name="theme-color" content="#010100">
-<meta name="description" content="Hold a hotkey, talk, release. Clean text appears in any app. Mac and Windows. $79 once. 30-day money-back.">
-<meta property="og:title" content="Auris. Voice-to-text for Mac and Windows. $79 once.">
+<meta name="description" content="Hold a hotkey, talk, release. Clean text appears in any app. Mac and Windows. $49 once. 30-day money-back.">
+<meta property="og:title" content="Auris. Voice-to-text for Mac and Windows. $49 once.">
 <meta property="og:description" content="Hold a hotkey, talk, release. Clean text appears in any app.">
 <meta property="og:url" content="https://auris.talk">
 <meta property="og:type" content="website">
@@ -343,7 +335,7 @@
   .notify.compact .notify-hint { font-size: 11px; }
 
   /* CHAPTERS ------------------------------------------------ */
-  .chapter, .versus { padding: 64px 0; border-bottom: 1px solid var(--line-2); }
+  .chapter, .versus { padding: 50px 0; border-bottom: 1px solid var(--line-2); }
   #faq.chapter { padding-bottom: 0; }
   .ch-head {
     display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
@@ -563,6 +555,7 @@
     font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
     color: var(--paper-3); text-transform: uppercase;
   }
+  .provider .tag b { color: var(--signal); font-weight: 700; }
   .provider .tag .dot { width: 6px; height: 6px; border-radius: 99px; }
   .provider.openai .tag .dot { background: var(--ok); }
   .provider.anthropic .tag .dot { background: #ff7757; }
@@ -650,6 +643,30 @@
     letter-spacing: -0.002em;
   }
   .feature p b { color: var(--paper); font-weight: 600; }
+  .feature p .rh { color: var(--signal); font-weight: 600; }
+
+  /* RUN MODE CARDS (Three ways to run Auris) ---------------- */
+  .run-mode { padding: 20px 22px 16px; gap: 10px; }
+  .run-mode .run-tag {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--paper-3); font-weight: 600;
+  }
+  .run-mode .run-tag b { color: var(--signal); font-weight: 700; font-size: 12px; }
+  .run-mode .run-pipe {
+    margin-top: auto; padding-top: 14px;
+    border-top: 1px dashed var(--line-2);
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px;
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+  }
+  .run-mode .rp-stage { display: inline-flex; align-items: center; gap: 6px; }
+  .run-mode .rp-lbl { color: var(--paper-3); font-weight: 500; }
+  .run-mode .rp-val { color: var(--paper); font-weight: 700; }
+  .run-mode .rp-val.local { color: var(--signal); }
+  .run-mode .rp-val .lc { color: var(--signal); }
+  .run-mode .rp-arrow { color: var(--paper-3); }
 
   /* VERSUS TABLE -------------------------------------------- */
   .vs-tab {
@@ -676,8 +693,8 @@
   .vs-row .ours b { color: var(--signal); font-weight: 700; }
   .vs-row .ours.empty { color: var(--dim); font-weight: 500; }
   .vs-row .others { font-size: 15px; color: var(--paper-3); font-weight: 500; line-height: 1.55; letter-spacing: 0.005em; }
-  .vs-row .others .o-i { display: inline; }
-  .vs-row .others .o-i + .o-i::before { content: ' · '; color: var(--dim); margin: 0 2px; }
+  .vs-row .others .o-i { display: block; }
+  .vs-row .others .o-i + .o-i { margin-top: 4px; }
 
   /* LANGUAGES ----------------------------------------------- */
   .langs { padding: 64px 0; border-bottom: 1px solid var(--line-2); }
@@ -794,7 +811,7 @@
 
   /* FINAL CTA ----------------------------------------------- */
   .final {
-    padding: 96px 0; text-align: center; position: relative;
+    padding: 64px 0; text-align: center; position: relative;
     border-bottom: 1px solid var(--line-2);
     background: radial-gradient(ellipse 65% 75% at 50% 0%, rgba(250,227,83,0.20) 0%, rgba(250,227,83,0.04) 45%, transparent 75%);
   }
@@ -842,7 +859,7 @@
     .hero-raw { padding-right: 0; }
     .hero-polished { padding-left: 0; }
     .hero-deck { grid-template-columns: 1fr; gap: 28px; padding-top: 24px; margin-top: 36px; }
-    .chapter, .versus { padding: 56px 0; }
+    .chapter, .versus { padding: 44px 0; }
     .ch-head { grid-template-columns: 1fr; gap: 18px; margin-bottom: 32px; }
     .bar-row { grid-template-columns: 1fr; gap: 8px; }
     .bar-row .bar-val { text-align: left; }
@@ -865,7 +882,7 @@
     .pricing-grid { grid-template-columns: 1fr 1fr; }
     .pricing-notify { grid-template-columns: 1fr; gap: 22px; padding: 24px; }
     .pricing-notify h3 { font-size: 24px; }
-    .final { padding: 64px 0; }
+    .final { padding: 48px 0; }
   }
   @media (max-width: 600px) {
     .pricing-grid { grid-template-columns: 1fr; }
@@ -916,7 +933,7 @@
       border-top: 0 !important;
       border-bottom: 1px solid var(--line-2) !important;
     }
-    /* Force "Auris is $79 once." onto its own line on mobile. */
+    /* Force "Auris is $49 once." onto its own line on mobile. */
     .m-block { display: block; }
     /* Versus table: stacked cards with explicit Auris / Other labels so the
        column meaning is clear with the head row hidden. */
@@ -1191,7 +1208,7 @@
         <div class="ch-eyebrow">Math · <b>002</b></div>
         <h2>You <em class="sig">speak</em> faster than you type.</h2>
       </div>
-      <div class="ch-tag">Average typing: <b>forty words a minute.</b> Productive typing: <b>sixty-five.</b> Speaking: <em class="sig">one sixty.</em> Auris puts the <b>speaking speed</b> wherever you write.</div>
+      <div class="ch-tag">The speed has always been there.<br><b>The cleanup is what was missing.</b> Auris ships both.</div>
     </div>
 
     <div class="speed-chart" aria-label="Words per minute">
@@ -1220,6 +1237,7 @@
         <div class="ch-eyebrow">How · <b>003</b></div>
         <h2>Hold. Speak. Release.</h2>
       </div>
+      <div class="ch-tag">One hotkey, any app.<br><b>One to two seconds</b> from press to polished text.</div>
     </div>
 
     <div class="how-grid">
@@ -1236,14 +1254,14 @@
       <article class="how-card">
         <span class="num">02 · Speak</span>
         <h3>Say anything.</h3>
-        <div class="keys"><span class="kbd" style="background: transparent; border-style: dashed;">talk for as long as you need</span></div>
+        <div class="keys"><span class="kbd" style="background: transparent; border-style: dashed;">Talk for as long as you need</span></div>
         <p>Auris transcribes everything while you're holding the key. <b>No time limit.</b></p>
       </article>
       <article class="how-card">
         <span class="num">03 · Release</span>
         <h3>Read it back.</h3>
-        <div class="keys"><span class="kbd" style="border-color: var(--signal-deep); color: var(--signal);">clean text · 1–2s later</span></div>
-        <p>Let go. <b>Clean text lands at your cursor.</b> Filler gone, punctuation right, your voice intact.</p>
+        <div class="keys"><span class="kbd" style="border-color: var(--signal-deep); color: var(--signal);">Clean text · 1–2s later</span></div>
+        <p>Let go. <b>Clean text lands in the window you started in.</b> Filler gone, punctuation right, your voice intact.</p>
       </article>
     </div>
 
@@ -1328,21 +1346,39 @@
         <div class="ch-eyebrow">Run it · <b>005</b></div>
         <h2>Three ways to <em class="sig">run Auris.</em></h2>
       </div>
-      <div class="ch-tag">Auris doesn't host an AI. You bring your own, or run one on your own machine.</div>
+      <div class="ch-tag">Auris doesn't host an AI.<br>You bring your own, or run one on your own machine.</div>
     </div>
 
-    <div class="feature-grid">
-      <article class="feature">
+    <div class="feature-grid run-grid">
+      <article class="feature run-mode">
+        <div class="run-tag"><b>01</b> Cloud</div>
         <h4>Bring your keys.</h4>
-        <p>Use your <b>OpenAI</b>, <b>Anthropic</b>, or <b>Groq</b> account. Auris talks to them directly with your API key. <b>Groq currently has a free tier.</b> No payment method needed to start.</p>
+        <p>Plug in your <b>OpenAI</b>, <b>Anthropic</b>, or <b>Groq</b> key. Auris talks to them directly. <span class="rh">Groq has a free tier</span>, no payment method needed to start.</p>
+        <div class="run-pipe">
+          <span class="rp-stage"><span class="rp-lbl">STT</span><span class="rp-val">Cloud</span></span>
+          <span class="rp-arrow" aria-hidden="true">→</span>
+          <span class="rp-stage"><span class="rp-lbl">Polish</span><span class="rp-val">Cloud</span></span>
+        </div>
       </article>
-      <article class="feature">
+      <article class="feature run-mode">
+        <div class="run-tag"><b>02</b> Local</div>
         <h4>Fully local.</h4>
-        <p>Run a local LLM with <b>Ollama</b>, <b>LM Studio</b>, <b>llama.cpp</b>, or anything that speaks the OpenAI API. You pay nothing past your electric bill. Audio never leaves your machine.</p>
+        <p><b>Whisper</b> for speech, <b>any local LLM</b> for polish, or built-in rules. <span class="rh">Audio stays local.</span></p>
+        <div class="run-pipe">
+          <span class="rp-stage"><span class="rp-lbl">STT</span><span class="rp-val local">Local</span></span>
+          <span class="rp-arrow" aria-hidden="true">→</span>
+          <span class="rp-stage"><span class="rp-lbl">Polish</span><span class="rp-val local">Local</span></span>
+        </div>
       </article>
-      <article class="feature">
-        <h4>Mixed.</h4>
-        <p>Local for sensitive work, health notes, legal drafts, internal codebases. Cloud when you want the heavy hitters like <b>Claude</b> or <b>ChatGPT</b>. Switch in Settings any time.</p>
+      <article class="feature run-mode">
+        <div class="run-tag"><b>03</b> Mixed</div>
+        <h4>Mix and match.</h4>
+        <p>STT and polish are <span class="rh">independent.</span> Cloud Whisper with a local LLM, local Whisper with Claude, or any combination. <b>Switch in Settings any time.</b></p>
+        <div class="run-pipe">
+          <span class="rp-stage"><span class="rp-lbl">STT</span><span class="rp-val"><span class="lc">Local</span> or Cloud</span></span>
+          <span class="rp-arrow" aria-hidden="true">→</span>
+          <span class="rp-stage"><span class="rp-lbl">Polish</span><span class="rp-val"><span class="lc">Local</span> or Cloud</span></span>
+        </div>
       </article>
     </div>
   </section>
@@ -1354,25 +1390,25 @@
         <div class="ch-eyebrow">Backend · <b>006</b></div>
         <h2>Use any AI, or no cloud at all.</h2>
       </div>
-      <div class="ch-tag">Bring your own key for OpenAI, Anthropic, or Groq.<br>Or run a local model and work fully offline. No internet needed.</div>
+      <div class="ch-tag">Bring your own API keys.<br>Or run a local model and work offline. No internet needed.</div>
     </div>
 
     <div class="provider-grid">
+      <div class="provider anthropic">
+        <span class="tag"><span class="dot"></span>BYOK &middot; <b>Default</b></span>
+        <div class="provider-head">
+          <span class="provider-icon"><svg fill="currentColor" fill-rule="evenodd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="Anthropic"><path d="M13.827 3.52h3.603L24 20h-3.603l-6.57-16.48zm-7.258 0h3.767L16.906 20h-3.674l-1.343-3.461H5.017l-1.344 3.46H0L6.57 3.522zm4.132 9.959L8.453 7.687 6.205 13.48H10.7z"/></svg></span>
+          <h4>Anthropic</h4>
+        </div>
+        <p>Built around <b>Claude Haiku.</b> Fast, cheap, and recommended.</p>
+      </div>
       <div class="provider openai">
         <span class="tag"><span class="dot"></span>BYOK</span>
         <div class="provider-head">
           <span class="provider-icon"><svg fill="currentColor" fill-rule="evenodd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="OpenAI"><path d="M9.205 8.658v-2.26c0-.19.072-.333.238-.428l4.543-2.616c.619-.357 1.356-.523 2.117-.523 2.854 0 4.662 2.212 4.662 4.566 0 .167 0 .357-.024.547l-4.71-2.759a.797.797 0 00-.856 0l-5.97 3.473zm10.609 8.8V12.06c0-.333-.143-.57-.429-.737l-5.97-3.473 1.95-1.118a.433.433 0 01.476 0l4.543 2.617c1.309.76 2.189 2.378 2.189 3.948 0 1.808-1.07 3.473-2.76 4.163zM7.802 12.703l-1.95-1.142c-.167-.095-.239-.238-.239-.428V5.899c0-2.545 1.95-4.472 4.591-4.472 1 0 1.927.333 2.712.928L8.23 5.067c-.285.166-.428.404-.428.737v6.898zM12 15.128l-2.795-1.57v-3.33L12 8.658l2.795 1.57v3.33L12 15.128zm1.796 7.23c-1 0-1.927-.332-2.712-.927l4.686-2.712c.285-.166.428-.404.428-.737v-6.898l1.974 1.142c.167.095.238.238.238.428v5.233c0 2.545-1.974 4.472-4.614 4.472zm-5.637-5.303l-4.544-2.617c-1.308-.761-2.188-2.378-2.188-3.948A4.482 4.482 0 014.21 6.327v5.423c0 .333.143.571.428.738l5.947 3.449-1.95 1.118a.432.432 0 01-.476 0zm-.262 3.9c-2.688 0-4.662-2.021-4.662-4.519 0-.19.024-.38.047-.57l4.686 2.71c.286.167.571.167.856 0l5.97-3.448v2.26c0 .19-.07.333-.237.428l-4.543 2.616c-.619.357-1.356.523-2.117.523zm5.899 2.83a5.947 5.947 0 005.827-4.756C22.287 18.339 24 15.84 24 13.296c0-1.665-.713-3.282-1.998-4.448.119-.5.19-.999.19-1.498 0-3.401-2.759-5.947-5.946-5.947-.642 0-1.26.095-1.88.31A5.962 5.962 0 0010.205 0a5.947 5.947 0 00-5.827 4.757C1.713 5.447 0 7.945 0 10.49c0 1.666.713 3.283 1.998 4.448-.119.5-.19 1-.19 1.499 0 3.401 2.759 5.946 5.946 5.946.642 0 1.26-.095 1.88-.309a5.96 5.96 0 004.162 1.713z"/></svg></span>
           <h4>OpenAI</h4>
         </div>
-        <p>Use your existing OpenAI key for the polish step.</p>
-      </div>
-      <div class="provider anthropic">
-        <span class="tag"><span class="dot"></span>BYOK</span>
-        <div class="provider-head">
-          <span class="provider-icon"><svg fill="currentColor" fill-rule="evenodd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="Anthropic"><path d="M13.827 3.52h3.603L24 20h-3.603l-6.57-16.48zm-7.258 0h3.767L16.906 20h-3.674l-1.343-3.461H5.017l-1.344 3.46H0L6.57 3.522zm4.132 9.959L8.453 7.687 6.205 13.48H10.7z"/></svg></span>
-          <h4>Anthropic</h4>
-        </div>
-        <p>Bring your Anthropic key for Claude polish. Same usage range as OpenAI.</p>
+        <p>Plug in your key for any GPT model, from <b>gpt-4o-mini</b> to <b>gpt-4o.</b></p>
       </div>
       <div class="provider groq">
         <span class="tag"><span class="dot"></span>BYOK</span>
@@ -1380,7 +1416,7 @@
           <span class="provider-icon"><svg fill="currentColor" fill-rule="evenodd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="Groq"><path d="M12.036 2c-3.853-.035-7 3-7.036 6.781-.035 3.782 3.055 6.872 6.908 6.907h2.42v-2.566h-2.292c-2.407.028-4.38-1.866-4.408-4.23-.029-2.362 1.901-4.298 4.308-4.326h.1c2.407 0 4.358 1.915 4.365 4.278v6.305c0 2.342-1.944 4.25-4.323 4.279a4.375 4.375 0 01-3.033-1.252l-1.851 1.818A7 7 0 0012.029 22h.092c3.803-.056 6.858-3.083 6.879-6.816v-6.5C18.907 4.963 15.817 2 12.036 2z"/></svg></span>
           <h4>Groq</h4>
         </div>
-        <p>Fastest round-trips. Bring your Groq key for sub-second polish.</p>
+        <p>LPU hardware delivers sub-second polish. <b>Generous free tier</b> to start.</p>
       </div>
       <div class="provider local">
         <span class="tag"><span class="dot"></span>Local</span>
@@ -1392,9 +1428,6 @@
       </div>
     </div>
 
-    <p class="ch-body" style="max-width: 64ch; margin-top: 18px;">
-      Most people pay <b style="color: var(--paper);">$2 to $5 a month</b> in API usage.<br>Pick local and pay nothing past your electric bill.
-    </p>
   </section>
 
   <!-- PRIVACY -->
@@ -1410,7 +1443,7 @@
     <div class="keep-grid">
       <article class="keep-card">
         <span class="strike">No server</span>
-        <p>There isn't one.<br>Audio runs locally or goes <b>direct to your provider.</b> Nothing routes through us.</p>
+        <p>Audio runs locally or goes <b>direct to your provider.</b> Nothing routes through us.</p>
       </article>
       <article class="keep-card">
         <span class="strike">No account</span>
@@ -1418,7 +1451,7 @@
       </article>
       <article class="keep-card">
         <span class="strike">No subscription</span>
-        <p><b>$79 once.</b> No recurring charges. Updates included.</p>
+        <p><b>$49 once.</b> No recurring charges. Updates included.</p>
       </article>
       <article class="keep-card">
         <span class="strike">No training</span>
@@ -1442,9 +1475,9 @@
     <div class="ch-head">
       <div>
         <div class="ch-eyebrow">Versus · <b>008</b></div>
-        <h2>$79 <em class="sig">once.</em> <br>Not $15 every month.</h2>
+        <h2>$49 <em class="sig">once.</em> <br>Not $15 every month.</h2>
       </div>
-      <div class="ch-tag">Wispr Flow charges $15/mo, forever. <span class="m-block">Auris is $79 once.</span><br><span class="sg" style="font-weight: 700;">Same job. Different math.</span></div>
+      <div class="ch-tag">Wispr Flow charges $15/mo, forever. <span class="m-block">Auris is $49 once.</span><br><span class="sg" style="font-weight: 700;">Same job. Different math.</span></div>
     </div>
 
     <div class="vs-tab" role="table" aria-label="Versus the competition">
@@ -1455,12 +1488,12 @@
       </div>
       <div class="vs-row" role="row">
         <span class="lbl" role="cell">One-time / lifetime</span>
-        <span class="ours" role="cell"><b>$79</b> Founder · <b>$99</b> Standard</span>
+        <span class="ours" role="cell"><b>$49</b> Founder · <b>$79</b> Standard</span>
         <span class="others" role="cell"><span class="o-i">Wispr: subscription only</span><span class="o-i">Superwhisper $250</span></span>
       </div>
       <div class="vs-row" role="row">
         <span class="lbl" role="cell">Monthly</span>
-        <span class="ours" role="cell">~<b>$2 to $5</b> in API usage</span>
+        <span class="ours" role="cell"><b>$2 to $4</b> in API credits<br><b>$0</b> running fully local.</span>
         <span class="others" role="cell"><span class="o-i">Wispr $15/mo</span><span class="o-i">Superwhisper $8.49/mo</span></span>
       </div>
       <div class="vs-row" role="row">
@@ -1521,26 +1554,26 @@
       <div class="price-card featured">
         <div class="label">Lifetime Founder</div>
         <div class="name">Lifetime Founder</div>
-        <div class="px">$79<small>once</small></div>
-        <p class="desc">Three-week launch window. <b>20% off Standard</b> pricing for the first wave. Full app, forever, every feature.</p>
+        <div class="px">$49<small>once</small></div>
+        <p class="desc">Three-week launch window. <b>$30 off Standard</b> pricing for the first wave. Full app, forever, every feature.</p>
       </div>
       <div class="price-card">
         <div class="label">Lifetime Standard</div>
         <div class="name">Lifetime Standard</div>
-        <div class="px">$99<small>once</small></div>
+        <div class="px">$79<small>once</small></div>
         <p class="desc">After Founder pricing ends. <b>Same product.</b> Same updates, same support.</p>
       </div>
       <div class="price-card">
         <div class="label">Student Lifetime</div>
         <div class="name">Student Lifetime</div>
-        <div class="px">$49<small>once</small></div>
+        <div class="px">$29<small>once</small></div>
         <p class="desc">Verified <b>.edu</b> email. Same product, same updates.</p>
       </div>
       <div class="price-card">
         <div class="label">Team Self-Hosted</div>
         <div class="name">Team Self-Hosted</div>
-        <div class="px">from $299</div>
-        <p class="desc">Five seats. Runs on your team's machines.</p>
+        <div class="px">from $199</div>
+        <p class="desc">Three seats. Runs on your team's machines.</p>
       </div>
     </div>
 
@@ -1588,7 +1621,7 @@
             <span class="chev" aria-hidden="true">→</span>
           </summary>
           <div class="note-body">
-            <p>Most people pay <b>$2 to $5 a month.</b><br>Go local instead and the only cost is electricity.</p>
+            <p>Most people pay <b>$2 to $4 a month.</b><br>Go local instead and the only cost is electricity.</p>
           </div>
         </details>
         <details class="note">
@@ -1604,26 +1637,18 @@
         <details class="note">
           <summary>
             <span class="tag">N.04</span>
-            <h4>Is there a free trial?</h4>
+            <h4>Will it run on my computer?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>
           <div class="note-body">
-            <p>The 30-day money-back is the closest thing. Every tier gives you the full app.<br>Buy it, use it for a month, refund if it isn't worth $79.</p>
+            <p>If you're on <b>Mac or Windows from this decade,</b> yes.<br>Linux is on the way.</p>
+            <p>For <b>cloud STT and cloud polish,</b> any modern laptop is fine. The work happens on the API.</p>
+            <p>For <b>local Whisper or local LLM polish,</b> your CPU and GPU do the work. <b>Apple M1 and newer</b> handle it comfortably. Older Intel Macs and lower-end Windows machines will run it, but transcription and polish will be slower. If your hardware can't keep up, run the cloud backends for the fastest results.</p>
           </div>
         </details>
         <details class="note">
           <summary>
             <span class="tag">N.05</span>
-            <h4>Will it run on my computer?</h4>
-            <span class="chev" aria-hidden="true">→</span>
-          </summary>
-          <div class="note-body">
-            <p>If you're on <b>Mac or Windows from this decade,</b> yes.<br>Linux is on the way, not in the box yet.</p>
-          </div>
-        </details>
-        <details class="note">
-          <summary>
-            <span class="tag">N.06</span>
             <h4>How accurate is it?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>

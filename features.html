@@ -34,7 +34,7 @@
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 
 <style>
   :root {
@@ -45,6 +45,7 @@
     --ember: #ea6a64; --warn: #e0a050; --ok: #75d079;
     --mist: #7a736d; --dim: #4a4540;
     --sans: 'Albert Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; scrollbar-gutter: stable; }
@@ -60,6 +61,7 @@
   ::selection { background: var(--signal); color: var(--ink); }
   a { color: inherit; text-decoration: none; }
   em.sig { font-style: italic; color: var(--signal); font-weight: 500; letter-spacing: -0.005em; }
+  em.alt { font-style: italic; color: inherit; font-weight: inherit; letter-spacing: -0.005em; }
 
   .page { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
 
@@ -77,8 +79,41 @@
     font-weight: 700; font-size: 24px; letter-spacing: -0.030em; color: var(--paper);
   }
   .wordmark .text { display: inline-flex; align-items: baseline; }
-  .wordmark .dot { color: var(--signal); }
+  .wordmark .dot { color: var(--signal); transition: opacity 220ms cubic-bezier(0.16, 1, 0.3, 1); }
+  .wordmark:hover .dot { animation: dot-pulse 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1; }
+  @keyframes dot-pulse {
+    0%, 70%, 100% { opacity: 1; }
+    35% { opacity: 0.35; }
+  }
   .wordmark .glyph { color: var(--signal); width: 30px; height: 28px; display: block; }
+  /* Wordmark glyph flutter: the 4 ellipses scale-pulse in sequence on hover */
+  .wordmark .glyph ellipse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: glyph-flutter 1.6s ease-in-out infinite;
+    animation-play-state: paused;
+  }
+  .wordmark .glyph ellipse:nth-of-type(1) { animation-delay: 0s; }
+  .wordmark .glyph ellipse:nth-of-type(2) { animation-delay: 0.10s; }
+  .wordmark .glyph ellipse:nth-of-type(3) { animation-delay: 0.20s; }
+  .wordmark .glyph ellipse:nth-of-type(4) { animation-delay: 0.30s; }
+  .wordmark:hover .glyph ellipse { animation-play-state: running; }
+  @keyframes glyph-flutter {
+    0%, 100% { transform: scaleY(0.86); }
+    50%      { transform: scaleY(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  .secnav a.on {
+    color: var(--signal) !important;
+    border-bottom-color: var(--signal) !important;
+  }
   .masthead-nav { display: flex; gap: 28px; align-items: center; justify-content: flex-end; }
   .masthead-nav a {
     font-size: 11px; font-weight: 600; letter-spacing: 0.10em;
@@ -103,7 +138,7 @@
 
   /* PAGE HERO ----------------------------------------------- */
   .page-hero {
-    padding: 56px 0 56px; border-bottom: 1px solid var(--line-2); position: relative;
+    padding: 40px 0 27px; border-bottom: 1px solid var(--line-2); position: relative;
   }
   .page-hero::before {
     content: ''; position: absolute; left: 0; right: 0; top: 0; height: 1px;
@@ -129,39 +164,36 @@
 
   /* IN-PAGE STICKY NAV -------------------------------------- */
   .secnav-wrap {
-    position: sticky; top: 65px; z-index: 30;
-    background: rgba(1, 1, 0, 0.94);
+    position: sticky; top: 70px; z-index: 30;
+    background: rgba(1, 1, 0, 0.92);
     backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--line-2);
   }
   .secnav {
     max-width: 1280px; margin: 0 auto; padding: 0 40px;
-    display: flex; gap: 0; align-items: stretch;
-    overflow-x: auto; scrollbar-width: none;
+    display: flex; gap: 32px; align-items: center;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
   .secnav::-webkit-scrollbar { display: none; }
   .secnav a {
-    padding: 19px 18px 14px;
-    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
-    color: var(--paper-3); text-transform: uppercase;
+    display: inline-flex; align-items: center;
+    padding: 14px 0 10px;
+    line-height: 1;
+    font-family: var(--mono);
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.10em; color: var(--paper-3);
+    text-transform: uppercase; white-space: nowrap;
     transition: color 180ms;
-    white-space: nowrap;
-    position: relative;
-    display: flex; align-items: center;
+    border-bottom: 1px solid transparent;
   }
   .secnav a:hover { color: var(--paper); }
-  .secnav a .idx {
-    color: var(--signal); margin-right: 8px; font-weight: 700;
-  }
-  .secnav a:not(:last-child)::after {
-    content: '·'; position: absolute; right: -4px; top: 50%;
-    transform: translateY(-50%);
-    color: var(--dim); line-height: 1;
-  }
+  .secnav .idx { color: var(--signal); margin-right: 8px; font-weight: 700; }
 
   /* CHAPTERS ------------------------------------------------ */
-  .chapter { padding: 72px 0; border-bottom: 1px solid var(--line-2); scroll-margin-top: 120px; }
-  .chapter:first-of-type { padding-top: 56px; }
+  .chapter { padding: 50px 0; border-bottom: 1px solid var(--line-2); scroll-margin-top: 120px; }
+  .chapter:first-of-type { padding-top: 40px; }
   .ch-head {
     display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
     gap: 64px; align-items: end; margin-bottom: 36px;
@@ -183,8 +215,6 @@
   .ch-tag {
     font-size: 19px; font-weight: 400; color: var(--paper);
     letter-spacing: -0.005em; line-height: 1.5; max-width: 52ch;
-    font-style: italic;
-    color: var(--paper-2);
   }
 
   /* CHAPTER SCREENSHOT ------------------------------------- */
@@ -196,6 +226,226 @@
     background: var(--ink-3);
   }
   .chapter-shot-light { display: none; }
+
+  /* MODE PRESETS GRID (per-app behavior) -------------------- */
+  .modes-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+    border: 1px solid var(--line-2); border-radius: 6px; overflow: hidden;
+  }
+  .mode {
+    padding: 24px 22px;
+    border-right: 1px solid var(--line-2);
+    border-bottom: 1px solid var(--line-2);
+    background: var(--ink-3);
+    display: flex; flex-direction: column; gap: 12px;
+    position: relative;
+  }
+  .mode:nth-child(3n) { border-right: 0; }
+  .mode:nth-last-child(-n+3) { border-bottom: 0; }
+  .mode .lbl {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .mode h4 {
+    font-weight: 700; font-size: 24px; color: var(--paper);
+    letter-spacing: -0.018em;
+  }
+  .mode h4 .sg { color: var(--signal); }
+  .mode p {
+    font-size: 15px; line-height: 1.55; color: var(--paper-2);
+    margin-top: auto;
+  }
+  .mode p b { color: var(--paper); font-weight: 600; }
+  .mode.default {
+    background:
+      radial-gradient(ellipse 60% 80% at 50% 0%, rgba(250, 227, 83, 0.06) 0%, transparent 70%),
+      var(--ink-3);
+  }
+  .mode.default h4 { color: var(--signal); }
+
+  /* WORKSPACE (on-disk archive mockup) --------------------- */
+  .workspace-frame {
+    margin-top: 40px;
+    border: 1px solid var(--line-2);
+    background: var(--ink-3);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 0 0 var(--line) inset, 0 30px 60px -30px rgba(0,0,0,0.6);
+  }
+  .workspace-tb {
+    display: grid; grid-template-columns: auto 1fr auto;
+    align-items: center; gap: 16px;
+    padding: 0 18px; height: 40px;
+    background: var(--ink-2);
+    border-bottom: 1px solid var(--line-2);
+    font-family: var(--mono);
+    font-size: 11px; font-weight: 500;
+    color: var(--paper-3);
+  }
+  .workspace-tb .wt-dots {
+    display: inline-flex; gap: 6px; align-items: center;
+  }
+  .workspace-tb .wt-dots i {
+    display: block; width: 9px; height: 9px; border-radius: 99px;
+    background: var(--line-3);
+  }
+  .workspace-tb .wt-path {
+    font-family: var(--mono);
+    font-size: 11px; color: var(--paper-2);
+    letter-spacing: -0.005em;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .workspace-tb .wt-path b { color: var(--signal); font-weight: 600; }
+  .workspace-tb .wt-meta {
+    color: var(--paper-3); font-size: 11px;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .workspace-tb .wt-meta .led {
+    width: 6px; height: 6px; border-radius: 99px; background: var(--ok);
+    box-shadow: 0 0 8px rgba(117,208,121,0.4);
+  }
+  .workspace-body {
+    display: grid; grid-template-columns: 280px 1fr; min-height: 460px;
+  }
+  .workspace-tree {
+    background: var(--ink-2);
+    border-right: 1px solid var(--line-2);
+    padding: 16px 0;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.8;
+    overflow: hidden;
+  }
+  .workspace-tree ul { list-style: none; padding: 0; margin: 0; }
+  .workspace-tree li {
+    padding: 2px 18px 2px 16px;
+    color: var(--paper-2);
+    display: flex; align-items: center; gap: 8px;
+    letter-spacing: -0.005em;
+  }
+  .workspace-tree li.folder { color: var(--paper); font-weight: 600; }
+  .workspace-tree li.folder.l1 { padding-left: 16px; }
+  .workspace-tree li.folder.l2 { padding-left: 32px; }
+  .workspace-tree li.file { padding-left: 32px; color: var(--paper-2); }
+  .workspace-tree li.file.l2 { padding-left: 48px; }
+  .workspace-tree li.file.active {
+    background: rgba(250,227,83,0.08);
+    color: var(--signal);
+    box-shadow: inset 2px 0 0 var(--signal);
+  }
+  .workspace-tree li .ico {
+    width: 14px; height: 14px; flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--paper-3);
+  }
+  .workspace-tree li.folder .ico { color: var(--signal); }
+  .workspace-tree li.file.active .ico { color: var(--signal); }
+  .workspace-tree li.section-break {
+    margin-top: 10px; padding-top: 10px;
+    border-top: 1px dashed var(--line-2);
+  }
+  .workspace-editor {
+    display: flex; flex-direction: column; min-height: 0;
+    background: var(--ink-3);
+  }
+  .we-tb {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 22px;
+    border-bottom: 1px solid var(--line-2);
+    background: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--paper-3);
+  }
+  .we-tb .we-file { color: var(--paper); font-weight: 600; letter-spacing: -0.005em; }
+  .we-tb .we-meta { display: inline-flex; gap: 16px; align-items: center; }
+  .we-tb .we-meta .saved {
+    display: inline-flex; align-items: center; gap: 6px; color: var(--ok);
+  }
+  .we-tb .we-meta .saved::before {
+    content: ''; width: 5px; height: 5px; border-radius: 99px; background: var(--ok);
+  }
+  .we-body {
+    padding: 22px 28px 28px;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--paper);
+    letter-spacing: -0.005em;
+    flex: 1;
+    overflow: hidden;
+    white-space: pre-wrap;
+    margin: 0;
+  }
+  .we-body .md-h1 {
+    display: block;
+    font-family: var(--sans);
+    font-size: 24px; font-weight: 700;
+    color: var(--paper); letter-spacing: -0.020em;
+    margin: 0 0 18px;
+    line-height: 1.15;
+  }
+  .we-body .md-h1::before {
+    content: '# '; color: var(--signal); font-family: var(--mono); font-weight: 500;
+  }
+  .we-body .md-h2 {
+    display: block;
+    font-family: var(--sans);
+    font-size: 15px; font-weight: 700;
+    color: var(--paper); letter-spacing: -0.005em;
+    margin: 22px 0 10px;
+  }
+  .we-body .md-h2::before {
+    content: '## '; color: var(--signal); font-family: var(--mono); font-weight: 500;
+  }
+  .we-body .md-bullet {
+    display: block;
+    padding-left: 20px;
+    position: relative;
+    color: var(--paper-2);
+    margin-bottom: 4px;
+  }
+  .we-body .md-bullet::before {
+    content: '-'; position: absolute; left: 0; color: var(--signal); font-weight: 600;
+  }
+  .we-body .md-p {
+    display: block;
+    color: var(--paper-2);
+    margin-bottom: 14px;
+    font-family: var(--sans); font-size: 14px; line-height: 1.6;
+    letter-spacing: -0.003em;
+  }
+  .workspace-caps {
+    margin-top: 28px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+  }
+  .ws-cap {
+    padding: 0 24px;
+    border-right: 1px solid var(--line-2);
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .ws-cap:first-child { padding-left: 0; }
+  .ws-cap:last-child { border-right: 0; padding-right: 0; }
+  .ws-cap .ext {
+    font-family: var(--mono); font-size: 12px;
+    color: var(--signal); font-weight: 600;
+    letter-spacing: 0.02em;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .ws-cap .ext::before {
+    content: ''; display: block; width: 10px; height: 10px;
+    background: currentColor; opacity: 0.18;
+    border-radius: 2px;
+  }
+  .ws-cap .ttl {
+    font-size: 17px; font-weight: 700; color: var(--paper);
+    letter-spacing: -0.005em; line-height: 1.25;
+  }
+  .ws-cap .desc {
+    font-size: 14px; line-height: 1.5; color: var(--paper-2);
+    letter-spacing: -0.003em;
+  }
+  .ws-cap .desc b { color: var(--paper); font-weight: 600; }
 
   /* FEATURE GRID ------------------------------------------ */
   .feature-grid {
@@ -253,9 +503,9 @@
 
   /* FINAL CTA ----------------------------------------------- */
   .final {
-    padding: 96px 0; text-align: center; position: relative;
+    padding: 64px 0; text-align: center; position: relative;
     border-bottom: 1px solid var(--line-2);
-    background: radial-gradient(ellipse 65% 75% at 50% 0%, rgba(250,227,83,0.20) 0%, rgba(250,227,83,0.04) 45%, transparent 75%);
+    background: var(--ink-2);
   }
   .final .notify { margin: 0 auto; }
   .final h2 {
@@ -351,50 +601,50 @@
   }
   .tonelab-mode {
     appearance: none; background: transparent; border: 0;
-    padding: 18px 16px; cursor: pointer;
+    padding: 13px 14px; cursor: pointer;
     font-family: inherit; font-size: 11px; font-weight: 700;
     letter-spacing: 0.10em; text-transform: uppercase;
-    color: var(--paper-3); text-align: left;
+    color: var(--paper); text-align: left;
     border-right: 1px solid var(--line-2);
     transition: background 180ms, color 180ms;
   }
   .tonelab-mode:last-child { border-right: 0; }
-  .tonelab-mode:hover { color: var(--paper); background: var(--ink-2); }
+  .tonelab-mode:hover { background: var(--ink-2); }
   .tonelab-mode.on { color: var(--signal); background: var(--ink-2); }
   .tonelab-mode .mode-num {
-    display: block; font-size: 11px; font-weight: 700;
-    color: var(--paper-3); opacity: 0.45; margin-bottom: 6px;
+    display: inline-block; font-size: 11px; font-weight: 700;
+    color: var(--paper-3); opacity: 0.55; margin-right: 8px;
     letter-spacing: 0.10em;
   }
   .tonelab-mode.on .mode-num { color: var(--signal); opacity: 0.7; }
-  .tonelab-body { padding: 36px 32px 24px; }
+  .tonelab-body { padding: 22px 28px 11px; }
   .tonelab-raw {
-    font-size: 15px; color: var(--paper-3);
-    letter-spacing: -0.005em; line-height: 1.6;
-    padding-bottom: 22px; margin-bottom: 22px;
+    font-size: 14px; color: var(--paper-3);
+    letter-spacing: -0.005em; line-height: 1.55;
+    padding-bottom: 16px; margin-bottom: 16px;
     border-bottom: 1px dashed var(--line-2);
   }
   .tonelab-raw .raw-label {
     display: block; font-size: 11px; font-weight: 700;
     letter-spacing: 0.10em; text-transform: uppercase;
-    color: var(--mist); margin-bottom: 8px;
+    color: var(--mist); margin-bottom: 6px;
   }
   .tonelab-polished {
-    font-size: 24px; font-weight: 500; color: var(--paper);
-    letter-spacing: -0.018em; line-height: 1.4;
-    min-height: 110px;
+    font-size: 19px; font-weight: 500; color: var(--paper);
+    letter-spacing: -0.014em; line-height: 1.4;
+    min-height: 48px;
   }
   .tonelab-polished .polished-label {
     display: block; font-size: 11px; font-weight: 700;
     letter-spacing: 0.10em; text-transform: uppercase;
-    color: var(--signal); margin-bottom: 12px;
+    color: var(--signal); margin-bottom: 8px;
   }
   .tonelab-polished .polished-text { display: block; transition: opacity 180ms; }
   .tonelab-footnote {
-    padding: 16px 32px; border-top: 1px solid var(--line-2);
+    padding: 12px 28px; border-top: 1px solid var(--line-2);
     background: var(--ink-4);
     font-size: 11px; color: var(--paper-3); letter-spacing: 0.02em;
-    line-height: 1.6;
+    line-height: 1.55;
   }
   .tonelab-footnote b { color: var(--paper); font-weight: 700; }
 
@@ -488,17 +738,128 @@
     .masthead-nav a:not(.buy) { display: none; }
     .secnav-wrap { margin: 0; }
     .secnav { padding: 0 22px; }
-    .page-hero { padding: 40px 0 40px; }
-    .chapter { padding: 56px 0; }
-    .chapter:first-of-type { padding-top: 40px; }
+    .page-hero { padding: 40px 0 21px; }
+    .chapter { padding: 44px 0; }
+    .chapter:first-of-type { padding-top: 32px; }
     .ch-head { grid-template-columns: 1fr; gap: 18px; margin-bottom: 32px; }
     .feature-grid { grid-template-columns: 1fr; }
+    .modes-grid { grid-template-columns: 1fr 1fr; }
+    .mode { border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
+    .mode:nth-child(3n) { border-right: 1px solid var(--line-2); }
+    .mode:nth-child(2n) { border-right: 0; }
+    .mode:nth-last-child(-n+2) { border-bottom: 0; }
+    .mode:nth-last-child(-n+3):nth-child(odd) { border-bottom: 1px solid var(--line-2); }
+    .workspace-body { grid-template-columns: 1fr; min-height: 0; }
+    .workspace-tree { border-right: 0; border-bottom: 1px solid var(--line-2); padding: 10px 0; }
+    .workspace-tree li { line-height: 1.6; }
+    .workspace-caps { grid-template-columns: 1fr; gap: 0; }
+    .ws-cap { padding: 18px 0; border-right: 0; border-bottom: 1px solid var(--line-2); }
+    .ws-cap:first-child { padding-top: 0; }
+    .ws-cap:last-child { border-bottom: 0; padding-bottom: 0; }
     .recall-stats { grid-template-columns: 1fr; gap: 28px; }
     .recall-stat .stat-num { font-size: 48px; }
-    .final { padding: 64px 0; }
+    .final { padding: 48px 0; }
+    .page-hero .hero-wedge { grid-template-columns: 1fr 1fr; gap: 0; }
+    .page-hero .wedge { padding: 16px 18px; border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
+    .page-hero .wedge:nth-child(2n) { border-right: 0; padding-right: 0; }
+    .page-hero .wedge:nth-child(2n+1) { padding-left: 0; }
+    .page-hero .wedge:nth-last-child(-n+2) { border-bottom: 0; padding-bottom: 0; }
   }
   @media (min-width: 981px) and (max-width: 1200px) {
     .feature-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* PAGE-HERO WEDGE STRIP */
+  .page-hero .hero-wedge {
+    margin-top: 44px; padding-top: 32px;
+    border-top: 1px solid var(--line-2);
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    max-width: 1280px;
+  }
+  .page-hero .wedge {
+    display: flex; flex-direction: column; gap: 10px;
+    padding: 0 28px;
+    border-right: 1px solid var(--line-2);
+  }
+  .page-hero .wedge:first-child { padding-left: 0; }
+  .page-hero .wedge:last-child { border-right: 0; padding-right: 0; }
+  .page-hero .wedge .eb {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .page-hero .wedge .v {
+    font-weight: 800; font-size: clamp(26px, 2.6vw, 36px);
+    line-height: 1.0; letter-spacing: -0.024em; color: var(--signal);
+  }
+  .page-hero .wedge .sub {
+    font-size: 13px; line-height: 1.45; color: var(--paper-2);
+    letter-spacing: -0.003em;
+  }
+  .page-hero .wedge .sub b { font-weight: 700; color: var(--paper); }
+
+  /* CUSTOM HUD: a CSS recreation of the live recording HUD, with breathing waveform */
+  .hud-mock-wrap {
+    margin: 36px 0 0;
+    display: flex; justify-content: center;
+    padding: 56px 24px;
+    background: var(--ink-2);
+    border: 1px solid var(--line-2);
+    border-radius: 8px;
+    position: relative;
+  }
+  .hud-mock-wrap::before {
+    content: 'live HUD';
+    position: absolute; top: 14px; left: 18px;
+    font-family: var(--mono); font-size: 10px;
+    font-weight: 700; letter-spacing: 0.12em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .hud-mock {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 11px 18px;
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 999px;
+    box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.7), 0 2px 4px rgba(0, 0, 0, 0.4);
+  }
+  .hud-mock .hud-glyph {
+    display: inline-flex; width: 22px; height: 20px;
+    color: var(--signal);
+  }
+  .hud-mock .hud-glyph svg { width: 100%; height: 100%; display: block; }
+  .hud-mock .hud-glyph ellipse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: hud-breathe 1.6s ease-in-out infinite;
+  }
+  .hud-mock .hud-glyph ellipse:nth-of-type(1) { animation-delay: 0s; }
+  .hud-mock .hud-glyph ellipse:nth-of-type(2) { animation-delay: 0.10s; }
+  .hud-mock .hud-glyph ellipse:nth-of-type(3) { animation-delay: 0.20s; }
+  .hud-mock .hud-glyph ellipse:nth-of-type(4) { animation-delay: 0.30s; }
+  @keyframes hud-breathe {
+    0%, 100% { transform: scaleY(0.78); }
+    50%      { transform: scaleY(1); }
+  }
+  .hud-mock .hud-state {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 12px; font-weight: 600;
+    color: #ede7df; letter-spacing: 0.02em;
+  }
+  .hud-mock .hud-state .hud-led {
+    width: 8px; height: 8px; border-radius: 99px;
+    background: #ea6a64;
+    box-shadow: 0 0 0 2px rgba(234, 106, 100, 0.22), 0 0 10px rgba(234, 106, 100, 0.55);
+    animation: hud-pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes hud-pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.5; }
+  }
+  .hud-mock .hud-time {
+    font-family: var(--mono); font-size: 12px; font-weight: 500;
+    color: #9b948d; letter-spacing: 0.05em;
+    padding-left: 12px;
+    border-left: 1px solid #333;
   }
 </style>
 <style>
@@ -526,6 +887,25 @@
     .hero-eyebrow .ti, .pill { font-size: 11px !important; }
     .hero { padding: 24px 0 36px !important; }
     .chapter, .versus, .pricing, .langs { padding: 40px 0 !important; }
+    .workspace-frame { margin-top: 28px !important; border-radius: 6px !important; }
+    .workspace-tb { padding: 0 14px !important; height: 36px !important; gap: 10px !important; }
+    .workspace-tb .wt-path { font-size: 10px !important; }
+    .workspace-tb .wt-meta { font-size: 10px !important; }
+    .workspace-tree { font-size: 11px !important; padding: 8px 0 !important; }
+    .workspace-tree li { padding: 2px 12px !important; }
+    .workspace-tree li.folder.l1 { padding-left: 12px !important; }
+    .workspace-tree li.folder.l2 { padding-left: 24px !important; }
+    .workspace-tree li.file { padding-left: 24px !important; }
+    .workspace-tree li.file.l2 { padding-left: 36px !important; }
+    .we-tb { padding: 8px 14px !important; font-size: 10px !important; gap: 10px !important; flex-wrap: wrap; }
+    .we-body { padding: 16px 18px !important; font-size: 12px !important; }
+    .we-body .md-h1 { font-size: 20px !important; margin-bottom: 12px !important; }
+    .we-body .md-h2 { font-size: 14px !important; margin: 16px 0 8px !important; }
+    .we-body .md-p { font-size: 13px !important; }
+    .workspace-caps { margin-top: 18px !important; }
+    .ws-cap { padding: 14px 0 !important; }
+    .ws-cap .ttl { font-size: 15px !important; }
+    .ws-cap .desc { font-size: 13px !important; }
     .bar-row .bar-label { font-size: 15px !important; }
     .bar-val { font-size: 24px !important; }
     .how-card { min-height: 0 !important; padding: 20px !important; }
@@ -549,30 +929,10 @@
     .price-card { min-height: 0 !important; padding: 22px !important; }
     .price-card .px { font-size: 40px !important; }
     .final { padding: 56px 0 !important; }
-    /* Section nav: wrap all 8 chapters into a 4×2 grid so nothing is
-       hidden off-screen. Number stacks above the label so long names like
-       "Vocabulary" still fit at this width. */
     .secnav-wrap { top: 56px; }
-    .secnav {
-      display: grid !important;
-      grid-template-columns: repeat(3, 1fr);
-      overflow: visible !important;
-    }
-    .secnav a {
-      padding: 16px 4px 14px !important;
-      font-size: 11px !important;
-      letter-spacing: 0.06em !important;
-      text-align: center;
-      display: flex; flex-direction: column; align-items: center; gap: 4px;
-      line-height: 1.15;
-      border-right: 1px solid var(--line-2);
-      border-bottom: 1px solid var(--line-2);
-      white-space: nowrap;
-    }
-    .secnav a:not(:last-child)::after { display: none !important; }
-    .secnav a:nth-child(3n) { border-right: 0; }
-    .secnav a:nth-last-child(-n+3) { border-bottom: 0; }
-    .secnav a .idx { margin: 0 !important; font-size: 11px; opacity: 0.9; }
+    .secnav { padding: 0 18px; gap: 18px; }
+    .secnav a { padding: 11px 0 7px; font-size: 10px; letter-spacing: 0.06em; }
+    .secnav .idx { margin-right: 5px; }
     .colophon { font-size: 11px; gap: 14px; }
     .keep-file { grid-template-columns: 1fr !important; gap: 8px !important; }
     .cost-head, .cost-row { grid-template-columns: 1fr !important; gap: 4px !important; padding: 14px 18px !important; }
@@ -662,13 +1022,13 @@
   }
 </style>
 </head>
-<body data-new-gr-c-s-check-loaded="14.1292.0" data-gr-ext-installed="" style="" data-new-gr-c-s-loaded="14.1292.0">
+<body>
 
 <div class="page" id="top">
 
   <!-- MASTHEAD -->
   <header class="masthead">
-    <a href="/" class="wordmark">
+    <a href="index.html" class="wordmark">
       <svg class="glyph" viewBox="0 0 53 52" aria-hidden="true">
         <g fill="none" stroke="currentColor">
           <circle cx="4" cy="26" r="3.5" fill="currentColor" stroke="none"></circle>
@@ -712,45 +1072,39 @@
       <a href="#vocabulary"><span class="idx">03</span>Vocabulary</a>
       <a href="#app-aware"><span class="idx">04</span>App-aware</a>
       <a href="#recall"><span class="idx">05</span>Recall</a>
-      <a href="#privacy-ctrl"><span class="idx">06</span>Privacy</a>
+      <a href="#workspace"><span class="idx">06</span>Workspace</a>
+      <a href="#privacy-ctrl"><span class="idx">07</span>Privacy</a>
+      <a href="#backends"><span class="idx">08</span>Backends</a>
     </nav>
   </div>
+
+  <main>
 
   <!-- 01 · CAPTURE -->
   <section class="chapter" id="capture">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Capture · <b>001</b></div>
+        <div class="ch-eyebrow">Capture</div>
         <h2>The dictation loop.</h2>
       </div>
-      <div class="ch-tag" style="" spellcheck="false">Hotkeys, HUD, hands-free toggle. <br>The plumbing that gets your voice into Auris.</div>
+      <div class="ch-tag">Hotkeys, HUD, hands-free toggle. <br>The plumbing that gets your voice into Auris.</div>
     </div>
 
     <div class="feature-grid">
       <article class="feature featured">
         <span class="dot" aria-hidden="true"></span>
         <h4>Hold-to-talk.</h4>
-        <p spellcheck="false" style="">Press and hold <span class="kbd-inline">Ctrl</span>+<span class="kbd-inline">Cmd</span> on Mac<div><span class="kbd-inline">Ctrl</span><span style="letter-spacing: -0.002em;">+</span><span class="kbd-inline">Win</span><span style="letter-spacing: -0.002em;"> on Windows. </span><b style="letter-spacing: -0.002em;">Speak. Release.</b></div></p>
+        <p>Press and hold <span class="kbd-inline">Ctrl</span>+<span class="kbd-inline">Cmd</span> on Mac, <span class="kbd-inline">Ctrl</span>+<span class="kbd-inline">Win</span> on Windows. <b>Speak. Release.</b></p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
         <h4>Hands-free toggle.</h4>
-        <p style="" spellcheck="false">Tap to start, tap to stop.&nbsp;<div>Or <b>stay quiet</b> and auto-stop kicks in.</div></p>
-      </article>
-      <article class="feature">
-        <span class="dot" aria-hidden="true"></span>
-        <h4>Replay-polish.</h4>
-        <p>Tap <span class="kbd-inline">Ctrl</span>+<span class="kbd-inline">Z</span> to <b>re-polish the last raw transcript</b> with your current settings. Polish went wrong? Tweak it and try again.</p>
+        <p>Tap to start, tap to stop. Or <b>stay quiet</b> and auto-stop kicks in.</p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
         <h4>Dictation HUD.</h4>
-        <p>A small indicator pulses with your mic level. <b style=""><br>Click-through, multi-monitor aware.</b></p>
-      </article>
-      <article class="feature">
-        <span class="dot" aria-hidden="true"></span>
-        <h4>Mic handling.</h4>
-        <p style="" spellcheck="false">Any input device. <b>Survives USB reconnects.</b>&nbsp;<div>Respects the OS privacy toggle.</div></p>
+        <p>A small indicator pulses with your mic level. <b><br>Click-through, multi-monitor aware.</b></p>
       </article>
     </div>
   </section>
@@ -759,18 +1113,18 @@
   <section class="chapter" id="polish">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Polish · <b>002</b></div>
+        <div class="ch-eyebrow">Polish</div>
         <h2>Raw transcript to clean text.</h2>
       </div>
-      <div class="ch-tag">One dictation. Four polishing modes. Click a mode to see what the same words become.</div>
+      <div class="ch-tag">One dictation. Four polishing modes.<br>Click a mode to see what the same words become.</div>
     </div>
 
     <div class="tonelab" role="region" aria-label="Tone lab demo">
       <div class="tonelab-modes" role="tablist">
         <button class="tonelab-mode on" data-mode="formal" role="tab" type="button"><span class="mode-num">01</span>Formal</button>
         <button class="tonelab-mode" data-mode="casual" role="tab" type="button"><span class="mode-num">02</span>Casual</button>
-        <button class="tonelab-mode" data-mode="technical" role="tab" type="button"><span class="mode-num">03</span>Technical</button>
-        <button class="tonelab-mode" data-mode="friendly" role="tab" type="button"><span class="mode-num">04</span>Friendly</button>
+        <button class="tonelab-mode" data-mode="minimal" role="tab" type="button"><span class="mode-num">03</span>Minimal</button>
+        <button class="tonelab-mode" data-mode="email" role="tab" type="button"><span class="mode-num">04</span>Email</button>
       </div>
       <div class="tonelab-body">
         <div class="tonelab-raw">
@@ -783,97 +1137,240 @@
         </div>
       </div>
       <div class="tonelab-footnote">
-        <b>Plus:</b> choice of model (Anthropic, OpenAI, Groq, Ollama, LM Studio), seven cleanup toggles, five output formats, role-break guard, polish bench for testing settings on pasted text.
+        <b>Plus:</b> choice of model (Anthropic, OpenAI, Groq, Ollama), five output formats, role-break guard, polish bench for testing settings on pasted text.
       </div>
     </div>
 
-    <img class="chapter-shot chapter-shot-dark" src="assets/screenshots/polish-settings-editorial.png" alt="Auris Style panel showing tone sliders for Formality, Conciseness, and Assertiveness alongside cleanup toggles">
+    <div class="feature-grid" style="margin-top: 32px;">
+      <article class="feature">
+        <span class="dot" aria-hidden="true"></span>
+        <h4>Remove fillers.</h4>
+        <p>Strip <span class="sg">"um, uh, like, you know"</span> from every transcript automatically.</p>
+      </article>
+      <article class="feature">
+        <span class="dot" aria-hidden="true"></span>
+        <h4>Fix grammar + punctuation.</h4>
+        <p><b>Subject-verb agreement,</b> missing commas, run-on sentences.</p>
+      </article>
+      <article class="feature">
+        <span class="dot" aria-hidden="true"></span>
+        <h4>Expand contractions.</h4>
+        <p>"Don't" becomes <span class="sg">"do not"</span> when you want a formal register.</p>
+      </article>
+      <article class="feature">
+        <span class="dot" aria-hidden="true"></span>
+        <h4>Auto-capitalize.</h4>
+        <p>First letter of every sentence. <b>No thinking required.</b></p>
+      </article>
+      <article class="feature">
+        <span class="dot" aria-hidden="true"></span>
+        <h4>Remove em-dashes.</h4>
+        <p>No em-dashes anywhere. <span class="sg">Periods and commas only.</span></p>
+      </article>
+      <article class="feature">
+        <span class="dot" aria-hidden="true"></span>
+        <h4>Auto-format.</h4>
+        <p>Code blocks, lists, and links <b>formatted on the fly.</b></p>
+      </article>
+    </div>
   </section>
 
   <!-- 03 · VOCABULARY -->
   <section class="chapter" id="vocabulary">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Vocabulary · <b>003</b></div>
+        <div class="ch-eyebrow">Vocabulary</div>
         <h2>Words it learns.</h2>
       </div>
-      <div class="ch-tag" style="" spellcheck="false">Dictionaries, snippets, domain packs, brand voices. <br>Auris speaks your dialect.</div>
+      <div class="ch-tag">Dictionaries, snippets, domain packs, brand voices. <br>Auris speaks your dialect.</div>
     </div>
 
     <div class="feature-grid">
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
         <h4>Custom dictionary.</h4>
-        <p style="" spellcheck="false">Add words manually, or <b style=""><br>let Auris learn from your edits.</b></p>
+        <p>Add words manually, or <b><br>let Auris learn from your edits.</b></p>
       </article>
       <article class="feature featured">
         <span class="dot" aria-hidden="true"></span>
         <h4>Auto-learn.</h4>
-        <p style="" spellcheck="false">Fix a word in any app within <b>five minutes;</b> <br>Auris adds the correction.</p>
+        <p>Fix a word in any app within <b>five minutes;</b> <br>Auris adds the correction.</p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
         <h4>Snippets.</h4>
-        <p style="" spellcheck="false">Spoken triggers expand to longer text. <br><span class="sg">Variables for date, time, clipboard.</span></p>
+        <p>Spoken triggers expand to longer text. <br><span class="sg">Variables for date, time, clipboard.</span></p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Six domain packs.</h4>
-        <p>Healthcare, Legal, Finance, SEO, Tech, YouTube. <b style=""><br>Pin one as default.</b></p>
+        <h4>Domain Profiles.</h4>
+        <p>Healthcare, Legal, Finance, SEO, Tech, YouTube. <b>Create your own,</b> or pin one as default.</p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
         <h4>Brand voices.</h4>
-        <p>Upload a Markdown style guide. <b style=""><br>Switch between voices per project.</b></p>
+        <p>Upload a Markdown style guide. <b><br>Switch between voices per project.</b></p>
+      </article>
+      <article class="feature">
+        <span class="dot" aria-hidden="true"></span>
+        <h4>Plain-text files.</h4>
+        <p>Dictionary and snippets are <b>files on your machine.</b><br>Edit them directly if you want.</p>
       </article>
     </div>
 
-    <img class="chapter-shot chapter-shot-dark" src="assets/screenshots/dictionary-auto-editorial.png" alt="Auris Dict tab showing the custom dictionary and snippets side by side, with auto-learned corrections labeled and a recap-template snippet expanded">
-    <img class="chapter-shot chapter-shot-dark" src="assets/screenshots/brand-voice-editorial.png" alt="Auris Brand tab showing brand voice configurations with style guide rules">
   </section>
 
   <!-- 04 · APP-AWARE -->
   <section class="chapter" id="app-aware">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">App-aware · <b>004</b></div>
-        <h2>Polish per <em class="sig">app.</em></h2>
+        <div class="ch-eyebrow">App-aware</div>
+        <h2>Different apps, different <em class="sig">polish.</em></h2>
       </div>
-      <div class="ch-tag">Mode, tone, format, language, free-text override. Stack the five per app. Auris reads which app has focus and applies the right preset.</div>
+      <div class="ch-tag">A casual Slack message and a board update email shouldn't sound the same. Auris ships with six app-aware mode presets.</div>
     </div>
 
-    <img class="chapter-shot chapter-shot-dark" src="assets/screenshots/app-aware-modes-editorial.png" alt="Auris App-aware modes panel with real per-app rows: excel, notepad, outlook on email-mode, slack on casual, teams, vscode on code-mode, word. Each row has dropdowns for Mode, Tone, Format, Language plus edit and remove links.">
+    <div class="modes-grid">
+      <article class="mode">
+        <span class="lbl">Mode · 01</span>
+        <h4>Default.</h4>
+        <p>The global slider settings apply. Most apps you don't override end up here.</p>
+      </article>
+      <article class="mode">
+        <span class="lbl">Mode · 02</span>
+        <h4>Formal.</h4>
+        <p>Formality and assertiveness pushed up. Email clients, document editors, board updates.</p>
+      </article>
+      <article class="mode">
+        <span class="lbl">Mode · 03</span>
+        <h4>Casual.</h4>
+        <p>Formality pushed down. Chat apps: Slack, Discord, Messages.</p>
+      </article>
+      <article class="mode">
+        <span class="lbl">Mode · 04</span>
+        <h4>Minimal.</h4>
+        <p>Only fixes typos and grammar. Leaves your phrasing alone.</p>
+      </article>
+      <article class="mode default">
+        <span class="lbl">Mode · 05</span>
+        <h4>Code<span class="sg">.</span></h4>
+        <p>Preserves quotes and brackets. Doesn't auto-capitalize identifiers. Terminals and editors.</p>
+      </article>
+      <article class="mode">
+        <span class="lbl">Mode · 06</span>
+        <h4>Email.</h4>
+        <p>Full sentences, signature-ready phrasing. Mail, Outlook, Gmail.</p>
+      </article>
+    </div>
+
+    <p class="ch-body" style="margin-top: 24px; max-width: 64ch;">
+      Assign any mode to any app. <b>Override</b> with custom rules for anything specific.
+    </p>
+    <img class="chapter-shot chapter-shot-dark" src="assets/screenshots/app-aware-modes-editorial.png" alt="Auris app-aware modes panel: rows for excel, notepad, outlook, slack, teams, vscode, word, each with Mode, Tone, Format, and Language selects plus per-row edit and remove links.">
   </section>
 
   <!-- 05 · RECALL -->
   <section class="chapter" id="recall">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Recall · <b>005</b></div>
+        <div class="ch-eyebrow">Recall</div>
         <h2>Past dictations, <em class="sig">measured.</em></h2>
       </div>
-      <div class="ch-tag">No cloud, no telemetry. Your history is a local file you can search, edit, and re-polish.</div>
+      <div class="ch-tag">No cloud, no telemetry.<br>Your history is a local file you can search, edit, and re-polish.</div>
     </div>
 
     <img class="chapter-shot chapter-shot-dark" src="assets/screenshots/insights-editorial.png" alt="Auris Insights tab showing 3.7 hours time saved, 3.2 times faster than typing, 13,288 total words dictated, 5-day streak, top apps bar chart, and backend latency stats">
-    <span class="recall-aside">History · Inline editing · Range filters · Insights · Time saved</span>
+    <p class="ch-body" style="margin-top: 22px; max-width: 70ch;">
+      <b>History · Inline editing · Range filters · Top-apps chart · Backend latency.</b> Every dictation goes to <code style="font-family: var(--mono); font-size: 14px; padding: 1px 6px; background: var(--ink-3); border: 1px solid var(--line-2); border-radius: 3px;">history.jsonl</code> in your Auris folder. Grep it, edit it, delete the file to wipe history.
+    </p>
   </section>
 
-  <!-- 06 · PRIVACY CONTROLS -->
+  <!-- 06 · WORKSPACE -->
+  <section class="chapter" id="workspace">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Workspace</div>
+        <h2>Open the folder. <em class="sig">Read the files.</em></h2>
+      </div>
+      <div class="ch-tag">Memos are real <b>.md</b> files. History is one <b>.jsonl</b>. Dictionary is plain <b>.json</b>. Auris owns nothing. Open them in any editor, sync them via Dropbox or git, version them however you like.</div>
+    </div>
+
+    <div class="workspace-frame">
+      <div class="workspace-tb" aria-hidden="true">
+        <span class="wt-dots"><i></i><i></i><i></i></span>
+        <span class="wt-path">~/Library/Application Support/<b>Auris</b>/memos/20260516-141022-a7f3.md</span>
+        <span class="wt-meta"><span class="led"></span>local · 1.2 MB</span>
+      </div>
+      <div class="workspace-body">
+        <aside class="workspace-tree" aria-label="Project files">
+          <ul>
+            <li class="folder l1"><span class="ico">▾</span> Auris</li>
+            <li class="file l2"><span class="ico">{ }</span> config.json</li>
+            <li class="file l2"><span class="ico">[ ]</span> history.jsonl</li>
+            <li class="file l2"><span class="ico">{ }</span> dictionary.json</li>
+            <li class="folder l2"><span class="ico">▾</span> memos</li>
+            <li class="file l2 active" style="padding-left: 48px;"><span class="ico">·md</span> 20260516-141022-a7f3.md</li>
+            <li class="file l2" style="padding-left: 48px;"><span class="ico">·md</span> 20260516-093014-b2e1.md</li>
+            <li class="file l2" style="padding-left: 48px;"><span class="ico">·md</span> 20260514-180533-c8d4.md</li>
+            <li class="file l2" style="padding-left: 48px;"><span class="ico">·md</span> 20260513-094412-d5a9.md</li>
+            <li class="file l2" style="padding-left: 48px;"><span class="ico">·md</span> 20260512-201907-e1b7.md</li>
+            <li class="folder l2"><span class="ico">▾</span> vocabularies</li>
+            <li class="file l2" style="padding-left: 48px;"><span class="ico">{ }</span> work-stack.json</li>
+            <li class="file l2" style="padding-left: 48px;"><span class="ico">{ }</span> medical-terms.json</li>
+            <li class="section-break folder l1"><span class="ico">▾</span> .git</li>
+            <li class="file l2"><span class="ico">·</span> HEAD</li>
+            <li class="file l2"><span class="ico">·</span> config</li>
+          </ul>
+        </aside>
+        <main class="workspace-editor">
+          <div class="we-tb">
+            <span class="we-file">20260516-141022-a7f3.md</span>
+            <span class="we-meta">
+              <span>markdown · 14 lines</span>
+              <span class="saved">saved 2m ago</span>
+            </span>
+          </div>
+          <div class="we-body">
+<span class="md-h1">Migration recap</span><span class="md-p">Spoke through what happened with the auth migration so we have a clean record before the team retro on Thursday.</span><span class="md-h2">What we covered</span><span class="md-bullet">Token validation order was the root cause</span><span class="md-bullet">Caught it in staging, never hit production</span><span class="md-bullet">Two days lost, no customer impact</span><span class="md-h2">Decisions</span><span class="md-bullet">Add an integration test for the validation order</span><span class="md-bullet">Pair on the next migration end-to-end</span><span class="md-h2">Next steps</span><span class="md-bullet">Write the test today</span><span class="md-bullet">Schedule the next migration window for Friday</span>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <div class="workspace-caps">
+      <div class="ws-cap">
+        <span class="ext">memos/*.md</span>
+        <span class="ttl">One Markdown file per memo.</span>
+        <span class="desc">Open in <b>Obsidian, VS Code, iA Writer, Word, Notion</b>, or anything else that handles Markdown. Sync your <b>memos/</b> folder via Dropbox, iCloud, or git.</span>
+      </div>
+      <div class="ws-cap">
+        <span class="ext">history.jsonl</span>
+        <span class="ttl">Every dictation, one line each.</span>
+        <span class="desc">Plain newline-delimited JSON. <b>Grep it. Pipe it to <span style="font-family: var(--mono);">jq</span>.</b> Audit your own usage. Delete the file to wipe history, or trim it line-by-line.</span>
+      </div>
+      <div class="ws-cap">
+        <span class="ext">dictionary.json</span>
+        <span class="ttl">Plain JSON. Edit by hand.</span>
+        <span class="desc">Your custom vocabulary, snippets, and auto-learned corrections live here. Version it with your dotfiles, share it across machines, fork it for a teammate.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 · PRIVACY CONTROLS -->
   <section class="chapter" id="privacy-ctrl">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Privacy · <b>006</b></div>
+        <div class="ch-eyebrow">Privacy</div>
         <h2>Flip per session.</h2>
       </div>
-      <div class="ch-tag" spellcheck="false" style="">Redact patterns, force offline, audit the network, archive or delete.</div>
+      <div class="ch-tag">Redact patterns, force offline, audit the network, archive or delete.</div>
     </div>
 
     <div class="feature-grid">
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
         <h4>Pattern redaction.</h4>
-        <p>Email, phone, SSN, credit card. <b>Add your own regex.</b></p>
+        <p>Email, phone, SSN, credit card.<br><b>Add your own regex.</b></p>
       </article>
       <article class="feature featured">
         <span class="dot" aria-hidden="true"></span>
@@ -901,7 +1398,72 @@
         <p>One-click destructive reset. <span class="sg">No undo.</span></p>
       </article>
     </div>
-    <img class="chapter-shot chapter-shot-dark" src="assets/screenshots/whisper-models-editorial.png" alt="Auris Whisper model picker showing five local STT options — tiny (39 MB, fastest), base (74 MB, fast, selected and downloaded), small (244 MB, balanced, downloaded), medium (769 MB, slower), large-v3 (1.55 GB, highest accuracy) — proof that transcription can run fully on-device">
+  </section>
+
+  <!-- 07 · MODELS & BACKENDS -->
+  <section class="chapter" id="backends">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Backends</div>
+        <h2>Bring your own key. Or <em class="sig">run it local.</em></h2>
+      </div>
+      <div class="ch-tag">No vendor lock-in. Pick the AI that polishes your dictation; pick the engine that transcribes it. Switch in Settings without restart.</div>
+    </div>
+
+    <div class="preset-matrix-wrap">
+      <table class="preset-matrix" aria-label="Backend provider matrix">
+        <thead>
+          <tr>
+            <th class="app-col">Provider</th>
+            <th>Hosting</th>
+            <th>Use for</th>
+            <th>Default model</th>
+            <th>Cost/hr</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="app-name">Anthropic</td>
+            <td>cloud</td>
+            <td>polish</td>
+            <td>claude-haiku-4-5</td>
+            <td>$0.12</td>
+          </tr>
+          <tr>
+            <td class="app-name">OpenAI</td>
+            <td>cloud</td>
+            <td>polish</td>
+            <td>gpt-5.4-mini</td>
+            <td>$0.02</td>
+          </tr>
+          <tr>
+            <td class="app-name">Groq</td>
+            <td>cloud</td>
+            <td>polish + STT</td>
+            <td>llama-3.3-70b · whisper-large-v3-turbo</td>
+            <td>$0.05</td>
+          </tr>
+          <tr>
+            <td class="app-name">Ollama</td>
+            <td>local</td>
+            <td>polish</td>
+            <td>any model you've pulled</td>
+            <td>$0</td>
+          </tr>
+          <tr>
+            <td class="app-name">Whisper Local</td>
+            <td>local</td>
+            <td>STT</td>
+            <td>base (74 MB) up to large-v3 (1.55 GB)</td>
+            <td>$0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="ch-body" style="margin-top: 22px; max-width: 70ch;">
+      <b>Auris talks to anything that speaks an OpenAI-compatible Chat Completions API.</b><br><span style="color: var(--signal); font-weight: 700;">Your keys, your provider, your bill.</span>
+    </p>
   </section>
 
   <!-- FINAL CTA -->
@@ -921,9 +1483,12 @@
     <div class="micro"><b>Mac &amp; Windows</b> · Lifetime updates</div>
   </section>
 
+  </main>
+
   <!-- COLOPHON -->
   <footer class="colophon">
     <span>© 2026 Auris</span>
+    <span><a href="terms.html">Terms</a> <span class="sep">·</span> <a href="privacy.html">Privacy</a></span>
     <span><a href="mailto:hello@auris.talk">hello@auris.talk</a></span>
   </footer>
 
@@ -933,7 +1498,41 @@
 
 
 <script>
-  // Hamburger toggle — single delegated listener
+  // Scroll-spy: highlight the current section in the sticky in-page nav
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.secnav a[href^="#"]'));
+    if (!links.length || !('IntersectionObserver' in window)) return;
+    var byId = {};
+    links.forEach(function (a) {
+      var id = a.getAttribute('href').slice(1);
+      var sec = document.getElementById(id);
+      if (sec) byId[id] = a;
+    });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          links.forEach(function (a) { a.classList.remove('on'); });
+          var link = byId[e.target.id];
+          if (link) link.classList.add('on');
+        }
+      });
+    }, { rootMargin: '-30% 0px -55% 0px', threshold: 0 });
+    Object.keys(byId).forEach(function (id) {
+      io.observe(document.getElementById(id));
+    });
+  })();
+
+  // Dev console note: quiet editorial message for curious devs
+  (function () {
+    if (typeof console === 'undefined' || !console.log) return;
+    var css = 'font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px;';
+    console.log('%cauris. %cevery feature on one page.', css + ' color: #fae353; font-weight: 700;', css + ' color: #ede7df;');
+    console.log('%chello@auris.talk · we read every reply.', css + ' color: #9b948d;');
+  })();
+</script>
+
+<script>
+  // Hamburger toggle: single delegated listener
   (function () {
     document.addEventListener('click', function (e) {
       var btn = e.target.closest && e.target.closest('.nav-burger');
@@ -990,10 +1589,10 @@
     var lab = document.querySelector('.tonelab');
     if (!lab) return;
     var samples = {
-      formal:    'We should aim to ship by Friday. Please coordinate with the team to ensure all dependencies are resolved by EOD Thursday.',
-      casual:    "Let's ship by Friday. Loop in whoever needs to be ready by Thursday.",
-      technical: 'Target ship date: Friday, EOD. Blocker resolution required by Thursday 17:00. Confirm by EOD today.',
-      friendly:  "Let's get this shipped by Friday. Sound good? Just give me a heads-up if anything's blocking you."
+      formal:  'We should aim to ship by Friday. Please coordinate with the team to ensure all dependencies are resolved by EOD Thursday.',
+      casual:  "Let's ship by Friday. Loop in whoever needs to be ready by Thursday.",
+      minimal: 'Ship Friday. Dependencies by Thursday EOD.',
+      email:   "Hi all, We're aiming to ship by Friday. Please make sure any dependencies are wrapped up by EOD Thursday. Thanks."
     };
     var polished = lab.querySelector('.polished-text');
     if (!polished) return;

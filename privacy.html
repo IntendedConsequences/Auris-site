@@ -90,7 +90,7 @@
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 
 <style>
   :root {
@@ -101,6 +101,7 @@
     --ember: #ea6a64; --warn: #e0a050; --ok: #75d079;
     --mist: #7a736d; --dim: #4a4540;
     --sans: 'Albert Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; scrollbar-gutter: stable; }
@@ -116,6 +117,7 @@
   ::selection { background: var(--signal); color: var(--ink); }
   a { color: inherit; text-decoration: none; }
   em.sig { font-style: italic; color: var(--signal); font-weight: 500; letter-spacing: -0.005em; }
+  em.alt { font-style: italic; color: inherit; font-weight: inherit; letter-spacing: -0.005em; }
 
   .page { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
 
@@ -133,8 +135,37 @@
     font-weight: 700; font-size: 24px; letter-spacing: -0.030em; color: var(--paper);
   }
   .wordmark .text { display: inline-flex; align-items: baseline; }
-  .wordmark .dot { color: var(--signal); }
+  .wordmark .dot { color: var(--signal); transition: opacity 220ms cubic-bezier(0.16, 1, 0.3, 1); }
+  .wordmark:hover .dot { animation: dot-pulse 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1; }
+  @keyframes dot-pulse {
+    0%, 70%, 100% { opacity: 1; }
+    35% { opacity: 0.35; }
+  }
   .wordmark .glyph { color: var(--signal); width: 30px; height: 28px; display: block; }
+  /* Wordmark glyph flutter: the 4 ellipses scale-pulse in sequence on hover */
+  .wordmark .glyph ellipse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: glyph-flutter 1.6s ease-in-out infinite;
+    animation-play-state: paused;
+  }
+  .wordmark .glyph ellipse:nth-of-type(1) { animation-delay: 0s; }
+  .wordmark .glyph ellipse:nth-of-type(2) { animation-delay: 0.10s; }
+  .wordmark .glyph ellipse:nth-of-type(3) { animation-delay: 0.20s; }
+  .wordmark .glyph ellipse:nth-of-type(4) { animation-delay: 0.30s; }
+  .wordmark:hover .glyph ellipse { animation-play-state: running; }
+  @keyframes glyph-flutter {
+    0%, 100% { transform: scaleY(0.86); }
+    50%      { transform: scaleY(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
   .masthead-nav { display: flex; gap: 28px; align-items: center; justify-content: flex-end; }
   .masthead-nav a {
     font-size: 11px; font-weight: 600; letter-spacing: 0.10em;
@@ -152,7 +183,7 @@
 
   /* PAGE HERO ----------------------------------------------- */
   .page-hero {
-    padding: 80px 0 64px; border-bottom: 1px solid var(--line-2); position: relative;
+    padding: 40px 0 27px; border-bottom: 1px solid var(--line-2); position: relative;
   }
   .page-hero::before {
     content: ''; position: absolute; left: 0; right: 0; top: 0; height: 1px;
@@ -177,7 +208,7 @@
   }
 
   /* CHAPTER ------------------------------------------------- */
-  .chapter { padding: 64px 0; border-bottom: 1px solid var(--line-2); }
+  .chapter { padding: 50px 0; border-bottom: 1px solid var(--line-2); }
   #faq.chapter { padding-bottom: 0; }
   .chapter-shot {
     display: block; width: 100%; height: auto;
@@ -420,7 +451,7 @@
   }
   .note .chev {
     width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;
-    color: var(--paper-3); font-size: 18px; font-weight: 700;
+    color: var(--paper-2); font-size: 18px; font-weight: 700;
     transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), color 180ms;
   }
   .note[open] > summary .chev { transform: rotate(90deg); color: var(--signal); }
@@ -436,9 +467,9 @@
 
   /* FINAL CTA ----------------------------------------------- */
   .final {
-    padding: 96px 0; text-align: center; position: relative;
+    padding: 64px 0; text-align: center; position: relative;
     border-bottom: 1px solid var(--line-2);
-    background: radial-gradient(ellipse 65% 75% at 50% 0%, rgba(250,227,83,0.20) 0%, rgba(250,227,83,0.04) 45%, transparent 75%);
+    background: var(--ink-2);
   }
   .final .notify { margin: 0 auto; }
   .final h2 {
@@ -453,6 +484,11 @@
     margin-left: auto; margin-right: auto;
     font-weight: 400; letter-spacing: -0.003em;
   }
+  .final .dek a {
+    color: var(--signal); border-bottom: 1px solid currentColor;
+    transition: opacity 180ms;
+  }
+  .final .dek a:hover { opacity: 0.75; }
   .final .row {
     margin-top: 36px; display: flex; align-items: center; justify-content: center;
     gap: 14px; flex-wrap: wrap;
@@ -575,8 +611,8 @@
     .masthead { grid-template-columns: 1fr auto; padding-top: 22px; gap: 16px; }
     .masthead-nav { gap: 14px; }
     .masthead-nav a:not(.buy) { display: none; }
-    .page-hero { padding: 56px 0 48px; }
-    .chapter { padding: 56px 0; }
+    .page-hero { padding: 40px 0 21px; }
+    .chapter { padding: 44px 0; }
     .ch-head { grid-template-columns: 1fr; gap: 18px; margin-bottom: 32px; }
     .flow { grid-template-columns: 1fr 1fr; }
     .flow-step:nth-child(2n) { border-right: 0; }
@@ -590,8 +626,113 @@
     .keep-card { border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
     .keep-card:nth-child(2n) { border-right: 0; }
     .keep-card:nth-last-child(-n+2) { border-bottom: 0; }
-    .final { padding: 64px 0; }
+    .final { padding: 48px 0; }
+    .pillar-grid { grid-template-columns: 1fr; gap: 28px; }
+    .pillar-num { font-size: clamp(140px, 36vw, 240px) !important; text-align: left; line-height: 0.85; }
+    .pillar-num .underbar { margin-left: 0 !important; width: 36%; }
+    .g-grid { grid-template-columns: 1fr 1fr; }
+    .guarantee { border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
+    .guarantee:nth-child(2n) { border-right: 0; }
+    .guarantee:nth-last-child(-n+2) { border-bottom: 0; }
   }
+
+  /* PILLAR (single huge "0" stat moment) */
+  .pillar {
+    padding: 80px 0; border-bottom: 1px solid var(--line-2);
+    background: var(--ink-2); position: relative; overflow: hidden;
+  }
+  .pillar::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 22% 50%, rgba(250,227,83,0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .pillar-grid {
+    display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 56px; align-items: center; position: relative; z-index: 1;
+  }
+  .pillar-num {
+    font-weight: 700; font-size: clamp(180px, 22vw, 320px);
+    line-height: 0.82; color: var(--signal); letter-spacing: -0.06em;
+    font-variant-numeric: tabular-nums; text-align: center; position: relative;
+  }
+  .pillar-num .underbar {
+    display: block; height: 6px; width: 60%;
+    margin: 22px auto 0; background: var(--signal);
+    border-radius: 3px; opacity: 0.4;
+  }
+  .pillar-body { display: flex; flex-direction: column; gap: 18px; }
+  .pillar-body .eb {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  .pillar-body .eb::before {
+    content: ''; display: block; width: 28px; height: 1px; background: var(--signal);
+  }
+  .pillar-body h2 {
+    font-weight: 800; font-size: clamp(36px, 4.8vw, 64px);
+    line-height: 1.0; letter-spacing: -0.030em; color: var(--paper);
+    max-width: 16ch;
+  }
+  .pillar-body h2 em.sig { font-weight: 500; color: var(--signal); font-style: italic; }
+  .pillar-body p {
+    font-size: 19px; line-height: 1.55; color: var(--paper-2);
+    letter-spacing: -0.003em; max-width: 50ch;
+  }
+  .pillar-body p b { color: var(--paper); font-weight: 700; }
+  .pillar-strip {
+    margin-top: 12px; padding-top: 22px;
+    border-top: 1px solid var(--line-2);
+    display: flex; gap: 28px 32px; flex-wrap: wrap;
+    font-family: var(--mono); font-size: 13px; color: var(--paper-3);
+  }
+  .pillar-strip .item {
+    display: inline-flex; align-items: baseline; gap: 8px;
+    letter-spacing: -0.005em;
+  }
+  .pillar-strip .item .v {
+    font-weight: 700; color: var(--signal); font-size: 19px;
+    line-height: 1; font-variant-numeric: tabular-nums;
+  }
+
+  /* GUARANTEES (4 honest badges) */
+  .guarantees { padding: 64px 0; border-bottom: 1px solid var(--line-2); }
+  .g-grid {
+    margin-top: 36px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    border: 1px solid var(--line-2); border-radius: 8px;
+    background: var(--ink-3); overflow: hidden;
+  }
+  .guarantee {
+    padding: 32px 24px 28px;
+    display: flex; flex-direction: column; gap: 14px;
+    border-right: 1px solid var(--line-2);
+    position: relative;
+  }
+  .guarantee:last-child { border-right: 0; }
+  .guarantee::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--signal-deep) 50%, transparent 100%);
+    opacity: 0.5;
+  }
+  .g-seal {
+    width: 52px; height: 52px;
+    border: 1px solid var(--signal-deep);
+    border-radius: 99px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--signal);
+    background: rgba(250,227,83,0.04);
+  }
+  .g-seal svg { width: 22px; height: 22px; display: block; }
+  .guarantee h4 {
+    font-size: 18px; font-weight: 700; color: var(--paper);
+    letter-spacing: -0.008em; line-height: 1.2;
+  }
+  .guarantee p {
+    font-size: 14px; line-height: 1.55; color: var(--paper-2);
+    letter-spacing: -0.003em;
+  }
+  .guarantee p b { color: var(--paper); font-weight: 600; }
 </style>
 <style>
   /* === MOBILE FIXES === */
@@ -726,14 +867,53 @@
   @media (min-width: 981px) {
     .mobile-menu { display: none !important; }
   }
+
+  /* IN-PAGE SECONDARY NAV (sticky below masthead) */
+  .secnav-wrap {
+    position: sticky; top: 70px; z-index: 30;
+    background: rgba(1, 1, 0, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line-2);
+  }
+  .secnav {
+    max-width: 1280px; margin: 0 auto; padding: 0 40px;
+    display: flex; gap: 32px; align-items: center;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .secnav::-webkit-scrollbar { display: none; }
+  .secnav a {
+    display: inline-flex; align-items: center;
+    padding: 14px 0 10px;
+    line-height: 1;
+    font-family: var(--mono);
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.10em; color: var(--paper-3);
+    text-transform: uppercase; white-space: nowrap;
+    transition: color 180ms;
+    border-bottom: 1px solid transparent;
+  }
+  .secnav a:hover { color: var(--paper); }
+  .secnav a.on {
+    color: var(--signal); border-bottom-color: var(--signal);
+  }
+  .secnav .idx { color: var(--signal); margin-right: 8px; font-weight: 700; }
+  @media (max-width: 700px) {
+    .secnav-wrap { top: 56px; }
+    .secnav { padding: 0 18px; gap: 18px; }
+    .secnav a { padding: 11px 0 7px; font-size: 10px; letter-spacing: 0.06em; }
+    .secnav .idx { margin-right: 5px; }
+  }
 </style>
 </head>
-<body style="" data-new-gr-c-s-check-loaded="14.1292.0" data-gr-ext-installed="" data-new-gr-c-s-loaded="14.1292.0">
+<body>
 
 <div class="page" id="top">
 
   <header class="masthead">
-    <a href="/" class="wordmark">
+    <a href="index.html" class="wordmark">
       <svg class="glyph" viewBox="0 0 53 52" aria-hidden="true">
         <g fill="none" stroke="currentColor">
           <circle cx="4" cy="26" r="3.5" fill="currentColor" stroke="none"></circle>
@@ -765,14 +945,46 @@
   <section class="page-hero">
     <div class="page-eyebrow">Privacy</div>
     <h1>We don't have <em class="sig">servers.</em></h1>
-    <p class="dek">That's the short version. Auris stores no audio and no transcripts on our infrastructure, because we don't run any for those things.<br>Here's exactly how the architecture works.</p>
+    <p class="dek">That's the short version.<br>Auris stores no audio and no transcripts.<br>Here's exactly how the architecture works.</p>
+  </section>
+
+  <!-- IN-PAGE JUMP NAV (sticky below masthead, sits under the hero) -->
+  <div class="secnav-wrap">
+    <nav class="secnav" aria-label="On this page">
+      <a href="#flow"><span class="idx">01</span>Flow</a>
+      <a href="#setup"><span class="idx">02</span>Setup</a>
+      <a href="#lives"><span class="idx">03</span>Storage</a>
+      <a href="#sensitive"><span class="idx">04</span>Sensitive</a>
+      <a href="#guarantees"><span class="idx">05</span>Guarantees</a>
+      <a href="#rights"><span class="idx">06</span>Your rights</a>
+      <a href="#faq"><span class="idx">07</span>FAQ</a>
+    </nav>
+  </div>
+
+  <!-- PILLAR: 0 bytes outbound in local mode -->
+  <section class="pillar" aria-label="Local mode privacy guarantee">
+    <div class="pillar-grid">
+      <div class="pillar-num">0<span class="underbar" aria-hidden="true"></span></div>
+      <div class="pillar-body">
+        <span class="eb">In local mode</span>
+        <h2>bytes leave <em class="sig">your machine.</em></h2>
+        <p>Run Whisper locally for transcription, Ollama (or any local LLM) for polish. Outbound network traffic is <b>empty</b>. No telemetry, no analytics, no error reporting, no update pings, no model-training payloads. <b>Pull the network cable. It still works.</b></p>
+        <div class="pillar-strip">
+          <span class="item"><span class="v">0</span> servers</span>
+          <span class="item"><span class="v">0</span> accounts</span>
+          <span class="item"><span class="v">0</span> telemetry</span>
+          <span class="item"><span class="v">0</span> analytics</span>
+          <span class="item"><span class="v">0</span> crash reports</span>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- 1 · DATA FLOW -->
   <section class="chapter" id="flow">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Flow · <b>001</b></div>
+        <div class="ch-eyebrow">Flow</div>
         <h2>What happens when you dictate.</h2>
       </div>
     </div>
@@ -781,25 +993,25 @@
       <div class="flow-step">
         <span class="num">01 · You</span>
         <h4>Hold the hotkey.</h4>
-        <p style="">Your microphone, your machine. Audio captured locally.</p>
+        <p>Your microphone, your machine. Audio captured locally.</p>
         <span class="arrow">→</span>
       </div>
       <div class="flow-step">
         <span class="num">02 · Transcribe</span>
         <h4>Auris transcribes.</h4>
-        <p>Speech-to-text runs <b>locally</b> by default. Pick cloud STT and audio routes <b>directly to Groq.</b> Either way, never to us.</p>
+        <p>Speech-to-text runs <b>locally</b> by default. Pick cloud STT and audio routes <b>directly to Groq.</b> Never to us.</p>
         <span class="arrow">→</span>
       </div>
       <div class="flow-step">
         <span class="num">03 · Polish</span>
         <h4>Your provider.</h4>
-        <p>Transcript goes to your API key (or your <b>local model</b>) for polish. Auris never sees it.</p>
+        <p>Transcript goes to your <b>LLM of choice</b> for polish.<br>Auris never sees it.</p>
         <span class="arrow">→</span>
       </div>
       <div class="flow-step">
-        <span class="num">04 · Cursor</span>
+        <span class="num">04 · Result</span>
         <h4>Clean text lands.</h4>
-        <p style="">Polished result pastes at your cursor.<br><b>No round trip</b> through us.</p>
+        <p>Polished result lands in the window you started in.<br><b>No round trip</b> through us.</p>
       </div>
     </div>
     <img class="chapter-shot chapter-shot-dark" src="assets/screenshots/data-flow-editorial.png" alt="Auris Data Flow board showing microphone open only while recording, audio routed to Groq Cloud (whisper-large-v3-turbo), and transcript routed to Anthropic Cloud (claude-haiku-4-5), with a note to toggle the lock icon to force everything local">
@@ -809,7 +1021,7 @@
   <section class="chapter" id="setup">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Setup · <b>002</b></div>
+        <div class="ch-eyebrow">Setup</div>
         <h2>Your speech goes one of two places.</h2>
       </div>
       <div class="ch-tag">Pick one when you set Auris up. Switch any time. Both work the same from your side. The difference is whether anything touches a network.</div>
@@ -819,15 +1031,16 @@
       <article class="way cloud">
         <span class="tag"><span class="dot"></span>Cloud · your own account</span>
         <h3>Through your API key.</h3>
-        <p>The polish step runs through your account at <b>OpenAI, Anthropic, or Groq.</b> Your transcript goes from your machine to the provider you chose, then back.</p>
-        <p><b>Auris never sees it.</b> The provider's privacy policy applies to that hop.</p>
-        <span class="meta"><b>Cost</b> · most people pay $2 to $5/month</span>
+        <p>The polish step runs through your account at <b>OpenAI, Anthropic, or Groq.</b> Your transcript (and audio, if you also chose cloud speech-to-text) goes from your machine to the provider you chose, then back.</p>
+        <p><b>Auris never sees it.</b><br>The provider's privacy policy applies to that hop. Speech-to-text can independently be set to local, in which case <b>audio never leaves your machine</b> even on this path.</p>
+        <span class="meta"><b>Cost</b> · most people pay $2 to $4/month</span>
       </article>
       <article class="way local">
         <span class="tag"><span class="dot"></span>Local · no internet needed</span>
         <h3>On your machine.</h3>
         <p>The polish step runs locally through <b>Ollama, LM Studio,</b> or any compatible local server. <b>Nothing leaves your computer.</b></p>
         <p>No API calls. No network. Works on a plane.</p>
+        <p>Or skip the LLM entirely. Auris ships with <b>built-in rules-based polish</b> — capitalization, spacing, and common fixes. Lighter touch than an LLM, but it works with zero setup and zero dependencies.</p>
         <span class="meta"><b>Cost</b> · <span class="sg">$0 in API fees</span></span>
       </article>
     </div>
@@ -837,10 +1050,10 @@
   <section class="chapter" id="lives">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Storage · <b>003</b></div>
+        <div class="ch-eyebrow">Storage</div>
         <h2>What lives where.</h2>
       </div>
-      <div class="ch-tag" style="">Three places data could live.&nbsp;<div contenteditable="true">Two of them store almost nothing. The third stores nothing at all.</div></div>
+      <div class="ch-tag">Three places data could live.<br>Two of them store almost nothing. The third stores nothing at all.</div>
     </div>
 
     <div class="lives-grid">
@@ -863,7 +1076,7 @@
           <li><b>Your email</b></li>
           <li><b>Your license key</b></li>
         </ul>
-        <p>That's what we need to send you the license and let you know when there's a meaningful update. <b>Unsubscribe any time</b> with one click. Not shared with anyone.</p>
+        <p>That's what we need to send you the license and let you know when there's a meaningful update. <b>Unsubscribe any time</b> with one click.</p>
       </article>
 
       <article class="lives nowhere">
@@ -884,10 +1097,10 @@
   <section class="chapter" id="sensitive">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Sensitive · <b>004</b></div>
+        <div class="ch-eyebrow">Sensitive</div>
         <h2>Sensitive content stays <em class="sig">out</em> of your history.</h2>
       </div>
-      <div class="ch-tag" style="">Auris ships with four built-in patterns. When you dictate something that matches, the value lands in the app you're typing in, but doesn't get saved to your transcript history.</div>
+      <div class="ch-tag">Auris ships with four built-in patterns. When you dictate something that matches, the value lands in the app you're typing in, but doesn't get saved to your transcript history.</div>
     </div>
 
     <div class="keep-grid">
@@ -897,7 +1110,7 @@
       </article>
       <article class="keep-card">
         <span class="strike">Phone</span>
-        <p style="">US and international phone numbers. Lands in the app, never in history.</p>
+        <p>US and international phone numbers. Lands in the app, never in history.</p>
       </article>
       <article class="keep-card">
         <span class="strike">SSN</span>
@@ -905,39 +1118,100 @@
       </article>
       <article class="keep-card">
         <span class="strike">Credit card</span>
-        <p style="">16-digit card numbers, all major schemes. Typed once, gone after.</p>
+        <p>16-digit card numbers, all major schemes. Typed once, gone after.</p>
       </article>
     </div>
 
-    <p class="ch-body" style="margin-top: 24px; max-width: 64ch;">
-      <b>Add your own patterns</b> with regex for company-specific things: employee IDs, internal project codes, anything else you want kept out of saved transcripts.
+    <p class="ch-body" style="margin-top: 18px; max-width: 75%; font-size: 14px; color: var(--paper-3);">
+      <b style="color: var(--paper);">How redaction works.</b> Patterns match locally after the transcript returns, so cloud STT or cloud LLM polish sees unredacted content first; only your local history gets filtered. Add your own regex for company IDs, project codes, anything else. Pre-send redaction for cloud paths is on the roadmap.
     </p>
   </section>
 
-  <!-- 5 · LICENSE TERMS -->
-  <section class="chapter" id="license" style="">
+  <!-- GUARANTEES: four defensible claims -->
+  <section class="guarantees" id="guarantees">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">License · <b>005</b></div>
-        <h2>What you own.</h2>
+        <div class="ch-eyebrow">Guarantees</div>
+        <h2>What we <em class="sig">stand behind.</em></h2>
+      </div>
+      <div class="ch-tag">Four claims, four receipts.<br>No HIPAA badge we don't have, no enterprise theater.</div>
+    </div>
+
+    <div class="g-grid">
+      <article class="guarantee">
+        <div class="g-seal" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="6" width="16" height="12" rx="1.5"/>
+            <circle cx="8.5" cy="12" r="1" fill="currentColor" stroke="none"/>
+            <ellipse cx="12" cy="12" rx="1" ry="2.6" fill="currentColor" stroke="none" opacity="0.7"/>
+            <ellipse cx="15.4" cy="12" rx="1" ry="4.4" fill="currentColor" stroke="none" opacity="0.4"/>
+          </svg>
+        </div>
+        <h4>On-Device Audio</h4>
+        <p><b>Local Whisper</b> keeps audio on-device. Bytes opened, processed, discarded in RAM. If you choose cloud STT (Groq, etc.), audio goes to the provider only.</p>
+      </article>
+
+      <article class="guarantee">
+        <div class="g-seal" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="8"/>
+            <line x1="6.5" y1="6.5" x2="17.5" y2="17.5" stroke-width="2"/>
+          </svg>
+        </div>
+        <h4>No Telemetry</h4>
+        <p>Zero analytics, zero crash reports, zero usage stats. No opt-out switch because <b>there's nothing to opt out of.</b></p>
+      </article>
+
+      <article class="guarantee">
+        <div class="g-seal" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8.5" cy="12" r="3.5"/>
+            <circle cx="8.5" cy="12" r="1" fill="currentColor" stroke="none"/>
+            <path d="M12 12 L21 12" stroke-width="2"/>
+            <path d="M19 12 L19 15 M17 12 L17 14"/>
+          </svg>
+        </div>
+        <h4>BYOK or Local</h4>
+        <p>Bring your Anthropic, OpenAI, or Groq key. Or run Ollama, llama.cpp, LM Studio locally. <b>Auris never proxies your keys.</b></p>
+      </article>
+
+      <article class="guarantee">
+        <div class="g-seal" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 4 C 6.5 4 5.5 5 5.5 7.5 L 5.5 11 C 5.5 12 5 12 4 12 C 5 12 5.5 12 5.5 13 L 5.5 16.5 C 5.5 19 6.5 20 9 20"/>
+            <path d="M15 4 C 17.5 4 18.5 5 18.5 7.5 L 18.5 11 C 18.5 12 19 12 20 12 C 19 12 18.5 12 18.5 13 L 18.5 16.5 C 18.5 19 17.5 20 15 20"/>
+          </svg>
+        </div>
+        <h4>Open Formats</h4>
+        <p>Memos as <b>.md</b>, history as <b>.jsonl</b>, dictionary as <b>.json</b>. Nothing locked inside a proprietary archive.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 5 · YOUR RIGHTS (privacy-flavored, reframed from old License section) -->
+  <section class="chapter" id="rights">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Your rights</div>
+        <h2>Your data.<br><em class="sig">Your purchase.</em></h2>
       </div>
     </div>
 
     <div class="lives-grid">
       <article class="lives">
-        <span class="num">01 · Yours</span>
-        <h4>Now and forever.</h4>
-        <p>Your license is yours, <b>now and forever.</b> There's no server-side check that can turn it off, because <span class="sg">there is no server.</span></p>
+        <span class="num">01 · Your data</span>
+        <h4>Yours alone.</h4>
+        <p>Memos, dictations, and the dictionary live on your machine. <b>Take them, move them, copy them, delete them.</b> <span class="sg">Nothing is locked inside Auris.</span></p>
       </article>
       <article class="lives">
-        <span class="num">02 · Updates</span>
-        <h4>Future updates.</h4>
-        <p>Anyone who buys Auris gets access to <b>all future updates.</b> <span class="sg">No version cliffs, no upgrade fees.</span></p>
+        <span class="num">02 · Your purchase</span>
+        <h4>Now and forever.</h4>
+        <p>Your license is yours, <b>now and forever.</b> There's no server-side check that can turn it off, because <span class="sg">there is no server.</span> Keep it, transfer it, your choice.</p>
       </article>
       <article class="lives featured">
-        <span class="num">03 · Transfer</span>
-        <h4>Yours to hand off.</h4>
-        <p>The license is yours to <b>keep, gift, or transfer.</b> Sell it, hand it down, or recover it after a machine change. <span class="sg">It's a license, not a leash.</span></p>
+        <span class="num">03 · Your delete</span>
+        <h4>One folder. Gone.</h4>
+        <p>To erase everything Auris knows about you: delete the <b>~/Library/Auris/</b> folder on your Mac (or <b>%APPDATA%\Auris\</b> on Windows).</p>
       </article>
     </div>
   </section>
@@ -946,8 +1220,8 @@
   <section class="chapter" id="faq">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">FAQ · <b>006</b></div>
-        <h2>The questions, answered.</h2>
+        <div class="ch-eyebrow">FAQ</div>
+        <h2>Questions</h2>
       </div>
     </div>
 
@@ -970,7 +1244,7 @@
             <span class="chev" aria-hidden="true">→</span>
           </summary>
           <div class="note-body">
-            <p style="">In our customer database (<b>Stripe</b> for billing, a standard email provider for product updates). <br>Request deletion any time at <b><a href="mailto:hello@auris.talk">hello@auris.talk</a></b>.</p>
+            <p>In our customer database (<b>Stripe</b> for billing, a standard email provider for product updates). <br>Request deletion any time at <b><a href="mailto:hello@auris.talk">hello@auris.talk</a></b>.</p>
           </div>
         </details>
         <details class="note">
@@ -1020,7 +1294,7 @@
   <!-- FINAL CTA -->
   <section class="final" id="final">
     <h2>Read the <em class="sig">rest.</em></h2>
-    <p class="dek">The how-it-works page walks through the loop and the polish controls. The pricing page covers the tiers.</p>
+    <p class="dek">The <a href="how.html">how-it-works page</a> walks through the loop and the polish controls. The <a href="pricing.html">pricing page</a> covers the tiers.</p>
     <div class="row">
       <form class="notify" action="https://app.kit.com/forms/9456910/subscriptions" method="POST" novalidate>
         <input type="hidden" name="fields[source]" value="privacy-final">
@@ -1036,6 +1310,7 @@
 
   <footer class="colophon">
     <span>© 2026 Auris</span>
+    <span><a href="terms.html">Terms</a> <span class="sep">·</span> <a href="privacy.html">Privacy</a></span>
     <span><a href="mailto:hello@auris.talk">hello@auris.talk</a></span>
   </footer>
 
@@ -1045,7 +1320,41 @@
 
 
 <script>
-  // Hamburger toggle — single delegated listener
+  // Scroll-spy: highlight the current section in the sticky in-page nav
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.secnav a[href^="#"]'));
+    if (!links.length || !('IntersectionObserver' in window)) return;
+    var byId = {};
+    links.forEach(function (a) {
+      var id = a.getAttribute('href').slice(1);
+      var sec = document.getElementById(id);
+      if (sec) byId[id] = a;
+    });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          links.forEach(function (a) { a.classList.remove('on'); });
+          var link = byId[e.target.id];
+          if (link) link.classList.add('on');
+        }
+      });
+    }, { rootMargin: '-30% 0px -55% 0px', threshold: 0 });
+    Object.keys(byId).forEach(function (id) {
+      io.observe(document.getElementById(id));
+    });
+  })();
+
+  // Dev console note: quiet editorial message for curious devs
+  (function () {
+    if (typeof console === 'undefined' || !console.log) return;
+    var css = 'font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px;';
+    console.log('%cauris. %cno servers. no telemetry. your data, your machine.', css + ' color: #fae353; font-weight: 700;', css + ' color: #ede7df;');
+    console.log('%chello@auris.talk · we read every reply.', css + ' color: #9b948d;');
+  })();
+</script>
+
+<script>
+  // Hamburger toggle: single delegated listener
   (function () {
     document.addEventListener('click', function (e) {
       var btn = e.target.closest && e.target.closest('.nav-burger');

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Auris. Voice-to-text for Mac and Windows. $79 once.</title>
+<title>Auris. Voice-to-text for Mac and Windows. $49 once.</title>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -22,7 +22,7 @@
       "name": "What does the API usage actually cost?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Most people pay $2 to $5 a month. Go local instead and the only cost is electricity."
+        "text": "Most people pay $2 to $4 a month. Go local instead and the only cost is electricity."
       }
     },
     {
@@ -35,18 +35,10 @@
     },
     {
       "@type": "Question",
-      "name": "Is there a free trial?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The 30-day money-back is the closest thing. Every tier gives you the full app. Buy it, use it for a month, refund if it isn't worth $79."
-      }
-    },
-    {
-      "@type": "Question",
       "name": "Will it run on my computer?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "If you're on Mac or Windows from this decade, yes. Linux is on the way, not in the box yet."
+        "text": "If you're on Mac or Windows from this decade, yes. Linux is on the way. For cloud STT and cloud polish, any modern laptop is fine. The work happens on the API. For local Whisper or local LLM polish, your CPU and GPU do the work. Apple M1 and newer handle it comfortably. Older Intel Macs and lower-end Windows machines will run it, but transcription and polish will be slower. If your hardware can't keep up, run the cloud backends for the fastest results."
       }
     },
     {
@@ -103,14 +95,14 @@
 <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
 <link rel="shortcut icon" href="favicon.ico">
 <meta name="theme-color" content="#010100">
-<meta name="description" content="Hold a hotkey, talk, release. Clean text appears in any app. Mac and Windows. $79 once. 30-day money-back.">
-<meta property="og:title" content="Auris. Voice-to-text for Mac and Windows. $79 once.">
+<meta name="description" content="Hold a hotkey, talk, release. Clean text appears in any app. Mac and Windows. $49 once. 30-day money-back.">
+<meta property="og:title" content="Auris. Voice-to-text for Mac and Windows. $49 once.">
 <meta property="og:description" content="Hold a hotkey, talk, release. Clean text appears in any app.">
 <meta property="og:url" content="https://auris.talk">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
   :root {
@@ -121,6 +113,7 @@
     --ember: #ea6a64; --warn: #e0a050; --ok: #75d079;
     --mist: #7a736d; --dim: #4a4540;
     --sans: 'Albert Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; scrollbar-gutter: stable; }
@@ -130,15 +123,13 @@
     -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     font-feature-settings: 'kern', 'liga'; text-rendering: optimizeLegibility;
   }
-  @media (min-width: 1200px) {
-    body { zoom: 0.95; }
-  }
   ::selection { background: var(--signal); color: var(--ink); }
   a { color: inherit; text-decoration: none; }
   button { font: inherit; cursor: pointer; }
   em.sig { font-style: italic; color: var(--signal); font-weight: 500; letter-spacing: -0.005em; }
+  em.alt { font-style: italic; color: inherit; font-weight: inherit; letter-spacing: -0.005em; }
 
-  .page { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+  .page { max-width: clamp(1280px, 92vw, 1480px); margin: 0 auto; padding: 0 40px; }
 
   /* MASTHEAD ------------------------------------------------ */
   .masthead {
@@ -154,7 +145,31 @@
     font-weight: 700; font-size: 24px; letter-spacing: -0.030em; color: var(--paper);
   }
   .wordmark .text { display: inline-flex; align-items: baseline; }
-  .wordmark .dot { color: var(--signal); }
+  .wordmark .dot { color: var(--signal); transition: opacity 220ms cubic-bezier(0.16, 1, 0.3, 1); }
+  .wordmark:hover .dot { animation: dot-pulse 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1; }
+  @keyframes dot-pulse {
+    0% { opacity: 1; }
+    35% { opacity: 0.35; }
+    70% { opacity: 1; }
+    100% { opacity: 1; }
+  }
+
+  /* Wordmark glyph flutter: the 4 ellipses scale-pulse in sequence on hover */
+  .wordmark .glyph ellipse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: glyph-flutter 1.6s ease-in-out infinite;
+    animation-play-state: paused;
+  }
+  .wordmark .glyph ellipse:nth-of-type(1) { animation-delay: 0s; }
+  .wordmark .glyph ellipse:nth-of-type(2) { animation-delay: 0.10s; }
+  .wordmark .glyph ellipse:nth-of-type(3) { animation-delay: 0.20s; }
+  .wordmark .glyph ellipse:nth-of-type(4) { animation-delay: 0.30s; }
+  .wordmark:hover .glyph ellipse { animation-play-state: running; }
+  @keyframes glyph-flutter {
+    0%, 100% { transform: scaleY(0.86); }
+    50%      { transform: scaleY(1); }
+  }
   .wordmark .glyph { color: var(--signal); width: 30px; height: 28px; display: block; }
   .masthead-nav { display: flex; gap: 28px; align-items: center; justify-content: flex-end; }
   .masthead-nav a {
@@ -165,9 +180,10 @@
 
   /* HERO ---------------------------------------------------- */
   .hero {
-    padding: 40px 0 48px; border-bottom: 1px solid var(--line-2); position: relative;
+    padding: 36px 0 28px; border-bottom: 1px solid var(--line-2); position: relative;
   }
   .hero-eyebrow { margin-bottom: 40px; display: flex; gap: 18px; flex-wrap: wrap; align-items: center; }
+  .hero-rec-bar { margin: -8px 0 18px; }
   .pill {
     display: inline-flex; align-items: center; gap: 8px;
     border: 1px solid var(--line-2); padding: 5px 12px; border-radius: 999px;
@@ -187,7 +203,7 @@
     color: var(--paper-3); text-transform: uppercase;
   }
   .hero-split {
-    display: grid; grid-template-columns: minmax(0, 0.85fr) 96px minmax(0, 1.15fr);
+    display: grid; grid-template-columns: minmax(0, 1fr) 80px minmax(0, 1fr);
     align-items: stretch; min-height: 360px;
   }
   .hero-raw {
@@ -240,9 +256,10 @@
     transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1), transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   .hero-polished.on { opacity: 1; transform: translateY(0); }
-  .hero-polished h1 {
-    font-weight: 800; font-size: clamp(44px, 6.2vw, 80px);
-    line-height: 0.96; letter-spacing: -0.034em; color: var(--paper);
+  .hero-polished h2 {
+    font-weight: 600; font-size: clamp(26px, 3.6vw, 44px);
+    line-height: 1.15; letter-spacing: -0.020em; color: var(--paper);
+    text-wrap: balance;
   }
   .hero-polished .stamp {
     display: inline-flex; align-items: center; gap: 8px;
@@ -277,6 +294,515 @@
   .hero-values b { font-weight: 700; color: var(--paper); }
   .hero-values .hl { font-weight: 700; color: var(--signal); }
   .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .hero-cta-secondary { margin-top: 4px; }
+  .hero-cta-secondary .btn-ghost {
+    font-size: 13px; padding: 10px 16px; letter-spacing: 0.04em;
+  }
+
+  /* HERO LEAD (the static h1 above the animation) ---------- */
+  .hero-lead {
+    font-weight: 800; font-size: clamp(40px, 6.4vw, 84px);
+    line-height: 0.98; letter-spacing: -0.034em; color: var(--paper);
+    max-width: 20ch; margin: 8px auto 40px;
+    text-wrap: balance; text-align: center;
+  }
+  .hero-lead em.sig {
+    color: var(--signal); font-style: italic; font-weight: 500;
+    letter-spacing: -0.014em;
+  }
+
+  /* HERO WEDGE (4-up differentiator strip) ----------------- */
+  .hero-wedge {
+    margin-top: 18px; padding-top: 0;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+  }
+  .wedge {
+    display: flex; flex-direction: column; gap: 10px;
+    padding: 0 28px;
+    border-right: 1px solid var(--line-2);
+  }
+  .wedge:first-child { padding-left: 0; }
+  .wedge:last-child { border-right: 0; padding-right: 0; }
+  .wedge .eb {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .wedge .eb::before {
+    content: ''; display: block; width: 5px; height: 5px;
+    background: var(--signal); border-radius: 99px;
+    box-shadow: 0 0 6px rgba(250,227,83,0.5);
+  }
+  .wedge .v {
+    font-weight: 800; font-size: clamp(28px, 2.8vw, 40px);
+    line-height: 1.0; letter-spacing: -0.028em; color: var(--signal);
+  }
+  .wedge .sub {
+    font-size: 12px; line-height: 1.5; color: var(--paper-3);
+    letter-spacing: -0.002em;
+  }
+  .wedge .sub b { font-weight: 700; color: var(--paper); }
+
+  /* Accessibility: honor system reduced-motion preference for all animations */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* LIVE (in-this-moment screenshot anchor) ---------------- */
+  .live-section {
+    padding: 50px 0; border-bottom: 1px solid var(--line-2);
+  }
+  .live-frame {
+    margin-top: 36px;
+    border: 1px solid var(--line-2);
+    background: var(--ink-2);
+    border-radius: 8px; overflow: hidden;
+    box-shadow: 0 1px 0 0 var(--line) inset;
+  }
+  .live-frame .live-shot {
+    display: block; width: 100%; height: auto;
+  }
+  .live-cap {
+    margin-top: 22px;
+    display: grid; grid-template-columns: 1fr 1.4fr; gap: 36px;
+    font-size: 15px; line-height: 1.55;
+  }
+  .live-cap .lbl {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--signal); text-transform: uppercase;
+  }
+  .live-cap p { color: var(--paper-2); }
+  .live-cap p b { color: var(--paper); font-weight: 700; }
+
+  /* PILLAR (single huge stat moment) ----------------------- */
+  .pillar {
+    padding: 60px 0; border-bottom: 1px solid var(--line-2);
+    background: var(--ink-2);
+    position: relative; overflow: hidden;
+  }
+  .pillar::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 22% 50%, rgba(250,227,83,0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .pillar-grid {
+    display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 56px; align-items: center; position: relative; z-index: 1;
+  }
+  .pillar-num {
+    font-weight: 700;
+    font-size: clamp(180px, 22vw, 320px);
+    line-height: 0.82;
+    color: var(--signal);
+    letter-spacing: -0.06em;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+    position: relative;
+    opacity: 0; transform: scale(0.88);
+    transition: opacity 1400ms cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1400ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .pillar-num.in {
+    opacity: 1; transform: scale(1);
+  }
+  .pillar-num .underbar {
+    display: block;
+    height: 6px; width: 60%;
+    margin: 22px auto 0;
+    background: var(--signal);
+    border-radius: 3px;
+    opacity: 0;
+    transform: scaleX(0); transform-origin: center;
+    transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1) 600ms,
+                transform 900ms cubic-bezier(0.16, 1, 0.3, 1) 600ms;
+  }
+  .pillar-num.in .underbar {
+    opacity: 0.4;
+    transform: scaleX(1);
+  }
+  .pillar-body { display: flex; flex-direction: column; gap: 18px; }
+  .pillar-body .eb {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  .pillar-body .eb::before {
+    content: ''; display: block; width: 28px; height: 1px;
+    background: var(--signal);
+  }
+  .pillar-body h2 {
+    font-weight: 800; font-size: clamp(36px, 4.8vw, 64px);
+    line-height: 1.0; letter-spacing: -0.030em; color: var(--paper);
+    max-width: 16ch;
+  }
+  .pillar-body h2 em.sig {
+    font-weight: 500; color: var(--signal);
+    font-style: italic; letter-spacing: -0.014em;
+  }
+  .pillar-body p {
+    font-size: 19px; line-height: 1.55; color: var(--paper);
+    letter-spacing: -0.003em; max-width: 50ch;
+  }
+  .pillar-body p b { color: var(--paper); font-weight: 700; }
+  .pillar-strip {
+    margin-top: 12px; padding-top: 22px;
+    border-top: 1px solid var(--line-2);
+    display: flex; gap: 28px 32px; flex-wrap: wrap;
+    font-family: var(--mono); font-size: 13px;
+    color: var(--paper-3);
+  }
+  .pillar-strip .item {
+    display: inline-flex; align-items: baseline; gap: 8px;
+    letter-spacing: -0.005em;
+  }
+  .pillar-strip .item .v {
+    font-weight: 700; color: var(--signal); font-size: 19px;
+    line-height: 1; font-variant-numeric: tabular-nums;
+  }
+  /* Pillar + chapter merged (Privacy section absorbs the pillar moment) */
+  .pillar.chapter .pillar-grid {
+    padding-bottom: 56px;
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--line-2);
+  }
+  .pillar.chapter .keep-grid {
+    margin-top: 56px;
+  }
+  .pillar.chapter .keep-card {
+    background: var(--ink-3);
+    border-color: var(--line-3);
+  }
+  .pillar.chapter .keep-file {
+    background: var(--ink-3);
+    border-color: var(--line-3);
+  }
+
+  /* GUARANTEES (4 honest badges) --------------------------- */
+  .guarantees {
+    padding: 50px 0; border-bottom: 1px solid var(--line-2);
+  }
+  .g-grid {
+    margin-top: 40px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    border: 1px solid var(--line-2); border-radius: 8px;
+    background: var(--ink-3); overflow: hidden;
+  }
+  .guarantee {
+    padding: 36px 26px 22px;
+    display: flex; flex-direction: column; gap: 14px;
+    border-right: 1px solid var(--line-2);
+    position: relative;
+  }
+  .guarantee:last-child { border-right: 0; }
+  .guarantee::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--signal-deep) 50%, transparent 100%);
+    opacity: 0.5;
+  }
+  .g-seal {
+    width: 54px; height: 54px;
+    border: 1px solid var(--signal-deep);
+    border-radius: 99px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--signal);
+    background: rgba(250,227,83,0.04);
+  }
+  .g-seal svg { width: 24px; height: 24px; display: block; }
+  .guarantee h4 {
+    font-size: 19px; font-weight: 700; color: var(--paper);
+    letter-spacing: -0.008em; line-height: 1.2;
+  }
+  .guarantee p {
+    font-size: 14px; line-height: 1.55; color: var(--paper-2);
+    letter-spacing: -0.003em;
+  }
+  .guarantee p b { color: var(--paper); font-weight: 600; }
+  .guarantee .stamp-link {
+    margin-top: auto; padding-top: 14px;
+    font-family: var(--mono); font-size: 11px;
+    color: var(--signal); letter-spacing: 0.04em; text-transform: uppercase;
+    font-weight: 600;
+    border-top: 1px dashed var(--line-2);
+    text-decoration: none;
+    transition: color 0.15s ease, letter-spacing 0.15s ease;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .guarantee .stamp-link:hover { color: var(--paper); letter-spacing: 0.06em; }
+  .guarantee .stamp-link span { transition: transform 0.15s ease; display: inline-block; }
+  .guarantee .stamp-link:hover span { transform: translate(2px, -2px); }
+
+  /* FEATS (6-card visual feature grid) --------------------- */
+  .feat-section {
+    padding: 50px 0; border-bottom: 1px solid var(--line-2);
+  }
+  .feat-grid {
+    margin-top: 40px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--line-2);
+    border: 1px solid var(--line-2);
+    border-radius: 8px; overflow: hidden;
+  }
+  .feat-card {
+    background: var(--ink-3);
+    padding: 22px 28px;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .feat-card .feat-vis {
+    min-height: 72px;
+    display: flex; align-items: center; justify-content: flex-start;
+  }
+  .feat-card h4 {
+    font-size: 22px; font-weight: 700; color: var(--paper);
+    letter-spacing: -0.014em; line-height: 1.15;
+  }
+  .feat-card h4 em.sig { font-weight: 500; color: var(--signal); font-style: italic; }
+  .feat-card p {
+    font-size: 14px; line-height: 1.55; color: var(--paper-2);
+    letter-spacing: -0.003em;
+  }
+  .feat-card p b { color: var(--paper); font-weight: 600; }
+
+  /* Per-card visuals */
+  .feat-flags {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+    font-size: 26px; line-height: 1;
+  }
+  .feat-flags .flag {
+    display: flex; align-items: center; justify-content: center;
+    height: 36px;
+    background: var(--ink-2);
+    border: 1px solid var(--line-2);
+    border-radius: 4px;
+  }
+
+  .feat-diff {
+    display: flex; flex-direction: column; gap: 10px;
+    font-family: var(--mono); font-size: 13px;
+    width: 100%;
+  }
+  .feat-diff .row {
+    display: grid; grid-template-columns: 56px 1fr;
+    gap: 12px; align-items: baseline;
+  }
+  .feat-diff .row .lbl {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--paper-3);
+  }
+  .feat-diff .row.before .val { color: var(--mist); }
+  .feat-diff .row.before .val .em { color: var(--ember); font-weight: 600; }
+  .feat-diff .row.before .val s { color: var(--ember); text-decoration-thickness: 1px; }
+  .feat-diff .row.after .val { color: var(--paper); }
+  .feat-diff .row.after .lbl { color: var(--signal); }
+
+  /* Em-dash card hover delight: dash glyphs swap to commas in place */
+  .emdash-card .em-swap {
+    position: relative;
+    display: inline-block;
+  }
+  .emdash-card .em-swap .dash,
+  .emdash-card .em-swap .comma {
+    display: inline-block;
+    transition: opacity 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .emdash-card .em-swap .comma {
+    position: absolute; left: 0; top: 0;
+    color: var(--signal); opacity: 0;
+  }
+  .emdash-card:hover .em-swap .dash { opacity: 0; }
+  .emdash-card:hover .em-swap .comma { opacity: 1; }
+
+  .feat-learn {
+    display: flex; flex-direction: column; gap: 6px;
+    font-family: var(--mono); font-size: 13px;
+    width: 100%;
+  }
+  .feat-learn .step {
+    display: grid; grid-template-columns: 88px 1fr;
+    gap: 12px; align-items: center;
+    padding: 8px 12px; border-radius: 4px;
+    background: var(--ink-2); border: 1px solid var(--line-2);
+  }
+  .feat-learn .step .lbl {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--paper-3);
+  }
+  .feat-learn .step .val { color: var(--paper-2); }
+  .feat-learn .step.fixed { border-color: var(--signal-deep); }
+  .feat-learn .step.fixed .lbl { color: var(--signal); }
+  .feat-learn .step.fixed .val { color: var(--paper); font-weight: 600; }
+
+  .feat-snip {
+    display: flex; flex-direction: column; gap: 10px;
+    font-family: var(--mono); font-size: 13px;
+    width: 100%;
+  }
+  .feat-snip .line {
+    display: flex; gap: 10px; align-items: baseline;
+  }
+  .feat-snip .line .said { color: var(--paper-3); }
+  .feat-snip .line .got { color: var(--signal); font-weight: 600; }
+  .feat-snip .line .arr { color: var(--paper-3); font-weight: 400; }
+  .feat-snip .trig {
+    display: inline-block; padding: 3px 8px;
+    background: var(--ink-2); border: 1px solid var(--line-2);
+    border-radius: 3px; color: var(--paper);
+    font-size: 12px;
+  }
+  .feat-snip .expand {
+    color: var(--signal); font-weight: 600;
+  }
+
+  .feat-redact {
+    display: flex; flex-direction: column; gap: 8px;
+    font-family: var(--mono); font-size: 13px;
+    width: 100%;
+  }
+  .feat-redact .line {
+    color: var(--paper-2); line-height: 1.55;
+  }
+  .feat-redact .line .blk {
+    display: inline-block;
+    height: 0.95em; min-width: 2.2em;
+    background: var(--signal); opacity: 0.7;
+    vertical-align: -0.12em; border-radius: 2px;
+  }
+  .feat-redact .pats {
+    display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px;
+  }
+  .feat-redact .pat {
+    font-size: 11px; padding: 3px 8px; border-radius: 99px;
+    border: 1px solid var(--signal-deep);
+    color: var(--signal); letter-spacing: 0.02em;
+  }
+
+  /* Fillers pill row: strikethrough on stripped, signal on kept */
+  .feat-fillers {
+    display: flex; flex-wrap: wrap; gap: 8px 10px;
+    font-family: var(--mono); font-size: 14px;
+    width: 100%;
+  }
+  .feat-fillers .fill {
+    padding: 4px 11px;
+    border-radius: 99px;
+    border: 1px solid var(--line-2);
+    background: var(--ink-2);
+    letter-spacing: -0.005em;
+  }
+  .feat-fillers .fill.strike {
+    color: var(--mist);
+    text-decoration: line-through;
+    text-decoration-color: var(--ember);
+    text-decoration-thickness: 1.5px;
+  }
+  .feat-fillers .fill.keep {
+    color: var(--paper);
+    border-color: var(--signal-deep);
+    background: rgba(250, 227, 83, 0.05);
+  }
+
+  .feat-studio {
+    display: flex; flex-direction: column; gap: 6px; width: 100%;
+    align-items: stretch;
+  }
+  .feat-studio .frame {
+    border: 1px solid var(--line-2); border-radius: 4px;
+    background: var(--ink-2);
+    padding: 8px;
+    display: flex; flex-direction: column; gap: 4px;
+    transition: transform 200ms;
+  }
+  .feat-studio .frame .tabs {
+    display: flex; gap: 4px;
+  }
+  .feat-studio .frame .tabs i {
+    height: 4px; flex: 1; background: var(--line-3); border-radius: 1px;
+  }
+  .feat-studio .frame .tabs i:first-child { background: var(--signal); }
+  .feat-studio .frame .body-lines {
+    display: flex; flex-direction: column; gap: 3px;
+  }
+  .feat-studio .frame .body-lines i {
+    height: 3px; background: var(--line-3); border-radius: 1px;
+    width: 100%;
+  }
+  .feat-studio .frame .body-lines i.short { width: 60%; }
+  .feat-studio .arr-down {
+    text-align: center;
+    color: var(--signal); font-family: var(--mono); font-size: 14px;
+    font-weight: 700;
+  }
+  .feat-studio .frame.expanded {
+    border-color: var(--signal-deep);
+    background: var(--ink-3);
+    padding: 12px 10px;
+  }
+  .feat-studio .frame.expanded .tabs { display: none; }
+  .feat-studio .frame.expanded .body-lines i {
+    height: 4px; background: var(--paper-3);
+  }
+
+  /* STACK (per-app cards: 6 cards, 3x2 grid) --------------- */
+  .stack-section {
+    padding: 50px 0; border-bottom: 1px solid var(--line-2);
+  }
+  .stack-grid {
+    margin-top: 36px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--line-2);
+    border: 1px solid var(--line-2);
+    border-radius: 8px; overflow: hidden;
+  }
+  .stack-card {
+    background: var(--ink-3);
+    padding: 24px 24px;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .stack-head {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .stack-head .logo-mark {
+    width: 26px; height: 26px;
+    color: var(--paper); flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .stack-head .logo-mark svg { width: 100%; height: 100%; }
+  .stack-head .app-name {
+    font-size: 17px; font-weight: 700; color: var(--paper);
+    letter-spacing: -0.008em;
+  }
+  .stack-chips { display: flex; gap: 5px; flex-wrap: wrap; }
+  .stack-chips .chip {
+    font-family: var(--mono); font-size: 10px; font-weight: 600;
+    padding: 3px 8px; border-radius: 99px;
+    border: 1px solid var(--line-3);
+    color: var(--paper-2);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .stack-chips .chip .k { color: var(--paper-3); font-weight: 500; }
+  .stack-chips .chip .v { color: var(--signal); font-weight: 700; }
+  .stack-ex {
+    font-family: var(--mono); font-size: 12px;
+    line-height: 1.55; color: var(--paper-2);
+    padding-top: 14px;
+    border-top: 1px dashed var(--line-2);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .stack-ex .lbl {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--paper-3);
+    margin-bottom: 2px;
+  }
+  .stack-ex .raw { color: var(--mist); }
+  .stack-ex .pol { color: var(--paper); font-weight: 500; }
+  .stack-ex .pol .hl { color: var(--signal); }
 
   /* BUTTONS ------------------------------------------------- */
   .btn {
@@ -343,7 +869,7 @@
   .notify.compact .notify-hint { font-size: 11px; }
 
   /* CHAPTERS ------------------------------------------------ */
-  .chapter, .versus { padding: 64px 0; border-bottom: 1px solid var(--line-2); }
+  .chapter, .versus { padding: 50px 0; border-bottom: 1px solid var(--line-2); }
   #faq.chapter { padding-bottom: 0; }
   .ch-head {
     display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
@@ -450,7 +976,7 @@
   .how-card p { font-size: 15px; line-height: 1.55; color: var(--paper-2); }
   .how-card p b { color: var(--paper); font-weight: 600; }
 
-  /* HOW-CARD VARIATION — break identical-card-grid */
+  /* HOW-CARD VARIATION: break identical-card-grid */
   .how-grid > .how-card:nth-child(3) {
     background:
       linear-gradient(180deg, var(--ink-3) 0%, var(--ink-3) 55%, rgba(250,227,83,0.06) 100%),
@@ -473,21 +999,8 @@
     content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
     background: transparent;
   }
-  .control-tb {
-    border-bottom: 1px solid var(--line-2); padding: 0 18px;
-    display: grid; grid-template-columns: auto 1fr auto;
-    align-items: center; gap: 16px; height: 42px;
-    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
-    color: var(--paper-3); text-transform: uppercase;
-    background: var(--ink-2);
-  }
-  .control-tb .l { display: inline-flex; align-items: center; gap: 12px; }
-  .control-tb .l .mk { font-weight: 800; font-size: 15px; letter-spacing: 0.14em; color: var(--paper); text-transform: uppercase; }
-  .control-tb .c { text-align: center; }
-  .control-tb .r { display: inline-flex; align-items: center; gap: 7px; color: var(--signal); }
-  .control-tb .r .led { width: 6px; height: 6px; border-radius: 99px; background: var(--signal); box-shadow: 0 0 8px rgba(250,227,83,0.5); }
-  .control-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; padding: 28px 28px 24px; }
-  .control-sliders { display: grid; gap: 22px; }
+  .control-grid { display: grid; grid-template-columns: 1fr; gap: 22px; padding: 24px 28px 20px; }
+  .control-sliders { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
   .slider { display: grid; gap: 10px; }
   .slider .top { display: flex; justify-content: space-between; align-items: baseline; }
   .slider .name { font-weight: 600; font-size: 15px; color: var(--paper); letter-spacing: -0.005em; }
@@ -510,8 +1023,8 @@
     letter-spacing: 0.10em; text-transform: uppercase;
   }
   .control-preview {
-    display: grid; grid-template-rows: auto 1fr; gap: 12px;
-    border-left: 1px solid var(--line-2); padding-left: 28px;
+    display: grid; grid-template-rows: auto 1fr; gap: 10px;
+    border-top: 1px solid var(--line-2); padding-top: 18px;
   }
   .control-preview .lbl {
     font-size: 11px; font-weight: 700; color: var(--paper-3);
@@ -522,15 +1035,6 @@
     color: var(--paper); letter-spacing: -0.005em;
     transition: opacity 180ms; font-style: italic;
   }
-  .control-foot {
-    border-top: 1px solid var(--line-2); padding: 14px 18px;
-    font-size: 11px; font-weight: 700; color: var(--paper-3);
-    letter-spacing: 0.10em; text-transform: uppercase;
-    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
-    background: var(--ink-2);
-  }
-  .control-foot b { color: var(--paper); font-weight: 700; }
-
   /* PROVIDER GRID ------------------------------------------- */
   .provider-grid {
     margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
@@ -563,6 +1067,7 @@
     font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
     color: var(--paper-3); text-transform: uppercase;
   }
+  .provider .tag b { color: var(--signal); font-weight: 700; }
   .provider .tag .dot { width: 6px; height: 6px; border-radius: 99px; }
   .provider.openai .tag .dot { background: var(--ok); }
   .provider.anthropic .tag .dot { background: #ff7757; }
@@ -650,6 +1155,30 @@
     letter-spacing: -0.002em;
   }
   .feature p b { color: var(--paper); font-weight: 600; }
+  .feature p .rh { color: var(--signal); font-weight: 600; }
+
+  /* RUN MODE CARDS (Three ways to run Auris) ---------------- */
+  .run-mode { padding: 20px 22px 16px; gap: 10px; }
+  .run-mode .run-tag {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--paper-3); font-weight: 600;
+  }
+  .run-mode .run-tag b { color: var(--signal); font-weight: 700; font-size: 12px; }
+  .run-mode .run-pipe {
+    margin-top: auto; padding-top: 14px;
+    border-top: 1px dashed var(--line-2);
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px;
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+  }
+  .run-mode .rp-stage { display: inline-flex; align-items: center; gap: 6px; }
+  .run-mode .rp-lbl { color: var(--paper-3); font-weight: 500; }
+  .run-mode .rp-val { color: var(--paper); font-weight: 700; }
+  .run-mode .rp-val.local { color: var(--signal); }
+  .run-mode .rp-val .lc { color: var(--signal); }
+  .run-mode .rp-arrow { color: var(--paper-3); }
 
   /* VERSUS TABLE -------------------------------------------- */
   .vs-tab {
@@ -657,7 +1186,7 @@
     border-radius: 6px; overflow: hidden;
   }
   .vs-row {
-    display: grid; grid-template-columns: 1.2fr 1.6fr 1.6fr;
+    display: grid; grid-template-columns: 1.1fr 1.2fr 2.1fr;
     border-bottom: 1px solid var(--line-2);
   }
   .vs-row:last-child { border-bottom: none; }
@@ -676,8 +1205,9 @@
   .vs-row .ours b { color: var(--signal); font-weight: 700; }
   .vs-row .ours.empty { color: var(--dim); font-weight: 500; }
   .vs-row .others { font-size: 15px; color: var(--paper-3); font-weight: 500; line-height: 1.55; letter-spacing: 0.005em; }
-  .vs-row .others .o-i { display: inline; }
-  .vs-row .others .o-i + .o-i::before { content: ' · '; color: var(--dim); margin: 0 2px; }
+  .vs-row .others b { color: var(--paper); font-weight: 700; }
+  .vs-row .others .o-i { display: block; }
+  .vs-row .others .o-i + .o-i { margin-top: 4px; }
 
   /* LANGUAGES ----------------------------------------------- */
   .langs { padding: 64px 0; border-bottom: 1px solid var(--line-2); }
@@ -702,12 +1232,13 @@
   .pricing { padding: 64px 0; border-bottom: 1px solid var(--line-2); }
   .pricing-grid {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 36px;
+    align-items: start;
   }
   .price-card {
     background: var(--ink-3); border: 1px solid var(--line-2);
-    padding: 28px 24px 26px; display: flex; flex-direction: column; gap: 14px;
+    padding: 28px 24px 26px; display: flex; flex-direction: column; gap: 12px;
     border-radius: 6px; overflow: hidden;
-    min-height: 320px; position: relative;
+    position: relative;
   }
   .price-card .label { font-size: 11px; font-weight: 700; letter-spacing: 0.10em; color: var(--paper-3); text-transform: uppercase; }
   .price-card .name { font-weight: 700; font-size: 19px; color: var(--paper); letter-spacing: -0.012em; line-height: 1.2; }
@@ -724,7 +1255,7 @@
   }
   .price-card.featured .label { color: var(--signal); }
   .price-card.featured .px { color: var(--signal); }
-  .price-card .desc { font-size: 15px; color: var(--paper-2); line-height: 1.55; margin-top: auto; }
+  .price-card .desc { font-size: 15px; color: var(--paper-2); line-height: 1.55; margin-top: 4px; }
   .price-card .desc b { color: var(--paper); font-weight: 600; }
   .price-card .cta { margin-top: 14px; }
 
@@ -793,9 +1324,9 @@
 
   /* FINAL CTA ----------------------------------------------- */
   .final {
-    padding: 96px 0; text-align: center; position: relative;
+    padding: 64px 0; text-align: center; position: relative;
     border-bottom: 1px solid var(--line-2);
-    background: radial-gradient(ellipse 65% 75% at 50% 0%, rgba(250,227,83,0.20) 0%, rgba(250,227,83,0.04) 45%, transparent 75%);
+    background: var(--ink-2);
   }
   .final .notify { margin: 0 auto; }
   .final h2 {
@@ -841,12 +1372,31 @@
     .hero-raw { padding-right: 0; }
     .hero-polished { padding-left: 0; }
     .hero-deck { grid-template-columns: 1fr; gap: 28px; padding-top: 24px; margin-top: 36px; }
-    .chapter, .versus { padding: 56px 0; }
+    .hero-lead { margin: 4px 0 28px; }
+    .hero-wedge { grid-template-columns: 1fr 1fr; gap: 0; margin-top: 20px; padding-top: 0; }
+    .wedge { padding: 18px 22px; border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
+    .wedge:nth-child(2n) { border-right: 0; padding-right: 0; }
+    .wedge:nth-child(2n+1) { padding-left: 0; }
+    .wedge:nth-last-child(-n+2) { border-bottom: 0; padding-bottom: 0; }
+    .live-cap { grid-template-columns: 1fr; gap: 16px; }
+    .pillar { padding: 64px 0; }
+    .pillar-grid { grid-template-columns: 1fr; gap: 28px; }
+    .pillar-num { font-size: clamp(140px, 36vw, 240px); text-align: left; line-height: 0.85; }
+    .pillar-num .underbar { margin-left: 0; width: 36%; }
+    .g-grid { grid-template-columns: 1fr 1fr; }
+    .guarantee { border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
+    .guarantee:nth-child(2n) { border-right: 0; }
+    .guarantee:nth-last-child(-n+2) { border-bottom: 0; }
+    .feat-grid { grid-template-columns: 1fr 1fr; }
+    .feat-card { padding: 22px 22px; }
+    .stack-grid { grid-template-columns: 1fr 1fr; }
+    .stack-card { padding: 22px 20px; }
+    .chapter, .versus { padding: 44px 0; }
     .ch-head { grid-template-columns: 1fr; gap: 18px; margin-bottom: 32px; }
     .bar-row { grid-template-columns: 1fr; gap: 8px; }
     .bar-row .bar-val { text-align: left; }
     .how-grid { grid-template-columns: 1fr; }
-    .control-grid { grid-template-columns: 1fr; }
+    .control-sliders { grid-template-columns: 1fr; gap: 22px; }
     .control-preview { border-left: 0; padding-left: 0; padding-top: 18px; border-top: 1px solid var(--line-2); }
     .provider-grid { grid-template-columns: 1fr; }
     .provider { border-right: 0; border-bottom: 1px solid var(--line-2); }
@@ -864,7 +1414,7 @@
     .pricing-grid { grid-template-columns: 1fr 1fr; }
     .pricing-notify { grid-template-columns: 1fr; gap: 22px; padding: 24px; }
     .pricing-notify h3 { font-size: 24px; }
-    .final { padding: 64px 0; }
+    .final { padding: 48px 0; }
   }
   @media (max-width: 600px) {
     .pricing-grid { grid-template-columns: 1fr; }
@@ -882,9 +1432,43 @@
     }
     .wordmark { font-size: 19px; gap: 8px; }
     .wordmark .glyph { width: 24px; height: 22px; }
-    .page-hero h1, .hero-polished h1, .final h2, .ch-head h2 {
+    .page-hero h1, .final h2, .ch-head h2 {
       font-size: clamp(36px, 9vw, 56px) !important;
     }
+    .hero-lead { font-size: clamp(32px, 8.5vw, 48px) !important; max-width: none; margin-bottom: 22px !important; }
+    .hero-polished h2 { font-size: clamp(22px, 5.5vw, 32px) !important; }
+    .hero-wedge { grid-template-columns: 1fr 1fr !important; margin-top: 18px !important; padding-top: 0 !important; }
+    .wedge { padding: 14px 16px !important; }
+    .wedge .v { font-size: 22px !important; }
+    .wedge .sub { font-size: 12px !important; }
+    .live-section { padding: 36px 0 !important; }
+    .live-cap { margin-top: 16px !important; font-size: 13px !important; }
+    .pillar { padding: 44px 0 !important; }
+    .pillar-num { font-size: clamp(120px, 42vw, 200px) !important; }
+    .pillar-body h2 { font-size: 28px !important; }
+    .pillar-body p { font-size: 15px !important; }
+    .pillar-strip { font-size: 11px !important; gap: 14px 20px !important; }
+    .pillar-strip .item .v { font-size: 15px !important; }
+    .guarantees { padding: 48px 0 !important; }
+    .g-grid { grid-template-columns: 1fr !important; }
+    .guarantee { border-right: 0 !important; border-bottom: 1px solid var(--line-2) !important; padding: 24px 20px !important; }
+    .guarantee:last-child { border-bottom: 0 !important; }
+    .guarantee h4 { font-size: 17px !important; }
+    .guarantee p { font-size: 13px !important; }
+    .guarantee .stamp-link { font-size: 10px !important; }
+    .feat-section { padding: 48px 0 !important; }
+    .feat-grid { grid-template-columns: 1fr !important; }
+    .feat-card { min-height: 0 !important; padding: 22px 18px !important; }
+    .feat-card h4 { font-size: 19px !important; }
+    .feat-card p { font-size: 13px !important; }
+    .feat-flags { font-size: 20px !important; gap: 6px !important; }
+    .feat-flags .flag { height: 30px !important; }
+    .stack-section { padding: 48px 0 !important; }
+    .stack-grid { grid-template-columns: 1fr !important; }
+    .stack-card { min-height: 0 !important; padding: 22px 18px !important; }
+    .stack-head .app-name { font-size: 16px !important; }
+    .stack-chips .chip { font-size: 9px !important; padding: 2px 6px !important; }
+    .stack-ex { font-size: 11px !important; }
     .ch-head { gap: 14px !important; margin-bottom: 24px !important; }
     .ch-tag, .hero-dek, .page-hero .dek { font-size: 15px !important; }
     .ch-body p { font-size: 15px !important; }
@@ -915,7 +1499,7 @@
       border-top: 0 !important;
       border-bottom: 1px solid var(--line-2) !important;
     }
-    /* Force "Auris is $79 once." onto its own line on mobile. */
+    /* Force "Auris is $49 once." onto its own line on mobile. */
     .m-block { display: block; }
     /* Versus table: stacked cards with explicit Auris / Other labels so the
        column meaning is clear with the head row hidden. */
@@ -968,8 +1552,6 @@
       white-space: nowrap;
       flex: 0 1 auto;
     }
-    .control-tb { padding: 0 14px !important; }
-    .control-foot { padding: 12px 14px !important; font-size: 11px !important; gap: 8px !important; }
     .feature-grid, .keep-grid, .pricing-grid, .provider-grid, .modes-grid, .lives-grid, .ways-grid, .slider-details {
       grid-template-columns: 1fr !important;
     }
@@ -982,8 +1564,10 @@
     .price-card { min-height: 0 !important; padding: 22px !important; }
     .price-card .px { font-size: 40px !important; }
     .final { padding: 56px 0 !important; }
-    .secnav-wrap { top: 56px; }
-    .secnav a { padding: 12px 14px; font-size: 11px; }
+    .secnav-wrap { top: 56px !important; }
+    .secnav { padding: 0 18px !important; gap: 18px !important; }
+    .secnav a { padding: 11px 0 7px !important; font-size: 10px !important; letter-spacing: 0.06em !important; }
+    .secnav .idx { margin-right: 5px !important; }
     .colophon { font-size: 11px; gap: 14px; }
     .keep-file { grid-template-columns: 1fr !important; gap: 8px !important; }
     .cost-head, .cost-row { grid-template-columns: 1fr !important; gap: 4px !important; padding: 14px 18px !important; }
@@ -993,6 +1577,148 @@
     .team-block { grid-template-columns: 1fr !important; }
     .langs-grid { grid-template-columns: 1fr 1fr; }
     .stickbar { display: none !important; }
+  }
+
+  /* IN-PAGE SECONDARY NAV (sticky below masthead) */
+  .secnav-wrap {
+    position: sticky;
+    top: 70px;
+    z-index: 30;
+    background: rgba(1, 1, 0, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line-2);
+  }
+  .secnav {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .secnav::-webkit-scrollbar { display: none; }
+  .secnav a {
+    display: inline-flex;
+    align-items: center;
+    padding: 14px 0 10px;
+    line-height: 1;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.10em;
+    color: var(--paper-3);
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: color 180ms;
+    border-bottom: 1px solid transparent;
+  }
+  .secnav a:hover { color: var(--paper); }
+  .secnav a.on {
+    color: var(--signal);
+    border-bottom-color: var(--signal);
+  }
+  .secnav .idx {
+    color: var(--signal);
+    margin-right: 8px;
+    font-weight: 700;
+  }
+
+  /* FOUNDERS LIST BOX: free founder license promo */
+  .founders-box {
+    margin: 18px 0 6px;
+    padding: 32px 40px;
+    background:
+      radial-gradient(ellipse 70% 90% at 50% 0%, rgba(250, 227, 83, 0.10) 0%, transparent 70%),
+      var(--ink-2);
+    border: 1px solid rgba(250, 227, 83, 0.18);
+    border-radius: 8px;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 36px;
+    align-items: center;
+    overflow: hidden;
+  }
+  .founders-box::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, rgba(250, 227, 83, 0.7) 50%, transparent 100%);
+    opacity: 1;
+  }
+  .founders-box .fb-left {
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .founders-box .fb-eb {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.10em; font-weight: 700;
+    color: var(--signal); text-transform: uppercase;
+  }
+  .founders-box h3 {
+    font-size: clamp(28px, 3vw, 38px);
+    font-weight: 800; line-height: 1.05;
+    color: var(--paper); letter-spacing: -0.020em;
+  }
+  .founders-box h3 em {
+    font-style: italic; color: var(--signal); font-weight: 500;
+    letter-spacing: -0.005em;
+  }
+  .founders-box .fb-body {
+    font-size: 15px; line-height: 1.55;
+    color: var(--paper-2); max-width: 52ch;
+    letter-spacing: -0.003em;
+  }
+  .founders-box .fb-body b {
+    color: var(--signal); font-weight: 700;
+  }
+  .founders-box form.fb-form {
+    display: flex; gap: 0;
+    border: 1px solid var(--line-3);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--ink-3);
+  }
+  .founders-box form.fb-form:focus-within {
+    border-color: var(--signal);
+  }
+  .founders-box input[type="email"] {
+    flex: 1; min-width: 0;
+    background: transparent; border: 0; outline: 0;
+    padding: 14px 18px;
+    color: var(--paper); font-family: inherit;
+    font-size: 14px; letter-spacing: -0.005em;
+  }
+  .founders-box input[type="email"]::placeholder {
+    color: var(--mist);
+  }
+  .founders-box button[type="submit"] {
+    background: var(--signal); color: var(--ink);
+    border: 0; padding: 14px 22px;
+    font-weight: 700; font-size: 11px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+    white-space: nowrap;
+    transition: background 180ms;
+    font-family: inherit;
+  }
+  .founders-box button[type="submit"]:hover {
+    background: var(--signal-soft);
+  }
+  .founders-box button[type="submit"]:disabled {
+    background: var(--mist); cursor: progress;
+  }
+  @media (max-width: 980px) {
+    .founders-box {
+      grid-template-columns: 1fr;
+      padding: 28px 24px;
+      gap: 22px;
+    }
+    .founders-box h3 { font-size: 26px; }
   }
 
 </style>
@@ -1109,12 +1835,11 @@
     </div>
   </header>
 
+  <main>
+
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-eyebrow">
-      <span class="pill live" id="rec-pill"><span class="led" aria-hidden="true"></span>recording</span>
-      <span class="ti">Mac &amp; Windows</span>
-    </div>
+    <h1 class="hero-lead">Voice-to-text that <em class="sig">sounds like you.</em></h1>
 
     <div class="hero-split">
       <div class="hero-raw" id="raw" aria-hidden="true"><span class="caret"></span></div>
@@ -1123,74 +1848,51 @@
       </div>
       <div class="hero-polished" id="polished">
         <div class="stamp">polished</div>
-        <h1>Hear yourself <em class="sig">think.</em></h1>
+        <h2>We could push the launch to Thursday or Friday, whichever works for the team.</h2>
       </div>
     </div>
 
     <div class="hero-deck">
       <div class="hero-deck-l">
-        <p class="hero-dek"><b>BYOK</b> voice-to-text for Mac and Windows.</p>
-        <ul class="hero-values" aria-label="What you get">
-          <li><b>Your AI, your key.</b></li>
-          <li>Or <span class="hl">fully local.</span></li>
-        </ul>
-        <div class="hero-cta">
-          <form class="notify" action="https://app.kit.com/forms/9456910/subscriptions" method="POST" novalidate>
-            <input type="hidden" name="fields[source]" value="home-hero">
-            <div class="notify-label">Get the launch alert</div>
-            <div class="notify-row">
-              <input type="email" name="email_address" placeholder="you@example.com" required aria-label="Email address">
-              <button type="submit">Notify me <span class="arr">→</span></button>
-            </div>
-            <div class="notify-hint"><b>One email</b> when Auris ships. No newsletter.</div>
-          </form>
-        </div>
+        <p class="hero-dek">Hold a hotkey, talk, release. Auris turns your voice into clean text in the window you're already in. Bring <b>your own API keys</b>, or run <b>fully local</b>.</p>
       </div>
     </div>
-  </section>
 
-  <!-- FOR (use cases) -->
-  <section class="chapter" id="for">
-    <div class="ch-head">
-      <div>
-        <div class="ch-eyebrow">For · <b>001</b></div>
-        <h2>What people do with <em class="sig">Auris.</em></h2>
+    <!-- FOUNDERS LIST: free founder license for first 100 signups -->
+    <aside class="founders-box" aria-label="Free copy for first 100 signups">
+      <div class="fb-left">
+        <span class="fb-eb">Founders list</span>
+        <h3>First 100 get Auris <em>free</em>.</h3>
+        <p class="fb-body">After that, everyone on the list locks in <b>$49 Founder pricing</b>.</p>
       </div>
-      <div class="ch-tag">Five workflows, five ways Auris polishes what you say.</div>
-    </div>
-
-    <div class="feature-grid">
-      <article class="feature">
-        <h4>Easier on your hands.</h4>
-        <p>Tap-and-release <b>hands-free mode</b> with auto-stop on silence. Useful when you have RSI, a sprained wrist, or just need a break from typing all day.</p>
-      </article>
-      <article class="feature">
-        <h4>Writers drafting prose.</h4>
-        <p>Memos save as <b>real Markdown files</b> on your disk. Sync them via Dropbox, iCloud, or git. Studio Mode disappears the UI for distraction-free long-form composition.</p>
-      </article>
-      <article class="feature">
-        <h4>Slack, Gmail, Notion.</h4>
-        <p>Auris reads the active app and switches tone. <b>Casual</b> for chat, <b>professional</b> for email, <b>plain</b> for notes. Set rules per app once, forget them.</p>
-      </article>
-      <article class="feature">
-        <h4>English here, Spanish there.</h4>
-        <p>Lock the transcription language per app. English in Slack, Spanish in personal Notes. Whisper picks the right one and drops the wrong one.</p>
-      </article>
-      <article class="feature">
-        <h4>Sensitive work.</h4>
-        <p>Built-in pattern redaction for <b>email, phone, SSN, credit card</b>, plus custom regex you add. Matched dictations never get saved to history. Or run the whole stack fully offline.</p>
-      </article>
-    </div>
+      <form class="fb-form" action="https://app.kit.com/forms/9456910/subscriptions" method="POST" novalidate>
+        <input type="hidden" name="fields[source]" value="founders-list-hero">
+        <input type="email" name="email_address" placeholder="you@example.com" required aria-label="Email address">
+        <button type="submit">Reserve mine <span aria-hidden="true">→</span></button>
+      </form>
+    </aside>
   </section>
+
+  <!-- IN-PAGE JUMP NAV (sticky below masthead, sits under the hero) -->
+  <div class="secnav-wrap">
+    <nav class="secnav" aria-label="On this page">
+      <a href="#how"><span class="idx">01</span>How</a>
+      <a href="#style"><span class="idx">02</span>Voice</a>
+      <a href="#feats"><span class="idx">03</span>Capabilities</a>
+      <a href="#privacy"><span class="idx">04</span>Privacy</a>
+      <a href="#versus"><span class="idx">05</span>Versus</a>
+      <a href="#pricing"><span class="idx">06</span>Pricing</a>
+    </nav>
+  </div>
 
   <!-- MATH -->
   <section class="chapter" id="speed">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Math · <b>002</b></div>
+        <div class="ch-eyebrow">Math</div>
         <h2>You <em class="sig">speak</em> faster than you type.</h2>
       </div>
-      <div class="ch-tag">Average typing: <b>forty words a minute.</b> Productive typing: <b>sixty-five.</b> Speaking: <em class="sig">one sixty.</em> Auris puts the <b>speaking speed</b> wherever you write.</div>
+      <div class="ch-tag">The speed has always been there.<br><b>The cleanup is what was missing.</b> Auris ships both.</div>
     </div>
 
     <div class="speed-chart" aria-label="Words per minute">
@@ -1216,9 +1918,10 @@
   <section class="chapter" id="how">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">How · <b>003</b></div>
+        <div class="ch-eyebrow">How</div>
         <h2>Hold. Speak. Release.</h2>
       </div>
+      <div class="ch-tag">One hotkey, any app.<br><b>One to two seconds</b> from press to polished text.</div>
     </div>
 
     <div class="how-grid">
@@ -1235,14 +1938,14 @@
       <article class="how-card">
         <span class="num">02 · Speak</span>
         <h3>Say anything.</h3>
-        <div class="keys"><span class="kbd" style="background: transparent; border-style: dashed;">talk for as long as you need</span></div>
+        <div class="keys"><span class="kbd" style="background: transparent; border-style: dashed;">Talk for as long as you need</span></div>
         <p>Auris transcribes everything while you're holding the key. <b>No time limit.</b></p>
       </article>
       <article class="how-card">
         <span class="num">03 · Release</span>
         <h3>Read it back.</h3>
-        <div class="keys"><span class="kbd" style="border-color: var(--signal-deep); color: var(--signal);">clean text · 1–2s later</span></div>
-        <p>Let go. <b>Clean text lands at your cursor.</b> Filler gone, punctuation right, your voice intact.</p>
+        <div class="keys"><span class="kbd" style="border-color: var(--signal-deep); color: var(--signal);">Clean text · 1–2s later</span></div>
+        <p>Let go. <b>Clean text lands in the window you started in.</b> Filler gone, punctuation right, your voice intact.</p>
       </article>
     </div>
 
@@ -1253,19 +1956,14 @@
   <section class="chapter" id="style">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Voice · <b>004</b></div>
+        <div class="ch-eyebrow">Voice</div>
         <h2>It sounds like you.</h2>
       </div>
-      <div class="ch-tag">Three sliders set the tone. Different tones for different apps. Custom rules. A vocabulary that learns. Snippets on spoken triggers.</div>
+      <div class="ch-tag">Three sliders, three dimensions.<br>Drag any one and the same dictation repolishes to match your tone.</div>
     </div>
 
     <div class="ch-body" style="max-width: none;">
       <div class="control" role="group" aria-label="Style controls">
-        <div class="control-tb">
-          <div class="l"><span class="mk">AURIS</span><span>style</span></div>
-          <div class="c">live preview</div>
-          <div class="r"><span class="led" aria-hidden="true"></span>private</div>
-        </div>
         <div class="control-grid">
           <div class="control-sliders">
             <label class="slider">
@@ -1283,40 +1981,254 @@
               <input type="range" min="0" max="5" value="3" id="s3" aria-label="Assertiveness">
               <span class="ends"><span>soft</span><span>direct</span></span>
             </label>
-            <label class="slider">
-              <span class="top"><span class="name">Cleanup</span><span class="v" id="v4">4 / 5</span></span>
-              <input type="range" min="0" max="5" value="4" id="s4" aria-label="Cleanup">
-              <span class="ends"><span>none</span><span>aggressive</span></span>
-            </label>
           </div>
           <div class="control-preview">
-            <span class="lbl">same dictation, drag to repolish</span>
+            <span class="lbl">Result</span>
             <p class="out" id="preview">Migration is blocked on auth. We need two more days for staging.</p>
           </div>
         </div>
-        <div class="control-foot">
-          <span><b>per-app modes</b> · slack casual · outlook email · vscode comments</span>
-          <span><b>vocabulary</b> · 73 entries this week</span>
-        </div>
       </div>
 
-      <div class="how-grid" style="margin-top: 28px;">
-        <article class="how-card">
-          <span class="num">01 · Rules</span>
-          <h3>Custom rules,<br>per app.</h3>
-          <p>Capitalize the project name in Notion. <b>Never</b> use exclamation points in Outlook. Always sign Slack messages the same way.</p>
-        </article>
-        <article class="how-card">
-          <span class="num">02 · Vocabulary</span>
-          <h3>A dictionary<br>that learns.</h3>
-          <p>Fix a misspelled word once in Slack, Word, or anywhere you type, and Auris notices the correction. Next time you say it, <b>it lands right.</b></p>
-        </article>
-        <article class="how-card">
-          <span class="num">03 · Snippets</span>
-          <h3>Triggers<br>that fire.</h3>
-          <p>Say <span class="sg">"today's date,"</span> get today's date. Say <span class="sg">"meeting template,"</span> get a meeting-notes skeleton with the date already in it.</p>
-        </article>
+    </div>
+  </section>
+
+  <!-- STACK: voice for your stack, 6 per-app presets -->
+  <section class="stack-section" id="stack">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Per-app presets</div>
+        <h2>Voice for <em class="alt">your stack.</em></h2>
       </div>
+      <div class="ch-tag">Auris detects the active window and switches tone.<br>Set the preset once per app; forget it forever.</div>
+    </div>
+
+    <div class="stack-grid">
+
+      <article class="stack-card">
+        <div class="stack-head">
+          <span class="logo-mark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></svg></span>
+          <span class="app-name">Slack</span>
+        </div>
+        <div class="stack-chips">
+          <span class="chip"><span class="k">mode</span><span class="v">casual</span></span>
+          <span class="chip"><span class="k">tone</span><span class="v">playful</span></span>
+          <span class="chip"><span class="k">fmt</span><span class="v">md</span></span>
+        </div>
+        <div class="stack-ex">
+          <span class="lbl">You say</span>
+          <span class="raw">"Yeah we should um ship this on friday i think"</span>
+          <span class="lbl" style="margin-top: 4px;">Auris types</span>
+          <span class="pol">We should ship this <span class="hl">Friday.</span></span>
+        </div>
+      </article>
+
+      <article class="stack-card">
+        <div class="stack-head">
+          <span class="logo-mark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg></span>
+          <span class="app-name">Gmail</span>
+        </div>
+        <div class="stack-chips">
+          <span class="chip"><span class="k">mode</span><span class="v">email</span></span>
+          <span class="chip"><span class="k">tone</span><span class="v">professional</span></span>
+          <span class="chip"><span class="k">fmt</span><span class="v">plain</span></span>
+        </div>
+        <div class="stack-ex">
+          <span class="lbl">You say</span>
+          <span class="raw">"hi sarah um can we move the meeting"</span>
+          <span class="lbl" style="margin-top: 4px;">Auris types</span>
+          <span class="pol"><span class="hl">Hi Sarah,</span><br>Can we move the meeting?</span>
+        </div>
+      </article>
+
+      <article class="stack-card">
+        <div class="stack-head">
+          <span class="logo-mark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936.55l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.633z"/></svg></span>
+          <span class="app-name">Notion</span>
+        </div>
+        <div class="stack-chips">
+          <span class="chip"><span class="k">mode</span><span class="v">default</span></span>
+          <span class="chip"><span class="k">tone</span><span class="v">editorial</span></span>
+          <span class="chip"><span class="k">fmt</span><span class="v">md</span></span>
+        </div>
+        <div class="stack-ex">
+          <span class="lbl">You say</span>
+          <span class="raw">"todo migrate the api"</span>
+          <span class="lbl" style="margin-top: 4px;">Auris types</span>
+          <span class="pol"><span class="hl">## TODO</span><br>- Migrate the API</span>
+        </div>
+      </article>
+
+      <article class="stack-card">
+        <div class="stack-head">
+          <span class="logo-mark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.925 24l10.425-6-10.425-6L1.5 18l10.425 6zM22.35 18V6L11.925 0v12l10.425 6zM1.5 18V6l10.425-6v12L1.5 18z"/></svg></span>
+          <span class="app-name">Cursor</span>
+        </div>
+        <div class="stack-chips">
+          <span class="chip"><span class="k">mode</span><span class="v">code</span></span>
+          <span class="chip"><span class="k">tone</span><span class="v">default</span></span>
+          <span class="chip"><span class="k">fmt</span><span class="v">plain</span></span>
+        </div>
+        <div class="stack-ex">
+          <span class="lbl">You say</span>
+          <span class="raw">"function get user by id takes a string returns a user"</span>
+          <span class="lbl" style="margin-top: 4px;">Auris types</span>
+          <span class="pol"><span class="hl">function getUserById</span>(id: string): User</span>
+        </div>
+      </article>
+
+      <article class="stack-card">
+        <div class="stack-head">
+          <span class="logo-mark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg></span>
+          <span class="app-name">ChatGPT</span>
+        </div>
+        <div class="stack-chips">
+          <span class="chip"><span class="k">mode</span><span class="v">minimal</span></span>
+          <span class="chip"><span class="k">tone</span><span class="v">default</span></span>
+          <span class="chip"><span class="k">fmt</span><span class="v">plain</span></span>
+        </div>
+        <div class="stack-ex">
+          <span class="lbl">You say</span>
+          <span class="raw">"explain this um step by step with examples"</span>
+          <span class="lbl" style="margin-top: 4px;">Auris types</span>
+          <span class="pol">Explain this <span class="hl">step by step,</span> with examples.</span>
+        </div>
+      </article>
+
+      <article class="stack-card">
+        <div class="stack-head">
+          <span class="logo-mark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 20.06V3.939a1.5 1.5 0 0 0-.85-1.352zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/></svg></span>
+          <span class="app-name">VS Code</span>
+        </div>
+        <div class="stack-chips">
+          <span class="chip"><span class="k">mode</span><span class="v">code</span></span>
+          <span class="chip"><span class="k">tone</span><span class="v">default</span></span>
+          <span class="chip"><span class="k">fmt</span><span class="v">plain</span></span>
+        </div>
+        <div class="stack-ex">
+          <span class="lbl">You say</span>
+          <span class="raw">"todo refactor the auth middleware"</span>
+          <span class="lbl" style="margin-top: 4px;">Auris types</span>
+          <span class="pol"><span class="hl">// TODO:</span> refactor the auth middleware</span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- FEATS: six small fixes Auris does by default -->
+  <section class="feat-section" id="feats">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Defaults</div>
+        <h2>Six fixes, <em class="alt">handled.</em></h2>
+      </div>
+      <div class="ch-tag">Stray em-dashes, fillers, missing punctuation, wrong caps.<br><b>Auris fixes them by default.</b></div>
+    </div>
+
+    <div class="feat-grid">
+
+      <article class="feat-card emdash-card">
+        <div class="feat-vis">
+          <div class="feat-diff" aria-label="Em-dash auto-strip example. Hover to see the polish run live.">
+            <div class="row before">
+              <span class="lbl">Raw</span>
+              <span class="val">"well <span class="em em-swap"><span class="dash">&mdash;</span><span class="comma">,</span></span> actually <span class="em em-swap"><span class="dash">&mdash;</span><span class="comma">,</span></span> yes"</span>
+            </div>
+            <div class="row after">
+              <span class="lbl">Polish</span>
+              <span class="val">"well, actually, yes"</span>
+            </div>
+          </div>
+        </div>
+        <h4>Em-dashes <em class="alt">gone.</em></h4>
+        <p>Most LLMs love em-dashes. Most people want them gone. Auris strips them and uses commas instead.</p>
+      </article>
+
+      <article class="feat-card">
+        <div class="feat-vis">
+          <div class="feat-diff" aria-label="Auris adds dialogue quotes, curly quotes, and apostrophes from raw STT output">
+            <div class="row before">
+              <span class="lbl">Raw</span>
+              <span class="val">hello she said its mine</span>
+            </div>
+            <div class="row after">
+              <span class="lbl">Polish</span>
+              <span class="val">&ldquo;Hello,&rdquo; she said. &ldquo;It&rsquo;s mine.&rdquo;</span>
+            </div>
+          </div>
+        </div>
+        <h4>Smart quotes.</h4>
+        <p>Curly quotes and apostrophes. Auris also adds them around dialogue when you don't say <b>"quote."</b></p>
+      </article>
+
+      <article class="feat-card">
+        <div class="feat-vis">
+          <div class="feat-diff" aria-label="Filler words stripped from a dictated sentence">
+            <div class="row before">
+              <span class="lbl">Raw</span>
+              <span class="val"><s>um</s> well <s>uh</s> i think <s>like</s> we should ship this <s>you know</s></span>
+            </div>
+            <div class="row after">
+              <span class="lbl">Polish</span>
+              <span class="val">Well, I think we should ship this.</span>
+            </div>
+          </div>
+        </div>
+        <h4>Fillers stripped.</h4>
+        <p><b>Um, uh, like, mm, you know, basically.</b> Dead syllables removed automatically. Tunable in Settings.</p>
+      </article>
+
+      <article class="feat-card">
+        <div class="feat-vis">
+          <div class="feat-diff" aria-label="Sentence-start capitalization">
+            <div class="row before">
+              <span class="lbl">Raw</span>
+              <span class="val">hi sarah. can we move the meeting</span>
+            </div>
+            <div class="row after">
+              <span class="lbl">Polish</span>
+              <span class="val">Hi Sarah. Can we move the meeting?</span>
+            </div>
+          </div>
+        </div>
+        <h4>Capitals where they belong.</h4>
+        <p>First letter after every period, question mark, exclamation. Proper nouns too. Auris reads context like a copy editor.</p>
+      </article>
+
+      <article class="feat-card">
+        <div class="feat-vis">
+          <div class="feat-diff" aria-label="Punctuation added where the sentence requires it">
+            <div class="row before">
+              <span class="lbl">Raw</span>
+              <span class="val">i need this by friday what do you think</span>
+            </div>
+            <div class="row after">
+              <span class="lbl">Polish</span>
+              <span class="val">I need this by Friday. What do you think?</span>
+            </div>
+          </div>
+        </div>
+        <h4>Punctuation that wasn't there.</h4>
+        <p>Commas, periods, question marks added where the sentence demands. Run-ons split. Lists comma-separated.</p>
+      </article>
+
+      <article class="feat-card">
+        <div class="feat-vis">
+          <div class="feat-diff" aria-label="Auto-format: prose to bullets">
+            <div class="row before">
+              <span class="lbl">Raw</span>
+              <span class="val">tasks sprint planning auth fix</span>
+            </div>
+            <div class="row after">
+              <span class="lbl">Polish</span>
+              <span class="val">## Tasks<br>- Sprint planning, auth fix</span>
+            </div>
+          </div>
+        </div>
+        <h4>Structure when you need it.</h4>
+        <p>Enumerate and Auris turns it into bullets. Say <b>"heading"</b> for a heading. Shift topic for a paragraph break.</p>
+      </article>
+
     </div>
   </section>
 
@@ -1324,24 +2236,42 @@
   <section class="chapter" id="run">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Run it · <b>005</b></div>
-        <h2>Three ways to <em class="sig">run Auris.</em></h2>
+        <div class="ch-eyebrow">Run it</div>
+        <h2>Three ways to run Auris.</h2>
       </div>
-      <div class="ch-tag">Auris doesn't host an AI. You bring your own, or run one on your own machine.</div>
+      <div class="ch-tag">Auris doesn't host an AI.<br>You bring your own, or run one on your own machine.</div>
     </div>
 
-    <div class="feature-grid">
-      <article class="feature">
+    <div class="feature-grid run-grid">
+      <article class="feature run-mode">
+        <div class="run-tag"><b>01</b> Cloud</div>
         <h4>Bring your keys.</h4>
-        <p>Use your <b>OpenAI</b>, <b>Anthropic</b>, or <b>Groq</b> account. Auris talks to them directly with your API key. <b>Groq currently has a free tier.</b> No payment method needed to start.</p>
+        <p>Plug in your <b>OpenAI</b>, <b>Anthropic</b>, or <b>Groq</b> key. Auris talks to them directly. <span class="rh">Groq has a free tier</span>, no payment method needed to start.</p>
+        <div class="run-pipe">
+          <span class="rp-stage"><span class="rp-lbl">STT</span><span class="rp-val">Cloud</span></span>
+          <span class="rp-arrow" aria-hidden="true">→</span>
+          <span class="rp-stage"><span class="rp-lbl">Polish</span><span class="rp-val">Cloud</span></span>
+        </div>
       </article>
-      <article class="feature">
+      <article class="feature run-mode">
+        <div class="run-tag"><b>02</b> Local</div>
         <h4>Fully local.</h4>
-        <p>Run a local LLM with <b>Ollama</b>, <b>LM Studio</b>, <b>llama.cpp</b>, or anything that speaks the OpenAI API. You pay nothing past your electric bill. Audio never leaves your machine.</p>
+        <p><b>Whisper</b> for speech, <b>any local LLM</b> for polish, or built-in rules. <span class="rh">Audio stays local.</span></p>
+        <div class="run-pipe">
+          <span class="rp-stage"><span class="rp-lbl">STT</span><span class="rp-val local">Local</span></span>
+          <span class="rp-arrow" aria-hidden="true">→</span>
+          <span class="rp-stage"><span class="rp-lbl">Polish</span><span class="rp-val local">Local</span></span>
+        </div>
       </article>
-      <article class="feature">
-        <h4>Mixed.</h4>
-        <p>Local for sensitive work, health notes, legal drafts, internal codebases. Cloud when you want the heavy hitters like <b>Claude</b> or <b>ChatGPT</b>. Switch in Settings any time.</p>
+      <article class="feature run-mode">
+        <div class="run-tag"><b>03</b> Mixed</div>
+        <h4>Mix and match.</h4>
+        <p>STT and polish are <span class="rh">independent.</span> Cloud Whisper with a local LLM, local Whisper with Claude, or any combination. <b>Switch in Settings any time.</b></p>
+        <div class="run-pipe">
+          <span class="rp-stage"><span class="rp-lbl">STT</span><span class="rp-val"><span class="lc">Local</span> or Cloud</span></span>
+          <span class="rp-arrow" aria-hidden="true">→</span>
+          <span class="rp-stage"><span class="rp-lbl">Polish</span><span class="rp-val"><span class="lc">Local</span> or Cloud</span></span>
+        </div>
       </article>
     </div>
   </section>
@@ -1350,28 +2280,28 @@
   <section class="chapter" id="ai">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Backend · <b>006</b></div>
+        <div class="ch-eyebrow">Backend</div>
         <h2>Use any AI, or no cloud at all.</h2>
       </div>
-      <div class="ch-tag">Bring your own key for OpenAI, Anthropic, or Groq.<br>Or run a local model and work fully offline. No internet needed.</div>
+      <div class="ch-tag">Bring your own API keys.<br>Or run a local model and work offline. No internet needed.</div>
     </div>
 
     <div class="provider-grid">
+      <div class="provider anthropic">
+        <span class="tag"><span class="dot"></span>BYOK &middot; <b>Default</b></span>
+        <div class="provider-head">
+          <span class="provider-icon"><svg fill="currentColor" fill-rule="evenodd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="Anthropic"><path d="M13.827 3.52h3.603L24 20h-3.603l-6.57-16.48zm-7.258 0h3.767L16.906 20h-3.674l-1.343-3.461H5.017l-1.344 3.46H0L6.57 3.522zm4.132 9.959L8.453 7.687 6.205 13.48H10.7z"/></svg></span>
+          <h4>Anthropic</h4>
+        </div>
+        <p>Built around <b>Claude Haiku.</b> Fast, cheap, and recommended.</p>
+      </div>
       <div class="provider openai">
         <span class="tag"><span class="dot"></span>BYOK</span>
         <div class="provider-head">
           <span class="provider-icon"><svg fill="currentColor" fill-rule="evenodd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="OpenAI"><path d="M9.205 8.658v-2.26c0-.19.072-.333.238-.428l4.543-2.616c.619-.357 1.356-.523 2.117-.523 2.854 0 4.662 2.212 4.662 4.566 0 .167 0 .357-.024.547l-4.71-2.759a.797.797 0 00-.856 0l-5.97 3.473zm10.609 8.8V12.06c0-.333-.143-.57-.429-.737l-5.97-3.473 1.95-1.118a.433.433 0 01.476 0l4.543 2.617c1.309.76 2.189 2.378 2.189 3.948 0 1.808-1.07 3.473-2.76 4.163zM7.802 12.703l-1.95-1.142c-.167-.095-.239-.238-.239-.428V5.899c0-2.545 1.95-4.472 4.591-4.472 1 0 1.927.333 2.712.928L8.23 5.067c-.285.166-.428.404-.428.737v6.898zM12 15.128l-2.795-1.57v-3.33L12 8.658l2.795 1.57v3.33L12 15.128zm1.796 7.23c-1 0-1.927-.332-2.712-.927l4.686-2.712c.285-.166.428-.404.428-.737v-6.898l1.974 1.142c.167.095.238.238.238.428v5.233c0 2.545-1.974 4.472-4.614 4.472zm-5.637-5.303l-4.544-2.617c-1.308-.761-2.188-2.378-2.188-3.948A4.482 4.482 0 014.21 6.327v5.423c0 .333.143.571.428.738l5.947 3.449-1.95 1.118a.432.432 0 01-.476 0zm-.262 3.9c-2.688 0-4.662-2.021-4.662-4.519 0-.19.024-.38.047-.57l4.686 2.71c.286.167.571.167.856 0l5.97-3.448v2.26c0 .19-.07.333-.237.428l-4.543 2.616c-.619.357-1.356.523-2.117.523zm5.899 2.83a5.947 5.947 0 005.827-4.756C22.287 18.339 24 15.84 24 13.296c0-1.665-.713-3.282-1.998-4.448.119-.5.19-.999.19-1.498 0-3.401-2.759-5.947-5.946-5.947-.642 0-1.26.095-1.88.31A5.962 5.962 0 0010.205 0a5.947 5.947 0 00-5.827 4.757C1.713 5.447 0 7.945 0 10.49c0 1.666.713 3.283 1.998 4.448-.119.5-.19 1-.19 1.499 0 3.401 2.759 5.946 5.946 5.946.642 0 1.26-.095 1.88-.309a5.96 5.96 0 004.162 1.713z"/></svg></span>
           <h4>OpenAI</h4>
         </div>
-        <p>Use your existing OpenAI key for the polish step.</p>
-      </div>
-      <div class="provider anthropic">
-        <span class="tag"><span class="dot"></span>BYOK</span>
-        <div class="provider-head">
-          <span class="provider-icon"><svg fill="currentColor" fill-rule="evenodd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="Anthropic"><path d="M13.827 3.52h3.603L24 20h-3.603l-6.57-16.48zm-7.258 0h3.767L16.906 20h-3.674l-1.343-3.461H5.017l-1.344 3.46H0L6.57 3.522zm4.132 9.959L8.453 7.687 6.205 13.48H10.7z"/></svg></span>
-          <h4>Anthropic</h4>
-        </div>
-        <p>Bring your Anthropic key for Claude polish. Same usage range as OpenAI.</p>
+        <p>Plug in your key for any GPT model, from <b>gpt-4o-mini</b> to <b>gpt-4o.</b></p>
       </div>
       <div class="provider groq">
         <span class="tag"><span class="dot"></span>BYOK</span>
@@ -1379,7 +2309,7 @@
           <span class="provider-icon"><svg fill="currentColor" fill-rule="evenodd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="Groq"><path d="M12.036 2c-3.853-.035-7 3-7.036 6.781-.035 3.782 3.055 6.872 6.908 6.907h2.42v-2.566h-2.292c-2.407.028-4.38-1.866-4.408-4.23-.029-2.362 1.901-4.298 4.308-4.326h.1c2.407 0 4.358 1.915 4.365 4.278v6.305c0 2.342-1.944 4.25-4.323 4.279a4.375 4.375 0 01-3.033-1.252l-1.851 1.818A7 7 0 0012.029 22h.092c3.803-.056 6.858-3.083 6.879-6.816v-6.5C18.907 4.963 15.817 2 12.036 2z"/></svg></span>
           <h4>Groq</h4>
         </div>
-        <p>Fastest round-trips. Bring your Groq key for sub-second polish.</p>
+        <p>LPU hardware delivers sub-second polish. <b>Generous free tier</b> to start.</p>
       </div>
       <div class="provider local">
         <span class="tag"><span class="dot"></span>Local</span>
@@ -1391,25 +2321,23 @@
       </div>
     </div>
 
-    <p class="ch-body" style="max-width: 64ch; margin-top: 18px;">
-      Most people pay <b style="color: var(--paper);">$2 to $5 a month</b> in API usage.<br>Pick local and pay nothing past your electric bill.
-    </p>
   </section>
 
-  <!-- PRIVACY -->
-  <section class="chapter" id="privacy">
-    <div class="ch-head">
-      <div>
-        <div class="ch-eyebrow">Privacy · <b>007</b></div>
-        <h2>Auris keeps <em class="sig">nothing.</em></h2>
+  <!-- PRIVACY: pillar moment ("0 bytes") + supporting evidence (keep-grid) -->
+  <section class="chapter pillar" id="privacy" aria-label="Privacy">
+    <div class="pillar-grid">
+      <div class="pillar-num">0<span class="underbar" aria-hidden="true"></span></div>
+      <div class="pillar-body">
+        <span class="eb">Privacy &middot; in local mode</span>
+        <h2>bytes leave <em class="sig">your machine.</em></h2>
+        <p>Run Whisper locally for transcription, Ollama (or any local LLM) for polish. Auris's outbound network traffic is <b>empty</b>. No telemetry, no analytics, no error reporting, no update pings, no model-training payloads. <b>Pull the network cable. It still works.</b></p>
       </div>
-      <div class="ch-tag">No account. No subscription. No server.<br>Your history is a local file. Delete it whenever.</div>
     </div>
 
     <div class="keep-grid">
       <article class="keep-card">
         <span class="strike">No server</span>
-        <p>There isn't one.<br>Audio runs locally or goes <b>direct to your provider.</b> Nothing routes through us.</p>
+        <p>Audio runs locally or goes <b>direct to your provider.</b> Nothing routes through us.</p>
       </article>
       <article class="keep-card">
         <span class="strike">No account</span>
@@ -1417,7 +2345,7 @@
       </article>
       <article class="keep-card">
         <span class="strike">No subscription</span>
-        <p><b>$79 once.</b> No recurring charges. Updates included.</p>
+        <p><b>$49 once.</b> No recurring charges. Updates included.</p>
       </article>
       <article class="keep-card">
         <span class="strike">No training</span>
@@ -1436,14 +2364,79 @@
     </div>
   </section>
 
+  <!-- GUARANTEES: four honest, defensible claims -->
+  <section class="guarantees" id="guarantees">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Guarantees</div>
+        <h2>What we <em class="alt">stand behind.</em></h2>
+      </div>
+      <div class="ch-tag">Four claims, four receipts.<br>No HIPAA badge we don't have, no enterprise theater.</div>
+    </div>
+
+    <div class="g-grid">
+      <article class="guarantee">
+        <div class="g-seal" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="6" width="16" height="12" rx="1.5"/>
+            <circle cx="8.5" cy="12" r="1" fill="currentColor" stroke="none"/>
+            <ellipse cx="12" cy="12" rx="1" ry="2.6" fill="currentColor" stroke="none" opacity="0.7"/>
+            <ellipse cx="15.4" cy="12" rx="1" ry="4.4" fill="currentColor" stroke="none" opacity="0.4"/>
+          </svg>
+        </div>
+        <h4>On-Device Audio</h4>
+        <p>Run Whisper-local for transcription and audio never leaves your machine. Bytes are <b>opened, processed, discarded</b> in RAM.</p>
+        <a class="stamp-link" href="#run">Run it <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="guarantee">
+        <div class="g-seal" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="8"/>
+            <line x1="6.5" y1="6.5" x2="17.5" y2="17.5" stroke-width="2"/>
+          </svg>
+        </div>
+        <h4>No Telemetry</h4>
+        <p>Zero analytics, zero crash reports, zero usage stats. No opt-out switch because <b>there's nothing to opt out of.</b></p>
+        <a class="stamp-link" href="#privacy">Privacy <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="guarantee">
+        <div class="g-seal" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8.5" cy="12" r="3.5"/>
+            <circle cx="8.5" cy="12" r="1" fill="currentColor" stroke="none"/>
+            <path d="M12 12 L21 12" stroke-width="2"/>
+            <path d="M19 12 L19 15 M17 12 L17 14"/>
+          </svg>
+        </div>
+        <h4>BYOK or Local</h4>
+        <p>Bring your Anthropic, OpenAI, or Groq key. Or run Ollama, llama.cpp, LM Studio locally. <b>Auris never proxies your keys.</b></p>
+        <a class="stamp-link" href="#ai">Backend <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="guarantee">
+        <div class="g-seal" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 4 C 6.5 4 5.5 5 5.5 7.5 L 5.5 11 C 5.5 12 5 12 4 12 C 5 12 5.5 12 5.5 13 L 5.5 16.5 C 5.5 19 6.5 20 9 20"/>
+            <path d="M15 4 C 17.5 4 18.5 5 18.5 7.5 L 18.5 11 C 18.5 12 19 12 20 12 C 19 12 18.5 12 18.5 13 L 18.5 16.5 C 18.5 19 17.5 20 15 20"/>
+          </svg>
+        </div>
+        <h4>Open Formats</h4>
+        <p>Memos as <b>.md</b>, history as <b>.jsonl</b>, dictionary as <b>.json</b>. Nothing locked inside a proprietary archive.</p>
+        <a class="stamp-link" href="features.html#workspace">Workspace <span aria-hidden="true">↗</span></a>
+      </article>
+    </div>
+  </section>
+
   <!-- VERSUS -->
   <section class="versus" id="versus">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Versus · <b>008</b></div>
-        <h2>$79 <em class="sig">once.</em> <br>Not $15 every month.</h2>
+        <div class="ch-eyebrow">Versus</div>
+        <h2>$49 <em class="sig">once.</em> <br>Not $15 every month.</h2>
       </div>
-      <div class="ch-tag">Wispr Flow charges $15/mo, forever. <span class="m-block">Auris is $79 once.</span><br><span class="sg" style="font-weight: 700;">Same job. Different math.</span></div>
+      <div class="ch-tag">Wispr Flow charges $15/mo, forever. <span class="m-block">Auris is $49 once.</span><br><span class="sg" style="font-weight: 700;">Same job. Different math.</span></div>
     </div>
 
     <div class="vs-tab" role="table" aria-label="Versus the competition">
@@ -1454,116 +2447,89 @@
       </div>
       <div class="vs-row" role="row">
         <span class="lbl" role="cell">One-time / lifetime</span>
-        <span class="ours" role="cell"><b>$79</b> Founder · <b>$99</b> Standard</span>
-        <span class="others" role="cell"><span class="o-i">Wispr: subscription only</span><span class="o-i">Superwhisper $250</span></span>
+        <span class="ours" role="cell"><b>$49</b> Founder &middot; <b>$79</b> Standard</span>
+        <span class="others" role="cell"><span class="o-i"><b>Wispr:</b> subscription only</span><span class="o-i"><b>Superwhisper:</b> $249</span></span>
       </div>
       <div class="vs-row" role="row">
         <span class="lbl" role="cell">Monthly</span>
-        <span class="ours" role="cell">~<b>$2 to $5</b> in API usage</span>
-        <span class="others" role="cell"><span class="o-i">Wispr $15/mo</span><span class="o-i">Superwhisper $8.49/mo</span></span>
+        <span class="ours" role="cell"><b>$2 to $4</b> in API credits<br><b>$0</b> running fully local.</span>
+        <span class="others" role="cell"><span class="o-i"><b>Wispr:</b> $15/mo</span><span class="o-i"><b>Superwhisper:</b> $8.49/mo + APIs</span></span>
       </div>
       <div class="vs-row" role="row">
         <span class="lbl" role="cell">Local mode</span>
-        <span class="ours" role="cell"><b>Included</b> with Lifetime</span>
-        <span class="others" role="cell"><span class="o-i">Wispr: cloud only</span><span class="o-i">Superwhisper: included</span></span>
+        <span class="ours" role="cell"><b>Included.</b> Zero cloud calls.</span>
+        <span class="others" role="cell"><span class="o-i"><b>Wispr:</b> cloud only</span><span class="o-i"><b>Superwhisper:</b> included</span></span>
       </div>
       <div class="vs-row" role="row">
         <span class="lbl" role="cell">Tone control</span>
         <span class="ours" role="cell"><b>Three sliders,</b> per-app modes</span>
-        <span class="others" role="cell"><span class="o-i">Wispr: basic customization</span><span class="o-i">Superwhisper: basic customization</span></span>
+        <span class="others" role="cell"><span class="o-i"><b>Wispr:</b> basic customization</span><span class="o-i"><b>Superwhisper:</b> basic customization</span></span>
       </div>
       <div class="vs-row" role="row">
         <span class="lbl" role="cell">Money-back</span>
         <span class="ours" role="cell"><b>30 days,</b> no questions</span>
-        <span class="others" role="cell"><span class="o-i">Wispr 14 days</span><span class="o-i">Superwhisper unstated</span></span>
+        <span class="others" role="cell"><span class="o-i"><b>Wispr:</b> 14 days</span><span class="o-i"><b>Superwhisper:</b> unstated</span></span>
       </div>
     </div>
   </section>
 
-  <!-- LANGUAGES -->
-  <section class="langs">
-    <div class="langs-head">
-      <h3>Twelve languages, with more on the way.</h3>
-      <span class="meta">launch set · roadmap growing</span>
-    </div>
-
-    <p class="ch-body" style="max-width: 70ch; margin-bottom: 22px; color: var(--paper-2); font-size: 15px;">
-      Auris works in English, Spanish, French, German, Italian, Portuguese (Brazilian included), Chinese, Korean, Japanese, Thai, Vietnamese, and Indonesian. More coming soon.
-    </p>
-
-    <div class="langs-grid">
-      <div class="cell"><div class="en">English</div><div class="native">English</div></div>
-      <div class="cell"><div class="en">Spanish</div><div class="native">Español</div></div>
-      <div class="cell"><div class="en">French</div><div class="native">Français</div></div>
-      <div class="cell"><div class="en">German</div><div class="native">Deutsch</div></div>
-      <div class="cell"><div class="en">Italian</div><div class="native">Italiano</div></div>
-      <div class="cell"><div class="en">Portuguese</div><div class="native">Português · Brasileiro</div></div>
-      <div class="cell"><div class="en">Chinese</div><div class="native">中文</div></div>
-      <div class="cell"><div class="en">Korean</div><div class="native">한국어</div></div>
-      <div class="cell"><div class="en">Japanese</div><div class="native">日本語</div></div>
-      <div class="cell"><div class="en">Thai</div><div class="native">ไทย</div></div>
-      <div class="cell"><div class="en">Vietnamese</div><div class="native">Tiếng Việt</div></div>
-      <div class="cell"><div class="en">Indonesian</div><div class="native">Bahasa Indonesia</div></div>
-    </div>
-  </section>
 
   <!-- LICENSE / PRICING -->
   <section class="pricing" id="pricing">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">License · <b>009</b></div>
+        <div class="ch-eyebrow">License</div>
         <h2>One price.<br>Every feature.</h2>
       </div>
     </div>
 
     <div class="pricing-grid">
       <div class="price-card featured">
-        <div class="label">Lifetime Founder</div>
+        <div class="label">Founder pricing</div>
         <div class="name">Lifetime Founder</div>
-        <div class="px">$79<small>once</small></div>
-        <p class="desc">Three-week launch window. <b>20% off Standard</b> pricing for the first wave. Full app, forever, every feature.</p>
-      </div>
-      <div class="price-card">
-        <div class="label">Lifetime Standard</div>
-        <div class="name">Lifetime Standard</div>
-        <div class="px">$99<small>once</small></div>
-        <p class="desc">After Founder pricing ends. <b>Same product.</b> Same updates, same support.</p>
-      </div>
-      <div class="price-card">
-        <div class="label">Student Lifetime</div>
-        <div class="name">Student Lifetime</div>
         <div class="px">$49<small>once</small></div>
-        <p class="desc">Verified <b>.edu</b> email. Same product, same updates.</p>
+        <p class="desc"><b>$30 off Standard</b> pricing.<br>Full app, every feature.</p>
       </div>
       <div class="price-card">
-        <div class="label">Team Self-Hosted</div>
+        <div class="label">After founder window</div>
+        <div class="name">Lifetime Standard</div>
+        <div class="px">$79<small>once</small></div>
+        <p class="desc">After Founder pricing ends.<br><b>$30 more,</b> same app.</p>
+      </div>
+      <div class="price-card">
+        <div class="label">.edu email required</div>
+        <div class="name">Student Lifetime</div>
+        <div class="px">$29<small>once</small></div>
+        <p class="desc">Verified <b>.edu</b> email.<br>Full app, every feature.</p>
+      </div>
+      <div class="price-card">
+        <div class="label">3 to 50 seats</div>
         <div class="name">Team Self-Hosted</div>
-        <div class="px">from $299</div>
-        <p class="desc">Five seats. Runs on your team's machines.</p>
+        <div class="px">from $199</div>
+        <p class="desc">Three seats and up. Runs on your team's own machines.</p>
       </div>
     </div>
 
-    <div class="pricing-notify">
-      <div>
-        <div class="pn-eyebrow">Launch alert</div>
-        <h3>Tell me when buying opens.</h3>
-        <p>One email the day Auris ships. No newsletter, no drip campaign.</p>
+    <!-- FOUNDERS LIST: free founder license for first 100 signups -->
+    <aside class="founders-box" aria-label="Free copy for first 100 signups">
+      <div class="fb-left">
+        <span class="fb-eb">Founders list</span>
+        <h3>First 100 get Auris <em>free</em>.</h3>
+        <p class="fb-body">After that, everyone on the list locks in <b>$49 Founder pricing</b>.</p>
       </div>
-      <form class="notify compact cta" action="https://app.kit.com/forms/9456910/subscriptions" method="POST" novalidate>
-        <input type="hidden" name="fields[source]" value="pricing-waitlist">
-        <div class="notify-row">
-          <input type="email" name="email_address" placeholder="you@example.com" required aria-label="Email address">
-          <button type="submit">Notify me <span class="arr">→</span></button>
-        </div>
+      <form class="fb-form" action="https://app.kit.com/forms/9456910/subscriptions" method="POST" novalidate>
+        <input type="hidden" name="fields[source]" value="founders-list-home">
+        <input type="email" name="email_address" placeholder="you@example.com" required aria-label="Email address">
+        <button type="submit">Reserve mine <span aria-hidden="true">→</span></button>
       </form>
-    </div>
+    </aside>
   </section>
 
   <!-- FAQ -->
   <section class="chapter" id="faq">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">FAQ · <b>010</b></div>
+        <div class="ch-eyebrow">FAQ</div>
         <h2>The usual questions.</h2>
       </div>
     </div>
@@ -1587,7 +2553,7 @@
             <span class="chev" aria-hidden="true">→</span>
           </summary>
           <div class="note-body">
-            <p>Most people pay <b>$2 to $5 a month.</b><br>Go local instead and the only cost is electricity.</p>
+            <p>Most people pay <b>$2 to $4 a month.</b><br>Go local instead and the only cost is electricity.</p>
           </div>
         </details>
         <details class="note">
@@ -1603,26 +2569,18 @@
         <details class="note">
           <summary>
             <span class="tag">N.04</span>
-            <h4>Is there a free trial?</h4>
+            <h4>Will it run on my computer?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>
           <div class="note-body">
-            <p>The 30-day money-back is the closest thing. Every tier gives you the full app.<br>Buy it, use it for a month, refund if it isn't worth $79.</p>
+            <p>If you're on <b>Mac or Windows from this decade,</b> yes.<br>Linux is on the way.</p>
+            <p>For <b>cloud STT and cloud polish,</b> any modern laptop is fine. The work happens on the API.</p>
+            <p>For <b>local Whisper or local LLM polish,</b> your CPU and GPU do the work. <b>Apple M1 and newer</b> handle it comfortably. Older Intel Macs and lower-end Windows machines will run it, but transcription and polish will be slower. If your hardware can't keep up, run the cloud backends for the fastest results.</p>
           </div>
         </details>
         <details class="note">
           <summary>
             <span class="tag">N.05</span>
-            <h4>Will it run on my computer?</h4>
-            <span class="chev" aria-hidden="true">→</span>
-          </summary>
-          <div class="note-body">
-            <p>If you're on <b>Mac or Windows from this decade,</b> yes.<br>Linux is on the way, not in the box yet.</p>
-          </div>
-        </details>
-        <details class="note">
-          <summary>
-            <span class="tag">N.06</span>
             <h4>How accurate is it?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>
@@ -1653,16 +2611,69 @@
     <div class="micro"><b>Mac &amp; Windows</b> · Lifetime updates</div>
   </section>
 
+  </main>
+
   <!-- COLOPHON -->
   <footer class="colophon">
     <span>© 2026 Auris</span>
+    <span><a href="terms.html">Terms</a> <span class="sep">·</span> <a href="privacy.html">Privacy</a></span>
     <span><a href="mailto:hello@auris.talk">hello@auris.talk</a></span>
   </footer>
 
 </div>
 
 <script>
-  /* HERO TYPING — re-triggers on each viewport entry */
+  /* SCROLL-SPY: highlight the current section in the sticky in-page nav */
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.secnav a[href^="#"]'));
+    if (!links.length || !('IntersectionObserver' in window)) return;
+    var byId = {};
+    links.forEach(function (a) {
+      var id = a.getAttribute('href').slice(1);
+      var sec = document.getElementById(id);
+      if (sec) byId[id] = a;
+    });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          links.forEach(function (a) { a.classList.remove('on'); });
+          var link = byId[e.target.id];
+          if (link) link.classList.add('on');
+        }
+      });
+    }, { rootMargin: '-30% 0px -55% 0px', threshold: 0 });
+    Object.keys(byId).forEach(function (id) {
+      io.observe(document.getElementById(id));
+    });
+  })();
+
+  /* PILLAR REVEAL: one-time scale + fade-in when the giant 0 enters viewport */
+  (function () {
+    const num = document.querySelector('.pillar-num');
+    if (!num || !('IntersectionObserver' in window)) {
+      if (num) num.classList.add('in');
+      return;
+    }
+    const io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.6, rootMargin: '0px 0px -10% 0px' });
+    io.observe(num);
+  })();
+
+  /* DEV CONSOLE NOTE: quiet editorial message for curious devs */
+  (function () {
+    if (typeof console === 'undefined' || !console.log) return;
+    const css = 'font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px;';
+    console.log('%cauris. %chear yourself think.', css + ' color: #fae353; font-weight: 700;', css + ' color: #ede7df;');
+    console.log('%chello@auris.talk · we read every reply.', css + ' color: #9b948d;');
+  })();
+
+  /* HERO TYPING: re-triggers on each viewport entry */
   (function () {
     const raw = document.getElementById('raw');
     const polished = document.getElementById('polished');
@@ -1672,14 +2683,14 @@
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const segments = [
-      { t: 'so ', f: true },
-      { t: 'i was thinking ' },
       { t: 'um ', f: true },
-      { t: "if i could just ", f: true },
-      { t: "hear myself ", f: false },
-      { t: "you know, ", f: true },
-      { t: 'think ' },
-      { t: 'instead' }
+      { t: 'so ', f: true },
+      { t: 'i was thinking ', f: true },
+      { t: 'we could push the launch to ' },
+      { t: 'thursday or ' },
+      { t: 'maybe ', f: true },
+      { t: 'friday ' },
+      { t: 'whichever works for the team' }
     ];
 
     raw.textContent = '';
@@ -1732,31 +2743,327 @@
     } else { typeOut(); }
   })();
 
-  /* STYLE SLIDERS — 11 finer-grained variants */
+  /* STYLE SLIDERS: 216-cell matrix (6 levels per slider × 3 sliders), each combo unique */
   (function () {
-    const sliders = ['s1', 's2', 's3', 's4'].map(id => document.getElementById(id));
-    const values  = ['v1', 'v2', 'v3', 'v4'].map(id => document.getElementById(id));
+    const sliders = ['s1', 's2', 's3'].map(id => document.getElementById(id));
+    const values  = ['v1', 'v2', 'v3'].map(id => document.getElementById(id));
     const preview = document.getElementById('preview');
     if (sliders.some(s => !s) || !preview) return;
 
-    const variants = [
-      { max: 1,  text: "yeah so um the migration thing, it's like, we kinda hit a snag with the auth piece, and you know we're probably gonna need maybe like two more days to get it working in staging" },
-      { max: 3,  text: "so basically the migration hit a snag with auth, and we'll probably need like two more days to get it working in staging" },
-      { max: 5,  text: "the migration hit a snag with auth. we'll need two more days to get it working in staging" },
-      { max: 7,  text: "Migration hit a snag with auth. We'll need two more days for staging." },
-      { max: 9,  text: "Migration is blocked on auth. Two more days for staging." },
-      { max: 11, text: "Migration blocked on auth. Two more days needed for staging." },
-      { max: 13, text: "Migration is blocked on auth. We need two more days for staging." },
-      { max: 15, text: "Migration blocked: auth issue, two more days to staging." },
-      { max: 17, text: "Auth blocker on migration. +2 days to staging." },
-      { max: 19, text: "Auth blocker. +2 days." },
-      { max: 20, text: "+2 days." }
+    // matrix[formality 0-5][conciseness 0-5][assertiveness 0-5] = output text
+    // F axis: lowercase casual w/ "Yeah so um" → neutral capitalized → very formal w/ "Per our standup,"
+    // C axis: verbose multi-clause → tight one-line → telegraphic fragment ("+2 days")
+    // A axis: heavy hedges ("might possibly", "if that's cool") → neutral → emphatic ("Period.", "Final.")
+    const matrix = [
+      [ // F=0 very casual
+        [ // C=0 very verbose
+          "Yeah so um the migration thing, it's like, we kinda hit a snag with the auth piece earlier today, and we might possibly need around two more days to get it working in staging, if that's cool with everyone.",
+          "Yeah so um the migration thing, it's like, we hit a snag with the auth piece earlier today, and we would probably need about two more days to get it working in staging, I think.",
+          "Yeah so um the migration thing, we hit a snag with the auth piece earlier today, and we should probably need about two more days to get it working in staging.",
+          "Yeah so um the migration thing, we hit a snag with the auth piece earlier today, and we'll need two more days to get it working in staging.",
+          "Yeah so um the migration thing, we hit a snag with the auth piece earlier today, and we need two more days to get it working in staging.",
+          "Yeah so um the migration thing, we hit a snag with the auth piece earlier today. We need two more days for staging. Period."
+        ],
+        [ // C=1 verbose
+          "Yeah so um the migration hit a snag with the auth piece, and we might kinda need around two more days to get staging going, if that's cool.",
+          "Yeah so um the migration hit a snag with the auth piece, and we would probably need about two more days to get staging going, I think.",
+          "Yeah so um the migration hit a snag with the auth piece, and we should probably need about two more days to get staging going.",
+          "Yeah so um the migration hit a snag with the auth piece, and we'll need two more days to get staging going.",
+          "Yeah so um the migration hit a snag with the auth piece, and we need two more days to get staging going.",
+          "Yeah so um the migration hit a snag with the auth piece. We need two more days for staging. Period."
+        ],
+        [ // C=2 mid-verbose
+          "Yeah so um the migration's stuck on auth, and we might kinda need around two more days for staging, if that's cool.",
+          "Yeah so um the migration's stuck on auth, and we would probably need about two more days for staging, I think.",
+          "Yeah so um the migration's stuck on auth, and we should probably need about two more days for staging.",
+          "Yeah so um the migration's stuck on auth, and we'll need two more days for staging.",
+          "Yeah so um the migration's stuck on auth, and we need two more days for staging.",
+          "Yeah so um the migration's stuck on auth. We need two more days for staging. Period."
+        ],
+        [ // C=3 mid
+          "Yeah so the migration's stuck on auth, maybe two more days for staging?",
+          "Yeah so the migration's stuck on auth, probably two more days for staging.",
+          "Yeah so the migration's stuck on auth, should be two more days for staging.",
+          "Yeah so the migration's stuck on auth, two more days for staging.",
+          "Yeah so the migration's stuck on auth. Two more days for staging.",
+          "Yeah so the migration's stuck on auth. Two more days. Period."
+        ],
+        [ // C=4 concise
+          "Yeah, migration's stuck on auth, maybe two more days?",
+          "Yeah, migration's stuck on auth, probably two more days.",
+          "Yeah, migration's stuck on auth, likely two more days.",
+          "Yeah, migration's stuck on auth, two more days for staging.",
+          "Yeah, migration's stuck on auth. +2 days for staging.",
+          "Yeah, migration's stuck on auth. +2 days. Final."
+        ],
+        [ // C=5 very terse
+          "Yeah, auth's blocking, maybe +2 days?",
+          "Yeah, auth's blocking, probably +2 days.",
+          "Yeah, auth's blocking, likely +2 days.",
+          "Yeah, auth's blocking. +2 days.",
+          "Yeah, auth's blocking. +2 days, no question.",
+          "Yeah, auth's blocking. +2 days. Final."
+        ]
+      ],
+      [ // F=1 casual
+        [
+          "Yeah so the migration hit a snag with the auth piece earlier today, and we might possibly need around two more days to get it working in staging, if that's cool with everyone.",
+          "Yeah so the migration hit a snag with the auth piece earlier today, and we would probably need about two more days to get it working in staging, I think.",
+          "Yeah so the migration hit a snag with the auth piece earlier today, and we should probably need about two more days to get it working in staging.",
+          "Yeah so the migration hit a snag with the auth piece earlier today, and we'll need two more days to get it working in staging.",
+          "Yeah so the migration hit a snag with the auth piece earlier today, and we need two more days to get it working in staging.",
+          "Yeah so the migration hit a snag with the auth piece earlier today. We need two more days for staging. Period."
+        ],
+        [
+          "Yeah so the migration hit a snag with the auth piece, and we might possibly need around two more days to reach staging, if that's cool.",
+          "Yeah so the migration hit a snag with the auth piece, and we would probably need about two more days to reach staging, I think.",
+          "Yeah so the migration hit a snag with the auth piece, and we should probably need about two more days to reach staging.",
+          "Yeah so the migration hit a snag with the auth piece, and we'll need two more days to reach staging.",
+          "Yeah so the migration hit a snag with the auth piece, and we need two more days to reach staging.",
+          "Yeah so the migration hit a snag with the auth piece. We need two more days for staging. Period."
+        ],
+        [
+          "Yeah, the migration's blocked on auth, and we might need around two more days for staging, if that's cool.",
+          "Yeah, the migration's blocked on auth, and we would probably need about two more days for staging, I think.",
+          "Yeah, the migration's blocked on auth, and we should need about two more days for staging.",
+          "Yeah, the migration's blocked on auth, and we'll need two more days for staging.",
+          "Yeah, the migration's blocked on auth, and we need two more days for staging.",
+          "Yeah, the migration's blocked on auth. We need two more days for staging. Period."
+        ],
+        [
+          "Yeah, the migration's blocked on auth, maybe two more days for staging?",
+          "Yeah, the migration's blocked on auth, probably two more days for staging.",
+          "Yeah, the migration's blocked on auth, likely two more days for staging.",
+          "Yeah, the migration's blocked on auth, two more days for staging.",
+          "Yeah, the migration's blocked on auth. Two more days for staging.",
+          "Yeah, the migration's blocked on auth. Two more days. Period."
+        ],
+        [
+          "Yeah, migration's blocked on auth, maybe two more days?",
+          "Yeah, migration's blocked on auth, probably two more days.",
+          "Yeah, migration's blocked on auth, likely two more days.",
+          "Yeah, migration's blocked on auth, two more days for staging.",
+          "Yeah, migration's blocked on auth. +2 days for staging.",
+          "Yeah, migration's blocked on auth. +2 days. Final."
+        ],
+        [
+          "Yeah, auth blocker, maybe +2 days?",
+          "Yeah, auth blocker, probably +2 days.",
+          "Yeah, auth blocker, likely +2 days.",
+          "Yeah, auth blocker. +2 days.",
+          "Yeah, auth blocker. +2 days, no question.",
+          "Yeah, auth blocker. +2 days. Final."
+        ]
+      ],
+      [ // F=2 informal
+        [
+          "The migration hit a snag with the auth piece earlier today, and we might possibly need around two more days to get it working in staging, if that's okay with everyone.",
+          "The migration hit a snag with the auth piece earlier today, and we would probably need about two more days to get it working in staging, I think.",
+          "The migration hit a snag with the auth piece earlier today, and we should probably need about two more days to get it working in staging.",
+          "The migration hit a snag with the auth piece earlier today, and we'll need two more days to get it working in staging.",
+          "The migration hit a snag with the auth piece earlier today, and we need two more days to get it working in staging.",
+          "The migration hit a snag with the auth piece earlier today. We need two more days for staging. Period."
+        ],
+        [
+          "The migration hit a snag with the auth piece, and we might possibly need around two more days to reach staging, if that's okay.",
+          "The migration hit a snag with the auth piece, and we would probably need about two more days to reach staging, I think.",
+          "The migration hit a snag with the auth piece, and we should probably need about two more days to reach staging.",
+          "The migration hit a snag with the auth piece, and we'll need two more days to reach staging.",
+          "The migration hit a snag with the auth piece, and we need two more days to reach staging.",
+          "The migration hit a snag with the auth piece. We need two more days for staging. Period."
+        ],
+        [
+          "The migration's blocked on auth, and we might need around two more days for staging, if that's okay.",
+          "The migration's blocked on auth, and we would probably need about two more days for staging, I think.",
+          "The migration's blocked on auth, and we should need about two more days for staging.",
+          "The migration's blocked on auth, and we'll need two more days for staging.",
+          "The migration's blocked on auth, and we need two more days for staging.",
+          "The migration's blocked on auth. We need two more days for staging. Period."
+        ],
+        [
+          "The migration's blocked on auth, maybe two more days for staging?",
+          "The migration's blocked on auth, probably two more days for staging.",
+          "The migration's blocked on auth, likely two more days for staging.",
+          "The migration's blocked on auth, two more days for staging.",
+          "The migration's blocked on auth. Two more days for staging.",
+          "The migration's blocked on auth. Two more days. Period."
+        ],
+        [
+          "Migration's blocked on auth, maybe two more days for staging?",
+          "Migration's blocked on auth, probably two more days for staging.",
+          "Migration's blocked on auth, likely two more days for staging.",
+          "Migration's blocked on auth, two more days for staging.",
+          "Migration's blocked on auth. +2 days for staging.",
+          "Migration's blocked on auth. +2 days. Final."
+        ],
+        [
+          "Auth blocker, maybe +2 days?",
+          "Auth blocker, probably +2 days.",
+          "Auth blocker, likely +2 days.",
+          "Auth blocker. +2 days.",
+          "Auth blocker. +2 days, no question.",
+          "Auth blocker. +2 days. Final."
+        ]
+      ],
+      [ // F=3 neutral
+        [
+          "The migration hit a snag with the auth piece earlier today, and we might possibly need around two more days to get it working in staging, if that's okay with everyone.",
+          "The migration hit a snag with the auth piece earlier today, and we would probably need about two more days to get it working in staging, I think.",
+          "The migration hit a snag with the auth piece earlier today, and we should probably need about two more days to get it working in staging.",
+          "The migration hit a snag with the auth piece earlier today, and we will need two more days to get it working in staging.",
+          "The migration hit a snag with the auth piece earlier today, and we need two more days to get it working in staging.",
+          "The migration hit a snag with the auth piece earlier today. We need two more days for staging. Period."
+        ],
+        [
+          "The migration hit a snag with the auth piece, and we might possibly need around two more days to reach staging, if that's okay.",
+          "The migration hit a snag with the auth piece, and we would probably need about two more days to reach staging, I think.",
+          "The migration hit a snag with the auth piece, and we should probably need about two more days to reach staging.",
+          "The migration hit a snag with the auth piece, and we will need two more days to reach staging.",
+          "The migration hit a snag with the auth piece. We need two more days to reach staging.",
+          "The migration hit a snag with the auth piece. We need two more days to reach staging. Period."
+        ],
+        [
+          "The migration is blocked on auth, and we might need around two more days for staging, if that's okay.",
+          "The migration is blocked on auth, and we would probably need about two more days for staging, I think.",
+          "The migration is blocked on auth, and we should need about two more days for staging.",
+          "The migration is blocked on auth, and we will need two more days for staging.",
+          "The migration is blocked on auth. We need two more days for staging.",
+          "The migration is blocked on auth. Two more days needed for staging. Period."
+        ],
+        [
+          "The migration is blocked on auth. We might need two more days for staging, if that's okay.",
+          "The migration is blocked on auth. We would probably need two more days for staging, I think.",
+          "The migration is blocked on auth. We should need two more days for staging.",
+          "The migration is blocked on auth. We will need two more days for staging.",
+          "The migration is blocked on auth. We need two more days for staging.",
+          "The migration is blocked on auth. Two more days needed for staging."
+        ],
+        [
+          "Migration blocked on auth, maybe two more days for staging?",
+          "Migration blocked on auth, probably two more days for staging.",
+          "Migration blocked on auth. Two more days for staging, likely.",
+          "Migration blocked on auth. Two more days for staging.",
+          "Migration blocked on auth. Need two more days for staging.",
+          "Migration blocked on auth. +2 days to staging. Final."
+        ],
+        [
+          "Auth blocker. Maybe +2 days?",
+          "Auth blocker. Probably +2 days.",
+          "Auth blocker. Likely +2 days.",
+          "Auth blocker. +2 days.",
+          "Auth blocker. +2 days, no question.",
+          "Auth blocker. +2 days. Final."
+        ]
+      ],
+      [ // F=4 formal
+        [
+          "The migration hit a blocker with the auth dependency earlier today, and we might possibly need around two additional days to get it working in staging, if that's acceptable.",
+          "The migration hit a blocker with the auth dependency earlier today, and we would probably need about two additional days to get it working in staging.",
+          "The migration hit a blocker with the auth dependency earlier today, and we should need about two additional days to get it working in staging.",
+          "The migration hit a blocker with the auth dependency earlier today, and we will need two additional days to get it working in staging.",
+          "The migration hit a blocker with the auth dependency earlier today, and we need two additional days to get it working in staging.",
+          "The migration hit a blocker with the auth dependency earlier today. We need two additional days for staging. Confirmed."
+        ],
+        [
+          "The migration hit a blocker with the auth dependency, and we might need around two additional days to reach staging, if acceptable.",
+          "The migration hit a blocker with the auth dependency, and we would probably need about two additional days to reach staging.",
+          "The migration hit a blocker with the auth dependency, and we should need about two additional days to reach staging.",
+          "The migration hit a blocker with the auth dependency, and we will need two additional days to reach staging.",
+          "The migration hit a blocker with the auth dependency. We need two additional days to reach staging.",
+          "The migration hit a blocker with the auth dependency. Two additional days are required for staging. Confirmed."
+        ],
+        [
+          "The migration is blocked by the auth dependency, and we might need around two additional days for staging, if acceptable.",
+          "The migration is blocked by the auth dependency, and we would probably need about two additional days for staging.",
+          "The migration is blocked by the auth dependency, and we should need about two additional days for staging.",
+          "The migration is blocked by the auth dependency, and we will need two additional days for staging.",
+          "The migration is blocked by the auth dependency. We need two additional days for staging.",
+          "The migration is blocked by the auth dependency. Two additional days are required. Confirmed."
+        ],
+        [
+          "The migration is blocked by the auth dependency. We might need two additional days for staging, if acceptable.",
+          "The migration is blocked by the auth dependency. We would probably need two additional days for staging.",
+          "The migration is blocked by the auth dependency. We should need two additional days for staging.",
+          "The migration is blocked by the auth dependency. We will need two additional days for staging.",
+          "The migration is blocked by the auth dependency. We need two additional days for staging.",
+          "The migration is blocked by the auth dependency. Two additional days required."
+        ],
+        [
+          "Migration blocked by auth dependency, possibly two additional days for staging.",
+          "Migration blocked by auth dependency, likely two additional days for staging.",
+          "Migration blocked by auth dependency. Two additional days for staging, expected.",
+          "Migration blocked by auth dependency. Two additional days for staging.",
+          "Migration blocked by auth dependency. Two additional days required for staging.",
+          "Migration blocked: auth dependency. +2 days to staging. Confirmed."
+        ],
+        [
+          "Auth dependency blocker. Possibly +2 days.",
+          "Auth dependency blocker. Likely +2 days.",
+          "Auth dependency blocker. Expected +2 days.",
+          "Auth dependency blocker. +2 days.",
+          "Auth dependency blocker. +2 days, confirmed.",
+          "Auth dependency blocker. +2 days. Final."
+        ]
+      ],
+      [ // F=5 very formal
+        [
+          "Per our standup, the migration has encountered an obstacle related to the authentication dependency. The team might possibly require approximately two additional days to achieve staging readiness, subject to approval.",
+          "Per our standup, the migration has encountered an obstacle related to the authentication dependency. The team would likely require approximately two additional days to achieve staging readiness.",
+          "Per our standup, the migration has encountered an obstacle related to the authentication dependency. The team should require approximately two additional days to achieve staging readiness.",
+          "Per our standup, the migration has encountered an obstacle related to the authentication dependency. The team will require approximately two additional days to achieve staging readiness.",
+          "Per our standup, the migration has encountered an obstacle related to the authentication dependency. The team requires two additional days to achieve staging readiness.",
+          "Per our standup, the migration has encountered an obstacle related to the authentication dependency. Two additional days are required to achieve staging readiness. Confirmed."
+        ],
+        [
+          "Per our standup, the migration has encountered an issue with the authentication dependency. Approximately two additional days may possibly be required to achieve staging readiness, if acceptable.",
+          "Per our standup, the migration has encountered an issue with the authentication dependency. Approximately two additional days will likely be required to achieve staging readiness.",
+          "Per our standup, the migration has encountered an issue with the authentication dependency. Approximately two additional days should be required to achieve staging readiness.",
+          "Per our standup, the migration has encountered an issue with the authentication dependency. Approximately two additional days will be required to achieve staging readiness.",
+          "Per our standup, the migration has encountered an issue with the authentication dependency. Two additional days are required to achieve staging readiness.",
+          "Per our standup, the migration has encountered an issue with the authentication dependency. Two additional days are required. Confirmed."
+        ],
+        [
+          "The migration is blocked by the authentication dependency, and we may possibly require two additional days for staging, if acceptable.",
+          "The migration is blocked by the authentication dependency, and we will likely require two additional days for staging.",
+          "The migration is blocked by the authentication dependency, and we should require two additional days for staging.",
+          "The migration is blocked by the authentication dependency, and we will require two additional days for staging.",
+          "The migration is blocked by the authentication dependency. We require two additional days for staging.",
+          "The migration is blocked by the authentication dependency. Two additional days are required. Confirmed."
+        ],
+        [
+          "The migration is blocked by the authentication dependency. We may require two additional days for staging, if acceptable.",
+          "The migration is blocked by the authentication dependency. We will likely require two additional days for staging.",
+          "The migration is blocked by the authentication dependency. We should require two additional days for staging.",
+          "The migration is blocked by the authentication dependency. We will require two additional days for staging.",
+          "The migration is blocked by the authentication dependency. We require two additional days for staging.",
+          "The migration is blocked by the authentication dependency. Two additional days are required for staging."
+        ],
+        [
+          "Migration blocked by authentication dependency. Possibly two additional days required for staging.",
+          "Migration blocked by authentication dependency. Likely two additional days required for staging.",
+          "Migration blocked by authentication dependency. Two additional days expected for staging.",
+          "Migration blocked by authentication dependency. Two additional days for staging.",
+          "Migration blocked by authentication dependency. Two additional days required for staging.",
+          "Migration blocked: authentication. Two additional days required. Confirmed."
+        ],
+        [
+          "Authentication blocker. Possibly +2 days.",
+          "Authentication blocker. Likely +2 days.",
+          "Authentication blocker. Expected +2 days.",
+          "Authentication blocker. +2 days.",
+          "Authentication blocker. +2 days, confirmed.",
+          "Authentication blocker. +2 days. Final."
+        ]
+      ]
     ];
     function render() {
-      const sum = sliders.reduce((acc, s, i) => { values[i].textContent = s.value + ' / 5'; return acc + Number(s.value); }, 0);
-      const v = variants.find(x => sum <= x.max) || variants[variants.length - 1];
+      sliders.forEach((s, i) => { values[i].textContent = s.value + ' / 5'; });
+      const f = +sliders[0].value;
+      const c = +sliders[1].value;
+      const a = +sliders[2].value;
+      const text = matrix[f][c][a];
       preview.style.opacity = '0';
-      setTimeout(() => { preview.textContent = v.text; preview.style.opacity = '1'; }, 90);
+      setTimeout(() => { preview.textContent = text; preview.style.opacity = '1'; }, 90);
     }
     sliders.forEach(s => s.addEventListener('input', render));
     render();
@@ -1765,7 +3072,7 @@
 
 
 <script>
-  // Hamburger toggle — single delegated listener
+  // Hamburger toggle: single delegated listener
   (function () {
     document.addEventListener('click', function (e) {
       var btn = e.target.closest && e.target.closest('.nav-burger');
@@ -1793,26 +3100,6 @@
       var b = openHeader.querySelector('.nav-burger');
       if (b) b.setAttribute('aria-expanded', 'false');
     });
-  })();
-</script>
-<!-- __viewport_scale_v1 -->
-<script>
-  // Scale the page up on monitors wider than 1440px so the layout always
-  // matches the 1440-wide desktop design. Below 1440 nothing changes.
-  (function () {
-    function fit() {
-      var w = window.innerWidth || document.documentElement.clientWidth;
-      var root = document.documentElement;
-      if (w > 1440) {
-        // Gentle scale: 40% of the way between no zoom and full-fit zoom.
-        var z = 1 + 0.4 * ((w / 1440) - 1);
-        root.style.zoom = z.toFixed(3);
-      } else {
-        root.style.zoom = '';
-      }
-    }
-    fit();
-    window.addEventListener('resize', fit);
   })();
 </script>
 <!-- __notify_v1 -->

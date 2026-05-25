@@ -3,12 +3,20 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pricing · Auris</title>
+<title>Pricing · $49 once, no subscription · Auris</title>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How can you afford to charge once?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Three reasons. Low overhead: Auris is a small indie team, not a venture-backed company that needs to grow into a billion-dollar valuation. No per-user infrastructure: BYOK means your AI provider runs the expensive part, so we don't pay for your compute. Software lives on your machine: we're not paying for servers that sit between you and the model. The price covers the build, the polish, and lifetime updates. We don't need a subscription to keep the lights on."
+      }
+    },
     {
       "@type": "Question",
       "name": "What does \"lifetime updates\" mean?",
@@ -83,14 +91,14 @@
 <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
 <link rel="shortcut icon" href="favicon.ico">
 <meta name="theme-color" content="#010100">
-<meta name="description" content="$79 once for the lifetime app. $49 for students. $299 for a five-seat self-hosted team. 30-day money-back on every tier.">
-<meta property="og:title" content="Pricing · Auris">
-<meta property="og:description" content="$79 once for the lifetime app. $49 for students. $299 for a five-seat self-hosted team. 30-day money-back on every tier.">
+<meta name="description" content="$49 once for the lifetime app. $29 for students. $199 for a three-seat self-hosted team. 30-day money-back on every tier. Voice-to-text for Mac and Windows.">
+<meta property="og:title" content="Pricing · $49 once, no subscription · Auris">
+<meta property="og:description" content="$49 once for the lifetime app. $29 for students. $199 for a three-seat self-hosted team. 30-day money-back on every tier.">
 <meta property="og:url" content="https://auris.talk/pricing">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 
 <style>
   :root {
@@ -101,6 +109,7 @@
     --ember: #ea6a64; --warn: #e0a050; --ok: #75d079;
     --mist: #7a736d; --dim: #4a4540;
     --sans: 'Albert Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; scrollbar-gutter: stable; }
@@ -116,6 +125,7 @@
   ::selection { background: var(--signal); color: var(--ink); }
   a { color: inherit; text-decoration: none; }
   em.sig { font-style: italic; color: var(--signal); font-weight: 500; letter-spacing: -0.005em; }
+  em.alt { font-style: italic; color: inherit; font-weight: inherit; letter-spacing: -0.005em; }
 
   .page { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
 
@@ -133,8 +143,29 @@
     font-weight: 700; font-size: 24px; letter-spacing: -0.030em; color: var(--paper);
   }
   .wordmark .text { display: inline-flex; align-items: baseline; }
-  .wordmark .dot { color: var(--signal); }
+  .wordmark .dot { color: var(--signal); transition: opacity 220ms cubic-bezier(0.16, 1, 0.3, 1); }
+  .wordmark:hover .dot { animation: dot-pulse 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1; }
+  @keyframes dot-pulse {
+    0%, 70%, 100% { opacity: 1; }
+    35% { opacity: 0.35; }
+  }
   .wordmark .glyph { color: var(--signal); width: 30px; height: 28px; display: block; }
+  /* Wordmark glyph flutter: 4 ellipses scale-pulse in sequence on hover */
+  .masthead .wordmark .glyph ellipse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: wordmark-flutter 1.6s ease-in-out infinite;
+    animation-play-state: paused;
+  }
+  .masthead .wordmark .glyph ellipse:nth-of-type(1) { animation-delay: 0s; }
+  .masthead .wordmark .glyph ellipse:nth-of-type(2) { animation-delay: 0.10s; }
+  .masthead .wordmark .glyph ellipse:nth-of-type(3) { animation-delay: 0.20s; }
+  .masthead .wordmark .glyph ellipse:nth-of-type(4) { animation-delay: 0.30s; }
+  .masthead .wordmark:hover .glyph ellipse { animation-play-state: running; }
+  @keyframes wordmark-flutter {
+    0%, 100% { transform: scaleY(0.86); }
+    50%      { transform: scaleY(1); }
+  }
   .masthead-nav { display: flex; gap: 28px; align-items: center; justify-content: flex-end; }
   .masthead-nav a {
     font-size: 11px; font-weight: 600; letter-spacing: 0.10em;
@@ -146,7 +177,7 @@
 
   /* PAGE HERO ----------------------------------------------- */
   .page-hero {
-    padding: 80px 0 64px; border-bottom: 1px solid var(--line-2); position: relative;
+    padding: 40px 0 27px; border-bottom: 1px solid var(--line-2); position: relative;
   }
   .page-hero::before {
     content: ''; position: absolute; left: 0; right: 0; top: 0; height: 1px;
@@ -171,7 +202,7 @@
   }
 
   /* CHAPTER ------------------------------------------------- */
-  .chapter, .versus { padding: 64px 0; border-bottom: 1px solid var(--line-2); }
+  .chapter, .versus { padding: 50px 0; border-bottom: 1px solid var(--line-2); }
   #faq.chapter { padding-bottom: 0; }
   .ch-head {
     display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
@@ -207,13 +238,14 @@
   .pricing-grid {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
     margin: 0;
+    align-items: start;
   }
   .price-card {
     background: var(--ink-3); border: 1px solid var(--line-2);
     padding: 28px 24px 26px;
     border-radius: 6px; overflow: hidden;
-    display: flex; flex-direction: column; gap: 14px;
-    min-height: 340px; position: relative;
+    display: flex; flex-direction: column; gap: 12px;
+    position: relative;
   }
   .price-card .label {
     font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
@@ -324,11 +356,10 @@
   /* VERSUS TABLE (subscription math) ------------------------ */
   .vs-tab {
     margin: 0;
-    max-width: 760px;
     border-radius: 6px; overflow: hidden;
   }
   .vs-row {
-    display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
+    display: grid; grid-template-columns: 1.1fr 1.2fr 2.1fr;
     border-bottom: 1px solid var(--line-2);
   }
   .vs-row:last-child { border-bottom: none; }
@@ -346,32 +377,168 @@
     font-weight: 700; font-size: 15px; color: var(--paper);
     letter-spacing: -0.005em;
   }
-  .vs-row .ours {
-    font-size: 24px; font-weight: 800; color: var(--signal);
-    letter-spacing: -0.024em; line-height: 1.2;
+  .vs-row .ours { font-size: 15px; color: var(--paper); font-weight: 500; line-height: 1.55; letter-spacing: 0; }
+  .vs-row .ours b { color: var(--signal); font-weight: 700; }
+  .vs-row .ours.empty { color: var(--dim); font-weight: 500; }
+  .vs-row .others { font-size: 15px; color: var(--paper-3); font-weight: 500; line-height: 1.55; letter-spacing: 0.005em; }
+  .vs-row .others b { color: var(--paper); font-weight: 700; }
+  .vs-row .others .o-i { display: block; }
+  .vs-row .others .o-i + .o-i { margin-top: 4px; }
+
+  /* PAGE-HERO WEDGE STRIP ---------------------------------- */
+  .page-hero .hero-wedge {
+    margin-top: 44px; padding-top: 32px;
+    border-top: 1px solid var(--line-2);
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    max-width: 1280px;
   }
-  .vs-row .ours.empty { color: var(--dim); font-weight: 500; font-size: 15px; letter-spacing: 0; }
-  .vs-row .other {
-    font-size: 19px; font-weight: 600; color: var(--paper-2);
-    letter-spacing: -0.012em; line-height: 1.2;
+  .page-hero .wedge {
+    display: flex; flex-direction: column; gap: 10px;
+    padding: 0 28px;
+    border-right: 1px solid var(--line-2);
   }
-  .vs-row .other.empty { color: var(--dim); font-weight: 500; font-size: 15px; letter-spacing: 0; }
+  .page-hero .wedge:first-child { padding-left: 0; }
+  .page-hero .wedge:last-child { border-right: 0; padding-right: 0; }
+  .page-hero .wedge .eb {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .page-hero .wedge .v {
+    font-weight: 800; font-size: clamp(26px, 2.6vw, 36px);
+    line-height: 1.0; letter-spacing: -0.024em; color: var(--signal);
+  }
+  .page-hero .wedge .sub {
+    font-size: 13px; line-height: 1.45; color: var(--paper-2);
+    letter-spacing: -0.003em;
+  }
+  .page-hero .wedge .sub b { font-weight: 700; color: var(--paper); }
+
+  /* COST-OVER-TIME (5-year chart) -------------------------- */
+  .cost-over-time {
+    margin-top: 40px;
+    border: 1px solid var(--line-2); border-radius: 8px;
+    background: var(--ink-3); overflow: hidden;
+  }
+  .cot-tb {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    border-bottom: 1px solid var(--line-2);
+    background: var(--ink-3);
+    font-size: 11px; font-weight: 700;
+    color: var(--paper); letter-spacing: 0.10em;
+    text-transform: uppercase;
+  }
+  .cot-tb span {
+    padding: 16px 20px;
+    border-right: 1px solid var(--line-2);
+    text-align: right;
+  }
+  .cot-tb span:first-child { text-align: left; }
+  .cot-tb span:last-child { border-right: 0; }
+  .cot-row {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    border-bottom: 1px solid var(--line-2);
+    align-items: stretch;
+  }
+  .cot-row:last-child { border-bottom: 0; }
+  .cot-row .label {
+    padding: 22px 20px;
+    display: flex; flex-direction: column; gap: 4px;
+    border-right: 1px solid var(--line-2);
+  }
+  .cot-row .label .name {
+    font-size: 17px; font-weight: 700; color: var(--paper);
+    letter-spacing: -0.008em;
+  }
+  .cot-row .label .sub {
+    font-size: 12px; color: var(--paper-3);
+    font-family: var(--mono); letter-spacing: -0.003em;
+  }
+  .cot-row .cell {
+    padding: 22px 20px;
+    border-right: 1px solid var(--line-2);
+    text-align: right;
+    display: flex; flex-direction: column; justify-content: center;
+    align-items: flex-end; gap: 4px;
+    position: relative;
+  }
+  .cot-row .cell:last-child { border-right: 0; }
+  .cot-row .cell .px {
+    font-family: var(--mono); font-size: 20px; font-weight: 700;
+    color: var(--paper-2); line-height: 1;
+    letter-spacing: -0.005em;
+    font-variant-numeric: tabular-nums;
+  }
+  .cot-row .cell .delta {
+    font-size: 11px; font-weight: 600; color: var(--paper-3);
+    font-family: var(--mono); letter-spacing: 0.02em;
+  }
+  /* Auris row: signal-yellow flat line */
+  .cot-row.auris .label .name { color: var(--signal); }
+  .cot-row.auris .cell .px { color: var(--signal); }
+  /* Wispr row: subscription climbing */
+  .cot-row.wispr .cell .px { color: var(--ember); }
+  .cot-row.wispr .label .name {
+    color: var(--paper); display: flex; align-items: center; gap: 8px;
+  }
+  .cot-row.wispr .label .name::after {
+    content: '↑'; color: var(--ember); font-size: 14px;
+  }
+  /* Totals footer row */
+  .cot-row.total {
+    background: var(--ink-2);
+    border-top: 2px solid var(--line-3);
+  }
+  .cot-row.total .label .name {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--paper-3); letter-spacing: 0.10em;
+    text-transform: uppercase; font-weight: 700;
+  }
+  .cot-row.total .cell .px {
+    font-size: 22px; font-weight: 800;
+  }
+  .cot-row.total.savings .cell .px { color: var(--signal); }
+  .cot-row.total.savings .cell {
+    transition: background 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .cot-row.total.savings:hover .cell {
+    background: rgba(250, 227, 83, 0.06);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  .cot-note {
+    margin-top: 22px;
+    font-size: 13px; line-height: 1.55; color: var(--paper-3);
+    max-width: 64ch;
+  }
+  .cot-note b { color: var(--paper); font-weight: 600; }
 
   /* TEAM BLOCK ---------------------------------------------- */
   .team-block {
     margin: 0; padding: 28px 32px;
     max-width: 760px;
-    background: var(--ink-3); border: 1px solid var(--line-2);
+    background:
+      radial-gradient(ellipse 60% 80% at 50% 0%, rgba(250, 227, 83, 0.07) 0%, transparent 70%),
+      var(--ink-3);
+    border: 1px solid var(--line-2);
     border-radius: 6px;
     position: relative;
     display: grid; grid-template-columns: 1fr auto; gap: 32px;
     align-items: center;
+    overflow: hidden;
   }
   .team-block::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: transparent;
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent 0%, rgba(250,227,83,0.55) 50%, transparent 100%);
   }
-  .team-block .l h4 {
+  .team-block .l h3 {
     font-weight: 700; font-size: 19px; color: var(--paper);
     letter-spacing: -0.012em; margin-bottom: 6px;
   }
@@ -425,9 +592,9 @@
 
   /* FINAL CTA ----------------------------------------------- */
   .final {
-    padding: 96px 0; text-align: center; position: relative;
+    padding: 64px 0; text-align: center; position: relative;
     border-bottom: 1px solid var(--line-2);
-    background: radial-gradient(ellipse 65% 75% at 50% 0%, rgba(250,227,83,0.20) 0%, rgba(250,227,83,0.04) 45%, transparent 75%);
+    background: var(--ink-2);
   }
   .final .notify { margin: 0 auto; }
   .final h2 {
@@ -541,8 +708,8 @@
     .page { padding: 0 22px; }
     .masthead { grid-template-columns: 1fr auto; padding-top: 22px; gap: 16px; }
     .masthead-nav { gap: 14px; }
-    .page-hero { padding: 56px 0 48px; }
-    .chapter, .versus { padding: 56px 0; }
+    .page-hero { padding: 40px 0 21px; }
+    .chapter, .versus { padding: 44px 0; }
     .ch-head { grid-template-columns: 1fr; gap: 18px; margin-bottom: 32px; }
     .pricing-grid { grid-template-columns: 1fr 1fr; }
     .pricing-notify { grid-template-columns: 1fr; gap: 22px; padding: 24px; }
@@ -556,7 +723,21 @@
     .vs-row.head { display: none; }
     .vs-row .lbl { background: var(--ink-3); }
     .team-block { grid-template-columns: 1fr; gap: 16px; }
-    .final { padding: 64px 0; }
+    .final { padding: 48px 0; }
+    .page-hero .hero-wedge { grid-template-columns: 1fr 1fr; gap: 0; margin-top: 28px; padding-top: 22px; }
+    .page-hero .wedge { padding: 16px 18px; border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
+    .page-hero .wedge:nth-child(2n) { border-right: 0; padding-right: 0; }
+    .page-hero .wedge:nth-child(2n+1) { padding-left: 0; }
+    .page-hero .wedge:nth-last-child(-n+2) { border-bottom: 0; padding-bottom: 0; }
+    .cot-tb { grid-template-columns: 1.4fr repeat(4, 1fr); font-size: 9px !important; }
+    .cot-tb span { padding: 10px 8px !important; }
+    .cot-row { grid-template-columns: 1.4fr repeat(4, 1fr); }
+    .cot-row .label { padding: 14px 10px !important; }
+    .cot-row .label .name { font-size: 14px !important; }
+    .cot-row .label .sub { font-size: 10px !important; }
+    .cot-row .cell { padding: 14px 8px !important; }
+    .cot-row .cell .px { font-size: 14px !important; }
+    .cot-row .cell .delta { font-size: 9px !important; }
   }
   @media (max-width: 600px) {
     .pricing-grid { grid-template-columns: 1fr; }
@@ -598,31 +779,50 @@
     .feature-grid, .keep-grid, .pricing-grid, .provider-grid, .modes-grid, .lives-grid, .ways-grid, .slider-details {
       grid-template-columns: 1fr !important;
     }
-    /* Math/versus table — keep 4 columns on mobile so the provider
-       headers stay aligned with the prices. Compact sizes only. */
-    .vs-tab { font-size: 15px !important; }
-    .vs-row { grid-template-columns: 1fr 1fr 1fr 1fr !important; }
+    /* Versus table on mobile: stack each feature as label + ours + competitors. */
+    .vs-tab { font-size: 14px !important; }
+    .vs-row {
+      display: block !important;
+      padding: 14px 14px !important;
+      border-bottom: 1px solid var(--line-2) !important;
+    }
     .vs-row > * {
-      padding: 12px 4px !important;
-      text-align: center !important;
-      border-right: 1px solid var(--line-2) !important;
-      border-bottom: 0 !important;
+      display: block !important;
+      border: 0 !important;
+      padding: 6px 0 !important;
     }
-    .vs-row > *:last-child { border-right: 0 !important; }
-    .vs-row.head { display: grid !important; }
-    .vs-row.head > * {
-      font-size: 11px !important;
-      letter-spacing: 0.05em !important;
-      padding: 10px 2px !important;
-    }
+    .vs-row.head { display: none !important; }
     .vs-row .lbl {
       background: transparent !important;
       font-size: 11px !important;
-      font-weight: 700 !important;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--paper-3) !important;
+      font-weight: 700;
+      padding-bottom: 6px !important;
     }
-    .vs-row .ours { font-size: 15px !important; }
-    .vs-row .other { font-size: 15px !important; }
-    .vs-row .ours.empty, .vs-row .other.empty { font-size: 11px !important; }
+    .vs-row .ours { font-size: 14px !important; }
+    .vs-row .others { font-size: 13px !important; }
+    .vs-row .ours::before,
+    .vs-row .others::before {
+      display: inline-block;
+      min-width: 52px;
+      margin-right: 8px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      vertical-align: baseline;
+    }
+    .vs-row .ours::before { content: 'Auris'; color: var(--signal); }
+    .vs-row .others::before { content: 'Other'; color: var(--paper-3); }
+    .vs-row .others .o-i { display: inline; }
+    .vs-row .others .o-i + .o-i {
+      display: block;
+      padding-left: 60px;
+      margin-top: 4px;
+    }
+    .vs-row .others .o-i + .o-i::before { display: none; }
     .price-card { min-height: 0 !important; padding: 22px !important; }
     .price-card .px { font-size: 40px !important; }
     .final { padding: 56px 0 !important; }
@@ -715,14 +915,145 @@
   @media (min-width: 981px) {
     .mobile-menu { display: none !important; }
   }
+
+  /* IN-PAGE SECONDARY NAV (sticky below masthead, sits under the hero) */
+  .secnav-wrap {
+    position: sticky; top: 70px; z-index: 30;
+    background: rgba(1, 1, 0, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line-2);
+  }
+  .secnav {
+    max-width: 1280px; margin: 0 auto; padding: 0 40px;
+    display: flex; gap: 32px; align-items: center;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .secnav::-webkit-scrollbar { display: none; }
+  .secnav a {
+    display: inline-flex; align-items: center;
+    padding: 14px 0 10px;
+    line-height: 1;
+    font-family: var(--mono);
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.10em; color: var(--paper-3);
+    text-transform: uppercase; white-space: nowrap;
+    transition: color 180ms;
+    border-bottom: 1px solid transparent;
+  }
+  .secnav a:hover { color: var(--paper); }
+  .secnav a.on { color: var(--signal); border-bottom-color: var(--signal); }
+  .secnav .idx { color: var(--signal); margin-right: 8px; font-weight: 700; }
+
+  /* FOUNDERS LIST BOX: free founder license promo */
+  .founders-box {
+    margin: 28px 0 12px;
+    padding: 36px 40px;
+    background:
+      radial-gradient(ellipse 70% 90% at 50% 0%, rgba(250, 227, 83, 0.10) 0%, transparent 70%),
+      var(--ink-2);
+    border: 1px solid rgba(250, 227, 83, 0.18);
+    border-radius: 8px;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 36px;
+    align-items: center;
+    overflow: hidden;
+  }
+  .founders-box::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, rgba(250, 227, 83, 0.7) 50%, transparent 100%);
+    opacity: 1;
+  }
+  .founders-box .fb-left {
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .founders-box .fb-eb {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.10em; font-weight: 700;
+    color: var(--signal); text-transform: uppercase;
+  }
+  .founders-box h3 {
+    font-size: clamp(28px, 3vw, 38px);
+    font-weight: 800; line-height: 1.05;
+    color: var(--paper); letter-spacing: -0.020em;
+  }
+  .founders-box h3 em {
+    font-style: italic; color: var(--signal); font-weight: 500;
+    letter-spacing: -0.005em;
+  }
+  .founders-box .fb-body {
+    font-size: 15px; line-height: 1.55;
+    color: var(--paper-2); max-width: 52ch;
+    letter-spacing: -0.003em;
+  }
+  .founders-box .fb-body b {
+    color: var(--signal); font-weight: 700;
+  }
+  .founders-box form.fb-form {
+    display: flex; gap: 0;
+    border: 1px solid var(--line-3);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--ink-3);
+  }
+  .founders-box form.fb-form:focus-within {
+    border-color: var(--signal);
+  }
+  .founders-box input[type="email"] {
+    flex: 1; min-width: 0;
+    background: transparent; border: 0; outline: 0;
+    padding: 14px 18px;
+    color: var(--paper); font-family: inherit;
+    font-size: 14px; letter-spacing: -0.005em;
+  }
+  .founders-box input[type="email"]::placeholder {
+    color: var(--mist);
+  }
+  .founders-box button[type="submit"] {
+    background: var(--signal); color: var(--ink);
+    border: 0; padding: 14px 22px;
+    font-weight: 700; font-size: 11px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+    white-space: nowrap;
+    transition: background 180ms;
+    font-family: inherit;
+  }
+  .founders-box button[type="submit"]:hover {
+    background: var(--signal-soft);
+  }
+  .founders-box button[type="submit"]:disabled {
+    background: var(--mist); cursor: progress;
+  }
+  @media (max-width: 980px) {
+    .founders-box {
+      grid-template-columns: 1fr;
+      padding: 28px 24px;
+      gap: 22px;
+    }
+    .founders-box h3 { font-size: 26px; }
+  }
+  @media (max-width: 700px) {
+    .secnav-wrap { top: 56px; }
+    .secnav { padding: 0 18px; gap: 18px; }
+    .secnav a { padding: 11px 0 7px; font-size: 10px; letter-spacing: 0.06em; }
+    .secnav .idx { margin-right: 5px; }
+  }
 </style>
 </head>
-<body style="" data-new-gr-c-s-check-loaded="14.1292.0" data-gr-ext-installed="" data-new-gr-c-s-loaded="14.1292.0">
+<body>
 
 <div class="page" id="top">
 
   <header class="masthead">
-    <a href="/" class="wordmark">
+    <a href="index.html" class="wordmark">
       <svg class="glyph" viewBox="0 0 53 52" aria-hidden="true">
         <g fill="none" stroke="currentColor">
           <circle cx="4" cy="26" r="3.5" fill="currentColor" stroke="none"></circle>
@@ -757,70 +1088,81 @@
     <p class="dek">One-time purchase.<br>Every feature in every tier.<br>30-day money-back, no questions.</p>
   </section>
 
+  <!-- IN-PAGE JUMP NAV (sticky below masthead, sits under the hero) -->
+  <div class="secnav-wrap">
+    <nav class="secnav" aria-label="On this page">
+      <a href="#tiers"><span class="idx">01</span>Tiers</a>
+      <a href="#cost"><span class="idx">02</span>AI cost</a>
+      <a href="#versus"><span class="idx">03</span>Math</a>
+      <a href="#team"><span class="idx">04</span>Teams</a>
+      <a href="#refund"><span class="idx">05</span>Refund</a>
+      <a href="#faq"><span class="idx">06</span>FAQ</a>
+    </nav>
+  </div>
+
   <!-- 1 · THE TIERS -->
   <section class="chapter" id="tiers">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Tiers · <b>001</b></div>
+        <div class="ch-eyebrow">Tiers</div>
         <h2>Pick what fits.</h2>
       </div>
-      <div class="ch-tag">Every tier ships the same software. <b>Every feature, Mac and Windows, lifetime updates.</b><br>The price reflects who you are, not which features you get.</div>
+      <div class="ch-tag">Every tier ships the same software.<br><b>Every feature, Mac and Windows, lifetime updates.</b><br>The price reflects who you are, not which features you get.</div>
     </div>
 
     <div class="pricing-grid">
       <div class="price-card featured">
-        <div class="label">Lifetime Founder</div>
+        <div class="label">Founder pricing</div>
         <div class="name">Lifetime Founder</div>
-        <div class="px">$79<small>once</small></div>
-        <p class="desc">Three-week launch window. <b>20% off Standard</b> pricing for the first wave of buyers.</p>
-      </div>
-
-      <div class="price-card">
-        <div class="label">Lifetime Standard</div>
-        <div class="name">Lifetime Standard</div>
-        <div class="px">$99<small>once</small></div>
-        <p class="desc">After Founder pricing ends. <b>Same app, $20 more.</b></p>
-      </div>
-
-      <div class="price-card">
-        <div class="label">Student Lifetime</div>
-        <div class="name">Student Lifetime</div>
         <div class="px">$49<small>once</small></div>
-        <p class="desc">Verified <b>.edu</b> email required.</p>
+        <p class="desc"><b>$30 off Standard</b> pricing.<br>Full app, every feature.</p>
       </div>
 
       <div class="price-card">
-        <div class="label">Team Self-Hosted</div>
+        <div class="label">After founder window</div>
+        <div class="name">Lifetime Standard</div>
+        <div class="px">$79<small>once</small></div>
+        <p class="desc">After Founder pricing ends.<br><b>$30 more,</b> same app.</p>
+      </div>
+
+      <div class="price-card">
+        <div class="label">.edu email required</div>
+        <div class="name">Student Lifetime</div>
+        <div class="px">$29<small>once</small></div>
+        <p class="desc">Verified <b>.edu</b> email.<br>Full app, every feature.</p>
+      </div>
+
+      <div class="price-card">
+        <div class="label">3 to 50 seats</div>
         <div class="name">Team Self-Hosted</div>
-        <div class="px">$299<small>from</small></div>
-        <p class="desc">For teams that want Auris running on <b>their own machines,</b> not a vendor's. Starts at <b>five seats,</b> scales to fifty.</p>
+        <div class="px">$199<small>from</small></div>
+        <p class="desc">Three seats and up. Runs on your team's own machines.</p>
       </div>
     </div>
 
-    <div class="pricing-notify">
-      <div>
-        <div class="pn-eyebrow">Launch alert</div>
-        <h3>Tell me when buying opens.</h3>
-        <p>One email the day Auris ships. No newsletter, no drip campaign.</p>
+    <!-- FOUNDERS LIST: free founder license for first 100 signups -->
+    <aside class="founders-box" aria-label="Free founder license offer">
+      <div class="fb-left">
+        <span class="fb-eb">Founders list</span>
+        <h3>Claim a <em>free</em> founder license.</h3>
+        <p class="fb-body"><b>First 100 signups get a free copy at launch.</b><br>One email when claiming opens.<br>No newsletter, no drip.</p>
       </div>
-      <form class="notify compact cta" action="https://app.kit.com/forms/9456910/subscriptions" method="POST" novalidate>
-        <input type="hidden" name="fields[source]" value="pricing-waitlist">
-        <div class="notify-row">
-          <input type="email" name="email_address" placeholder="you@example.com" required aria-label="Email address">
-          <button type="submit">Notify me <span class="arr">→</span></button>
-        </div>
+      <form class="fb-form" action="https://app.kit.com/forms/9456910/subscriptions" method="POST" novalidate>
+        <input type="hidden" name="fields[source]" value="founders-list-pricing">
+        <input type="email" name="email_address" placeholder="you@example.com" required aria-label="Email address">
+        <button type="submit">Claim my spot <span aria-hidden="true">→</span></button>
       </form>
-    </div>
+    </aside>
   </section>
 
   <!-- 2 · TOTAL COST (provider rates) -->
   <section class="chapter" id="cost">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">AI cost · <b>002</b></div>
+        <div class="ch-eyebrow">AI cost</div>
         <h2>Pennies to the AI.</h2>
       </div>
-      <div class="ch-tag" style="">The polish step runs through your own API account. You pay them directly for usage. Run it locally and pay nothing past your electric bill.</div>
+      <div class="ch-tag">The polish step runs through your own API account. You pay them directly for usage. Run it locally and pay nothing past your electric bill.</div>
     </div>
 
     <div class="cost-table">
@@ -852,7 +1194,7 @@
     </div>
 
     <p class="ch-body" style="max-width: 64ch; margin-top: 24px;">
-      Most people use <b>5 to 30 hours of dictation a month</b> and pay <b>$2 to $5</b> in API usage.<br>Pick local and pay nothing.
+      Most people use <b>5 to 30 hours of dictation a month</b> and pay <b>$2 to $4</b> in API usage.<br>Pick local and pay nothing.
     </p>
   </section>
 
@@ -860,74 +1202,124 @@
   <section class="versus" id="versus">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Math · <b>003</b></div>
+        <div class="ch-eyebrow">Math</div>
         <h2>One-time vs<br><em class="sig">every-time.</em></h2>
       </div>
-      <div class="ch-tag" style="">Wispr Flow Pro is <b>$15 a month</b> or <b>$144 a year</b>. <br>After 2 years, you've paid enough for <b>3 copies</b> of Auris. After 5 years, <b>9</b>.</div>
+      <div class="ch-tag">Wispr Flow Pro is <b>$15 a month</b>, billed monthly.<br>The features stack up next to Auris. <span style="color: var(--signal); font-weight: 700;">Same job. Different math.</span></div>
     </div>
 
-    <div class="vs-tab" role="table" aria-label="Pricing comparison">
+    <div class="vs-tab" role="table" aria-label="Versus the competition">
       <div class="vs-row head" role="row">
-        <span role="columnheader">Plan type</span>
+        <span role="columnheader">Feature</span>
         <span role="columnheader">Auris</span>
-        <span role="columnheader">Wispr Flow</span>
-        <span role="columnheader">Superwhisper</span>
+        <span role="columnheader">Competitors</span>
+      </div>
+      <div class="vs-row" role="row">
+        <span class="lbl" role="cell">One-time / lifetime</span>
+        <span class="ours" role="cell"><b>$49</b> Founder &middot; <b>$79</b> Standard</span>
+        <span class="others" role="cell"><span class="o-i"><b>Wispr:</b> subscription only</span><span class="o-i"><b>Superwhisper:</b> $249</span></span>
       </div>
       <div class="vs-row" role="row">
         <span class="lbl" role="cell">Monthly</span>
-        <span class="ours empty" role="cell">—</span>
-        <span class="other" role="cell" style="">$15</span>
-        <span class="other" role="cell">$8.49</span>
+        <span class="ours" role="cell"><b>$2 to $4</b> in API credits<br><b>$0</b> running fully local.</span>
+        <span class="others" role="cell"><span class="o-i"><b>Wispr:</b> $15/mo</span><span class="o-i"><b>Superwhisper:</b> $8.49/mo + APIs</span></span>
       </div>
       <div class="vs-row" role="row">
-        <span class="lbl" role="cell">Yearly</span>
-        <span class="ours empty" role="cell">—</span>
-        <span class="other" role="cell">$144</span>
-        <span class="other" role="cell">$84.99</span>
+        <span class="lbl" role="cell">Local mode</span>
+        <span class="ours" role="cell"><b>Included.</b> Zero cloud calls.</span>
+        <span class="others" role="cell"><span class="o-i"><b>Wispr:</b> cloud only</span><span class="o-i"><b>Superwhisper:</b> included</span></span>
       </div>
       <div class="vs-row" role="row">
-        <span class="lbl" role="cell">Lifetime</span>
-        <span class="ours" role="cell">$79</span>
-        <span class="other empty" role="cell">—</span>
-        <span class="other" role="cell">$249</span>
+        <span class="lbl" role="cell">Tone control</span>
+        <span class="ours" role="cell"><b>Three sliders,</b> per-app modes</span>
+        <span class="others" role="cell"><span class="o-i"><b>Wispr:</b> basic customization</span><span class="o-i"><b>Superwhisper:</b> basic customization</span></span>
+      </div>
+      <div class="vs-row" role="row">
+        <span class="lbl" role="cell">Money-back</span>
+        <span class="ours" role="cell"><b>30 days,</b> no questions</span>
+        <span class="others" role="cell"><span class="o-i"><b>Wispr:</b> 14 days</span><span class="o-i"><b>Superwhisper:</b> unstated</span></span>
       </div>
     </div>
-  </section>
 
-  <!-- 4 · REFUND -->
-  <section class="chapter" id="refund">
-    <div class="ch-head">
-      <div>
-        <div class="ch-eyebrow">Refund · <b>004</b></div>
-        <h2>30 days, no questions.</h2>
+    <!-- 5-year cost-of-ownership chart -->
+    <div class="cost-over-time" role="table" aria-label="Five-year cost of ownership comparison">
+      <div class="cot-tb">
+        <span>Tool &middot; running total</span>
+        <span>Year 1</span>
+        <span>Year 2</span>
+        <span>Year 3</span>
+        <span>Year 5</span>
       </div>
-      <div class="ch-tag" style="">Buy Auris, try it for thirty days, refund if it isn't worth the price. <br class="desktop-only">Reply to the receipt email with the word "refund" and we'll process it within 24 hours.</div>
+
+      <div class="cot-row auris">
+        <div class="label">
+          <span class="name">Auris</span>
+          <span class="sub">$49 once, no subscription</span>
+        </div>
+        <div class="cell"><span class="px">$49</span><span class="delta">one-time license</span></div>
+        <div class="cell"><span class="px">$0</span><span class="delta">no recurring cost</span></div>
+        <div class="cell"><span class="px">$0</span><span class="delta">no recurring cost</span></div>
+        <div class="cell"><span class="px">$0</span><span class="delta">no recurring cost</span></div>
+      </div>
+
+      <div class="cot-row wispr">
+        <div class="label">
+          <span class="name">Wispr Flow Pro</span>
+          <span class="sub">$15/mo, billed monthly</span>
+        </div>
+        <div class="cell"><span class="px">$180</span><span class="delta">subscription</span></div>
+        <div class="cell"><span class="px">$360</span><span class="delta">+ $180</span></div>
+        <div class="cell"><span class="px">$540</span><span class="delta">+ $180</span></div>
+        <div class="cell"><span class="px">$900</span><span class="delta">+ $180</span></div>
+      </div>
+
+      <div class="cot-row wispr">
+        <div class="label">
+          <span class="name">Superwhisper</span>
+          <span class="sub">$8.49/mo, billed monthly</span>
+        </div>
+        <div class="cell"><span class="px">$102</span><span class="delta">subscription</span></div>
+        <div class="cell"><span class="px">$204</span><span class="delta">+ $102</span></div>
+        <div class="cell"><span class="px">$306</span><span class="delta">+ $102</span></div>
+        <div class="cell"><span class="px">$510</span><span class="delta">+ $102</span></div>
+      </div>
     </div>
 
-    <div class="ch-body" style="max-width: 64ch;">
-      <p style="">You <b>don't have to explain why.</b> <br>We'd appreciate a sentence about what didn't work, but it's not a condition.</p>
-    </div>
+    <p class="cot-note">
+      Platform fees only. <b>Wispr</b> bundles cloud LLM polish in the subscription. <b>Auris</b> and <b>Superwhisper</b> are BYOK: bring an OpenAI/Anthropic/Groq key for cloud polish (~$3/mo for typical use), or run polish locally for $0.
+    </p>
+
   </section>
 
-  <!-- 5 · TEAM -->
+  <!-- 4 · TEAM -->
   <section class="chapter" id="team">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">Teams · <b>005</b></div>
-        <h2>For teams of 5 to 50.</h2>
+        <div class="ch-eyebrow">Teams</div>
+        <h2>For teams of 3 to 50.</h2>
       </div>
-      <div class="ch-tag">The Team Self-Hosted license runs on <b>your team's own machines</b>. No vendor cloud in the polish path. Bring your own keys or run a local model across the team. <b>Centralized license management.</b></div>
+      <div class="ch-tag">The Team Self-Hosted license runs on <b>your team's own machines</b>. No vendor cloud in the polish path. Bring your own keys or run a local model across the team.</div>
     </div>
 
     <div class="team-block">
       <div class="l">
-        <h4>Self-hosted, 5 seats and up.</h4>
-        <p><b>$299 for 5 seats.</b> For 10, 25, or 50 seats, email <b><a href="mailto:hello@auris.talk" style="color: var(--signal);">hello@auris.talk</a></b> for a quote. Above 50 seats, get in touch and we'll work something out.</p>
-        <p style="font-size: 15px; color: var(--paper-3); margin-top: 8px;">For teams under 5 people, individual Lifetime licenses are usually the better fit.</p>
+        <h3>Self-hosted, 3 seats and up.</h3>
+        <p><b>$199 for 3 seats.</b> For 10, 25, or 50 seats, email <b><a href="mailto:hello@auris.talk" style="color: var(--signal);">hello@auris.talk</a></b> for a quote. Above 50 seats, get in touch and we'll work something out.</p>
       </div>
       <div class="r">
-        <span class="px">$299<small>from · 5 seats</small></span>
+        <span class="px">$199<small>from · 3 seats</small></span>
       </div>
+    </div>
+  </section>
+
+  <!-- 5 · REFUND -->
+  <section class="chapter" id="refund">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Refund</div>
+        <h2>30 days, no questions.</h2>
+      </div>
+      <div class="ch-tag">Buy Auris, try it for thirty days, refund if it isn't worth the price.<br>You <b>don't have to explain why.</b> We'd appreciate a sentence about what didn't work, but it's not a condition.</div>
     </div>
   </section>
 
@@ -935,8 +1327,8 @@
   <section class="chapter" id="faq">
     <div class="ch-head">
       <div>
-        <div class="ch-eyebrow">FAQ · <b>006</b></div>
-        <h2>The questions, answered.</h2>
+        <div class="ch-eyebrow">FAQ</div>
+        <h2>Questions</h2>
       </div>
     </div>
 
@@ -945,6 +1337,16 @@
         <details class="note">
           <summary>
             <span class="tag">N.01</span>
+            <h4>How can you afford to charge once?</h4>
+            <span class="chev" aria-hidden="true">→</span>
+          </summary>
+          <div class="note-body">
+            <p>Three reasons. <b>Low overhead:</b> Auris is a small indie team, not a venture-backed company that needs to grow into a billion-dollar valuation. <b>No per-user infrastructure:</b> BYOK means your AI provider runs the expensive part, so we don't pay for your compute. <b>Software lives on your machine:</b> we're not paying for servers that sit between you and the model. The price covers the build, the polish, and lifetime updates. We don't need a subscription to keep the lights on.</p>
+          </div>
+        </details>
+        <details class="note">
+          <summary>
+            <span class="tag">N.02</span>
             <h4>What does "lifetime updates" mean?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>
@@ -954,7 +1356,7 @@
         </details>
         <details class="note">
           <summary>
-            <span class="tag">N.02</span>
+            <span class="tag">N.03</span>
             <h4>Can I switch tiers?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>
@@ -964,7 +1366,7 @@
         </details>
         <details class="note">
           <summary>
-            <span class="tag">N.03</span>
+            <span class="tag">N.04</span>
             <h4>What payment methods?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>
@@ -974,7 +1376,7 @@
         </details>
         <details class="note">
           <summary>
-            <span class="tag">N.04</span>
+            <span class="tag">N.05</span>
             <h4>Do you offer purchase orders or invoicing?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>
@@ -984,7 +1386,7 @@
         </details>
         <details class="note">
           <summary>
-            <span class="tag">N.05</span>
+            <span class="tag">N.06</span>
             <h4>What about education or non-profit discounts beyond the Student tier?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>
@@ -994,7 +1396,7 @@
         </details>
         <details class="note">
           <summary>
-            <span class="tag">N.06</span>
+            <span class="tag">N.07</span>
             <h4>What happens to my license if I switch computers?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>
@@ -1008,7 +1410,7 @@
 
   <!-- FINAL CTA -->
   <section class="final" id="final">
-    <h2>Pick a <em class="sig">tier.</em></h2>
+    <h2>One email when <em class="sig">buying opens.</em></h2>
     <p class="dek"><b>Auris is currently in beta. Shipping soon.</b><br>30-day money-back, no questions.</p>
     <div class="row">
       <form class="notify" action="https://app.kit.com/forms/9456910/subscriptions" method="POST" novalidate>
@@ -1025,6 +1427,7 @@
 
   <footer class="colophon">
     <span>© 2026 Auris</span>
+    <span><a href="terms.html">Terms</a> <span class="sep">·</span> <a href="privacy.html">Privacy</a></span>
     <span><a href="mailto:hello@auris.talk">hello@auris.talk</a></span>
   </footer>
 
@@ -1034,7 +1437,41 @@
 
 
 <script>
-  // Hamburger toggle — single delegated listener
+  // Scroll-spy: highlight current section in the sticky in-page nav
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.secnav a[href^="#"]'));
+    if (!links.length || !('IntersectionObserver' in window)) return;
+    var byId = {};
+    links.forEach(function (a) {
+      var id = a.getAttribute('href').slice(1);
+      var sec = document.getElementById(id);
+      if (sec) byId[id] = a;
+    });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          links.forEach(function (a) { a.classList.remove('on'); });
+          var link = byId[e.target.id];
+          if (link) link.classList.add('on');
+        }
+      });
+    }, { rootMargin: '-30% 0px -55% 0px', threshold: 0 });
+    Object.keys(byId).forEach(function (id) {
+      io.observe(document.getElementById(id));
+    });
+  })();
+
+  // Dev console note: quiet editorial message for curious devs
+  (function () {
+    if (typeof console === 'undefined' || !console.log) return;
+    var css = 'font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px;';
+    console.log('%cauris. %c$49 once, no subscription.', css + ' color: #fae353; font-weight: 700;', css + ' color: #ede7df;');
+    console.log('%chello@auris.talk · we read every reply.', css + ' color: #9b948d;');
+  })();
+</script>
+
+<script>
+  // Hamburger toggle: single delegated listener
   (function () {
     document.addEventListener('click', function (e) {
       var btn = e.target.closest && e.target.closest('.nav-burger');
