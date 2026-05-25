@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How it works · Auris</title>
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://auris.talk/how/">
+<meta property="og:image" content="https://auris.talk/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://auris.talk/og-image.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://auris.talk/" },
+    { "@type": "ListItem", "position": 2, "name": "How it works", "item": "https://auris.talk/how/" }
+  ]
+}
+</script>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="theme-color" content="#010100">
+<meta name="description" content="The dictation loop, tone sliders, app-specific rules, learning dictionary, spoken snippets, privacy patterns, first-run setup. How Auris turns speech into clean text.">
+<meta property="og:title" content="How it works · Auris">
+<meta property="og:description" content="The dictation loop, tone sliders, app-specific rules, learning dictionary, spoken snippets, privacy patterns, first-run setup. How Auris turns speech into clean text.">
+<meta property="og:url" content="https://auris.talk/how">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #010100; --ink-2: #040302; --ink-3: #0c0806; --ink-4: #120f0c;
+    --paper: #ede7df; --paper-2: #bcb6af; --paper-3: #9b948d;
+    --line: #15110d; --line-2: #28231f; --line-3: #3a342e;
+    --signal: #fae353; --signal-soft: #efcc36; --signal-deep: #c4a020;
+    --ember: #ea6a64; --warn: #e0a050; --ok: #75d079;
+    --mist: #7a736d; --dim: #4a4540;
+    --sans: 'Albert Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scrollbar-gutter: stable; }
+  body {
+    background: var(--ink); color: var(--paper); font-family: var(--sans);
+    font-size: 15px; line-height: 1.55; font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'kern', 'liga'; text-rendering: optimizeLegibility;
+  }
+  @media (min-width: 1200px) {
+    body { zoom: 0.95; }
+  }
+  ::selection { background: var(--signal); color: var(--ink); }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; }
+  em.sig { font-style: italic; color: var(--signal); font-weight: 500; letter-spacing: -0.005em; }
+  em.alt { font-style: italic; color: inherit; font-weight: inherit; letter-spacing: -0.005em; }
+
+  .page { max-width: clamp(1280px, 92vw, 1480px); margin: 0 auto; padding: 0 40px; }
+
+  /* MASTHEAD ------------------------------------------------ */
+  .masthead {
+    position: sticky; top: 0; z-index: 40;
+    background: rgba(1, 1, 0, 0.94);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    display: grid; grid-template-columns: auto 1fr auto;
+    align-items: center; padding: 22px 0 18px; gap: 40px;
+    border-bottom: 1px solid var(--line-2);
+  }
+  .wordmark {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 24px; letter-spacing: -0.030em; color: var(--paper);
+  }
+  .wordmark .text { display: inline-flex; align-items: baseline; }
+  .wordmark .dot { color: var(--signal); transition: opacity 220ms cubic-bezier(0.16, 1, 0.3, 1); }
+  .wordmark:hover .dot { animation: dot-pulse 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1; }
+  @keyframes dot-pulse {
+    0%, 70%, 100% { opacity: 1; }
+    35% { opacity: 0.35; }
+  }
+  .wordmark .glyph { color: var(--signal); width: 30px; height: 28px; display: block; }
+  /* Wordmark glyph flutter: the 4 ellipses scale-pulse in sequence on hover (paused outside hover) */
+  .masthead .wordmark .glyph ellipse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: wordmark-flutter 1.6s ease-in-out infinite;
+    animation-play-state: paused;
+  }
+  .masthead .wordmark .glyph ellipse:nth-of-type(1) { animation-delay: 0s; }
+  .masthead .wordmark .glyph ellipse:nth-of-type(2) { animation-delay: 0.10s; }
+  .masthead .wordmark .glyph ellipse:nth-of-type(3) { animation-delay: 0.20s; }
+  .masthead .wordmark .glyph ellipse:nth-of-type(4) { animation-delay: 0.30s; }
+  .masthead .wordmark:hover .glyph ellipse { animation-play-state: running; }
+  @keyframes wordmark-flutter {
+    0%, 100% { transform: scaleY(0.86); }
+    50%      { transform: scaleY(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  .masthead-nav { display: flex; gap: 28px; align-items: center; justify-content: flex-end; }
+  .masthead-nav a {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase; transition: color 180ms;
+  }
+  .masthead-nav a:hover { color: var(--signal); }
+  .masthead-nav a.on { color: var(--paper); }
+  .masthead-nav a.on::after { content: ''; display: block; height: 1px; background: var(--signal); margin-top: 4px; }
+  .masthead-nav .buy {
+    background: var(--signal); color: var(--ink);
+    padding: 9px 16px; font-weight: 700; letter-spacing: 0.04em;
+    transition: background 180ms;
+  }
+  .masthead-nav .buy:hover { background: var(--signal-soft); color: var(--ink); }
+
+  /* PAGE HERO ----------------------------------------------- */
+  .page-hero {
+    padding: 40px 0 27px;
+    border-bottom: 1px solid var(--line-2);
+    position: relative;
+  }
+  .page-hero::before {
+    content: ''; position: absolute; left: 0; right: 0; top: 0; height: 1px;
+    background: transparent;
+    pointer-events: none;
+  }
+  .page-eyebrow {
+    display: inline-flex; align-items: center; gap: 14px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase; margin-bottom: 28px;
+  }
+  .page-eyebrow::before {
+    content: ''; display: block; width: 28px; height: 1px; background: var(--signal);
+  }
+  .page-hero h1 {
+    font-weight: 800; font-size: clamp(44px, 5.4vw, 80px);
+    line-height: 0.94; letter-spacing: -0.034em; color: var(--paper);
+    max-width: 16ch;
+  }
+  .page-hero .dek {
+    margin-top: 28px; font-size: 19px; font-weight: 400; line-height: 1.5;
+    color: var(--paper); max-width: 50ch; letter-spacing: -0.005em;
+  }
+
+  /* CHAPTER ------------------------------------------------- */
+  .chapter { padding: 50px 0; border-bottom: 1px solid var(--line-2); }
+  .ch-head {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    gap: 64px; align-items: end; margin-bottom: 36px;
+  }
+  .ch-eyebrow {
+    display: inline-flex; align-items: center; gap: 14px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase; margin-bottom: 22px;
+  }
+  .ch-eyebrow::before {
+    content: ''; display: block; width: 28px; height: 1px; background: var(--signal);
+  }
+  .ch-eyebrow b { color: var(--paper); font-weight: 700; }
+  .ch-head h2 {
+    font-weight: 700; font-size: clamp(36px, 4.4vw, 56px);
+    line-height: 1.02; letter-spacing: -0.030em; color: var(--paper); max-width: 18ch;
+  }
+  .ch-head h2 em.sig { font-weight: 500; }
+  .ch-tag {
+    font-size: 19px; font-weight: 400; color: var(--paper);
+    letter-spacing: -0.005em; line-height: 1.5; max-width: 52ch;
+  }
+  .ch-body { max-width: 70ch; }
+  .ch-body p {
+    font-weight: 400; font-size: 19px; line-height: 1.6;
+    color: var(--paper-2); margin-bottom: 18px; letter-spacing: -0.003em;
+  }
+  .ch-body p b { font-weight: 700; color: var(--paper); }
+  .ch-body p .sg { color: var(--signal); font-weight: 600; }
+  .ch-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 15px; font-weight: 700; letter-spacing: 0.02em;
+    color: var(--signal); padding-bottom: 2px;
+    border-bottom: 1px solid var(--signal-deep);
+    transition: color 180ms, border-color 180ms;
+  }
+  .ch-link:hover { color: var(--signal-soft); border-color: var(--signal); }
+
+  /* STEP/HOW GRID ------------------------------------------- */
+  .how-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+    margin: 0;
+  }
+  .how-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+  .how-card {
+    background: var(--ink-3); border: 1px solid var(--line-2);
+    padding: 28px 28px 26px; display: flex; flex-direction: column; gap: 16px;
+    min-height: 0; position: relative; border-radius: 6px; overflow: hidden;
+  }
+  .how-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: transparent;
+  }
+  .how-card .num {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+    color: var(--signal); text-transform: uppercase;
+  }
+  .how-card h3 {
+    font-weight: 700; font-size: 32px; letter-spacing: -0.024em;
+    color: var(--paper); line-height: 1;
+  }
+  .how-card .keys { display: flex; gap: 8px; align-items: center; margin-top: -4px; flex-wrap: wrap; }
+  .kbd {
+    display: inline-block; padding: 4px 10px; border-radius: 3px;
+    background: var(--ink-4); border: 1px solid var(--line-2);
+    color: var(--paper); font-family: inherit; font-weight: 600;
+    font-size: 15px; letter-spacing: 0.04em;
+  }
+  .kbd-plus { color: var(--paper-3); font-weight: 500; }
+  .how-card p { font-size: 15px; line-height: 1.55; color: var(--paper-2); }
+  .how-card p b { color: var(--paper); font-weight: 600; }
+
+  /* HOW-CARD VARIATION: break identical-card-grid (3-card grids only) */
+  .how-grid:not(.cols-4) > .how-card:nth-child(3) {
+    background:
+      linear-gradient(180deg, var(--ink-3) 0%, var(--ink-3) 55%, rgba(250,227,83,0.06) 100%),
+      var(--ink-3);
+    border-color: var(--signal-deep);
+  }
+  .how-grid:not(.cols-4) > .how-card:nth-child(3) h3 { color: var(--signal); }
+  .how-grid:not(.cols-4) > .how-card:nth-child(3)::before {
+    background: linear-gradient(90deg, transparent 0%, rgba(250,227,83,0.6) 50%, transparent 100%);
+    height: 2px;
+  }
+
+  /* SLIDER PANEL -------------------------------------------- */
+  .control {
+    margin: 0; background: var(--ink-3); border: 1px solid var(--line-2);
+    position: relative; overflow: hidden; border-radius: 6px;
+  }
+  .control::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: transparent;
+  }
+  .control-tb {
+    border-bottom: 1px solid var(--line-2); padding: 0 18px;
+    display: grid; grid-template-columns: auto 1fr auto;
+    align-items: center; gap: 16px; height: 42px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+    background: var(--ink-2);
+  }
+  .control-tb .l { display: inline-flex; align-items: center; gap: 12px; }
+  .control-tb .l .mk {
+    font-weight: 800; font-size: 15px; letter-spacing: 0.14em;
+    color: var(--paper); text-transform: none;
+  }
+  .control-tb .l .mk .cy { color: var(--signal); }
+  .control-tb .c { text-align: center; }
+  .control-tb .r { display: inline-flex; align-items: center; gap: 7px; color: var(--signal); }
+  .control-tb .r .led {
+    width: 6px; height: 6px; border-radius: 99px; background: var(--signal);
+    box-shadow: 0 0 8px rgba(250,227,83,0.5);
+  }
+  .control-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 36px; padding: 28px 28px 24px;
+  }
+  .control-sliders { display: grid; gap: 22px; }
+  .slider { display: grid; gap: 10px; }
+  .slider .top { display: flex; justify-content: space-between; align-items: baseline; }
+  .slider .name {
+    font-weight: 600; font-size: 15px; color: var(--paper); letter-spacing: -0.005em;
+  }
+  .slider .v {
+    font-size: 11px; font-weight: 700; color: var(--signal); letter-spacing: 0.04em;
+  }
+  .slider input[type="range"] {
+    -webkit-appearance: none; appearance: none;
+    background: transparent; width: 100%; padding: 6px 0;
+  }
+  .slider input[type="range"]::-webkit-slider-runnable-track { height: 2px; background: var(--line-2); }
+  .slider input[type="range"]::-moz-range-track { height: 2px; background: var(--line-2); }
+  .slider input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 14px; height: 14px; background: var(--signal); border: 0;
+    transform: translateY(-6px); transition: transform 160ms;
+    box-shadow: 0 0 8px rgba(250,227,83,0.45);
+  }
+  .slider input[type="range"]::-moz-range-thumb { width: 14px; height: 14px; background: var(--signal); border: 0; }
+  .slider input[type="range"]:active::-webkit-slider-thumb { transform: translateY(-6px) scale(1.15); }
+  .slider input[type="range"]:focus { outline: none; }
+  .slider .ends {
+    display: flex; justify-content: space-between;
+    font-size: 11px; font-weight: 700; color: var(--paper-3);
+    letter-spacing: 0.10em; text-transform: uppercase;
+  }
+  .control-preview {
+    display: grid; grid-template-rows: auto 1fr; gap: 12px;
+    border-left: 1px solid var(--line-2); padding-left: 28px;
+  }
+  .control-preview .lbl {
+    font-size: 11px; font-weight: 700; color: var(--paper-3);
+    letter-spacing: 0.10em; text-transform: uppercase;
+  }
+  .control-preview .out {
+    font-weight: 500; font-size: 19px; line-height: 1.5;
+    color: var(--paper); letter-spacing: -0.005em;
+    transition: opacity 180ms;
+  }
+  .control-foot {
+    border-top: 1px solid var(--line-2); padding: 14px 18px;
+    font-size: 11px; font-weight: 700; color: var(--paper-3);
+    letter-spacing: 0.10em; text-transform: uppercase;
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    background: var(--ink-2);
+  }
+  .control-foot b { color: var(--paper); font-weight: 700; }
+
+  /* SLIDER DETAILS: three named blocks below the panel */
+  .slider-details {
+    margin-top: 36px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+    border: 1px solid var(--line-2); border-radius: 6px; overflow: hidden;
+  }
+  .slider-details .cell {
+    padding: 26px 24px;
+    border-right: 1px solid var(--line-2);
+    background: var(--ink-3);
+    position: relative;
+  }
+  .slider-details .cell:last-child { border-right: 0; }
+  .slider-details .cell::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: transparent;
+  }
+  .slider-details .cell h4 {
+    font-weight: 700; font-size: 24px; color: var(--paper);
+    letter-spacing: -0.018em; margin-bottom: 14px;
+  }
+  .slider-details .cell .range {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--signal); text-transform: uppercase; margin-bottom: 10px;
+  }
+  .slider-details .cell p {
+    font-size: 15px; line-height: 1.55; color: var(--paper-2);
+  }
+  .slider-details .cell p b { color: var(--paper); font-weight: 600; }
+
+  /* MODE PRESETS GRID (per-app behavior) -------------------- */
+  .modes-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+    border: 1px solid var(--line-2); border-radius: 6px; overflow: hidden;
+  }
+  .mode {
+    padding: 24px 22px;
+    border-right: 1px solid var(--line-2);
+    border-bottom: 1px solid var(--line-2);
+    background: var(--ink-3);
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .mode:nth-child(3n) { border-right: 0; }
+  .mode:nth-last-child(-n+3) { border-bottom: 0; }
+  .mode .lbl {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .mode h4 {
+    font-weight: 700; font-size: 24px; color: var(--paper);
+    letter-spacing: -0.018em;
+  }
+  .mode h4 .sg { color: var(--signal); }
+  .mode p {
+    font-size: 15px; line-height: 1.55; color: var(--paper-2);
+    margin-top: auto;
+  }
+  .mode p b { color: var(--paper); font-weight: 600; }
+  .mode.default {
+    background:
+      radial-gradient(ellipse 60% 80% at 50% 0%, rgba(250, 227, 83, 0.06) 0%, transparent 70%),
+      var(--ink-3);
+  }
+  .mode.default::before {
+    content: ''; position: absolute; top: -1px; left: 0; right: 0; height: 1px;
+    background: transparent;
+  }
+  .mode.default h4 { color: var(--signal); }
+
+  /* SNIPPETS / TERMINAL ------------------------------------- */
+  .term {
+    margin: 24px 0;
+    border-radius: 6px; overflow: hidden;
+    background:
+      radial-gradient(ellipse 50% 90% at 0% 0%, rgba(250, 227, 83, 0.06) 0%, transparent 70%),
+      var(--ink-4);
+    border: 1px solid var(--line-2);
+    position: relative;
+  }
+  .term::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: transparent;
+  }
+  .term-head {
+    padding: 12px 18px; border-bottom: 1px solid var(--line-2);
+    background: var(--ink-2);
+    display: flex; align-items: center; gap: 14px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .term-head .dots { display: inline-flex; gap: 5px; }
+  .term-head .dots i {
+    display: inline-block; width: 9px; height: 9px; border-radius: 99px;
+    background: var(--line-3);
+  }
+  .term-head .dots i:first-child { background: var(--line-3); }
+  .term-head b { color: var(--signal); font-weight: 700; margin-left: auto; }
+  .term-body {
+    padding: 8px 22px 14px;
+    font-size: 15px; line-height: 1.85; color: var(--paper-2);
+    letter-spacing: 0.005em;
+  }
+  .term-row {
+    display: grid; grid-template-columns: 160px minmax(0, 1fr) auto;
+    gap: 24px; padding: 10px 0;
+    border-bottom: 1px dashed var(--line-2);
+    align-items: baseline;
+  }
+  .term-row:last-child { border-bottom: 0; }
+  .term-row .k {
+    color: var(--signal); font-weight: 700; letter-spacing: 0.02em;
+    background: var(--ink-2); padding: 4px 10px;
+    border: 1px solid var(--line-2);
+    font-size: 15px;
+    display: inline-block;
+  }
+  .term-row .v { color: var(--paper-2); font-weight: 500; }
+  .term-row .ex {
+    color: var(--paper); font-weight: 500; font-size: 15px;
+    letter-spacing: 0.02em; font-style: italic;
+  }
+  .term-row .ex small {
+    color: var(--paper-3); font-style: normal; margin-right: 6px; font-weight: 700;
+    letter-spacing: 0.10em; text-transform: uppercase; font-size: 11px;
+  }
+
+  /* STRIKE GRID (privacy-style) ----------------------------- */
+  .keep-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    margin: 0; border: 1px solid var(--line-2); border-radius: 6px; overflow: hidden;
+  }
+  .keep-card {
+    padding: 26px 24px 22px; background: var(--ink-3);
+    border-right: 1px solid var(--line-2);
+    display: flex; flex-direction: column; gap: 12px;
+    position: relative;
+  }
+  .keep-card:last-child { border-right: 0; }
+  .keep-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: transparent;
+  }
+  .keep-card .strike {
+    font-weight: 700; font-size: 19px; color: var(--paper);
+    letter-spacing: -0.022em; position: relative;
+    display: inline-block; align-self: flex-start;
+  }
+  .keep-card .strike::after {
+    content: ''; position: absolute; left: -3px; right: -3px; top: 53%;
+    height: 3px; background: var(--signal);
+    transform: rotate(-3deg); transform-origin: center;
+  }
+  .keep-card p {
+    font-size: 15px; line-height: 1.55; color: var(--paper-2);
+    letter-spacing: -0.002em;
+  }
+  .keep-card p b { color: var(--paper); font-weight: 600; }
+
+  /* FINAL CTA ----------------------------------------------- */
+  .final {
+    padding: 64px 0; text-align: center; position: relative;
+    border-bottom: 1px solid var(--line-2);
+    background: var(--ink-2);
+  }
+  .final .notify { margin: 0 auto; }
+  .final h2 {
+    font-weight: 800; font-size: clamp(44px, 6vw, 96px);
+    line-height: 0.94; letter-spacing: -0.030em;
+    color: var(--paper); max-width: 18ch; margin: 0 auto;
+  }
+  .final h2 em.sig { font-weight: 500; }
+  .final .dek {
+    margin-top: 24px; font-size: 19px; line-height: 1.55;
+    color: var(--paper-2); max-width: 50ch;
+    margin-left: auto; margin-right: auto;
+    font-weight: 400; letter-spacing: -0.003em;
+  }
+  .final .row {
+    margin-top: 36px; display: flex; align-items: center; justify-content: center;
+    gap: 14px; flex-wrap: wrap;
+  }
+  .final .micro {
+    margin-top: 22px; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.10em; color: var(--paper-3); text-transform: uppercase;
+  }
+  .final .micro b { color: var(--paper); font-weight: 700; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 15px;
+    padding: 13px 22px; letter-spacing: 0.02em;
+    transition: background 180ms, color 180ms, border-color 180ms;
+    border: 1px solid transparent; cursor: pointer;
+    border-radius: 6px;
+  }
+  .btn-primary { background: var(--signal); color: var(--ink); border-color: var(--signal); }
+  .btn-primary:hover { background: var(--signal-soft); border-color: var(--signal-soft); }
+  .btn-ghost { background: transparent; color: var(--paper); border: 1px solid var(--line-2); }
+  .btn-ghost:hover { border-color: var(--line-3); color: var(--signal); }
+  .btn-disabled {
+    background: var(--ink-3); color: var(--paper-3); border: 1px solid var(--line-2);
+    cursor: not-allowed; pointer-events: none;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .btn-disabled .led {
+    width: 7px; height: 7px; border-radius: 99px; background: var(--signal);
+    box-shadow: 0 0 0 3px rgba(250,227,83,0.18), 0 0 12px rgba(250,227,83,0.4);
+    animation: led 1.4s ease-in-out infinite;
+  }
+  @keyframes led { 0%, 60%, 100% { opacity: 1; } 30% { opacity: 0.3; } }
+  .btn .arr { opacity: 0.85; }
+
+  /* NOTIFY FORM -------------------------------------------- */
+  .notify { display: flex; flex-direction: column; gap: 12px; max-width: 480px; }
+  .notify .notify-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .notify .notify-row {
+    display: flex; gap: 0;
+    border: 1px solid var(--line-3); border-radius: 4px;
+    background: var(--ink-3); overflow: hidden;
+    transition: border-color 180ms;
+  }
+  .notify .notify-row:focus-within { border-color: var(--signal); }
+  .notify input[type="email"] {
+    flex: 1; min-width: 0; background: transparent; border: 0; outline: 0;
+    padding: 13px 16px; color: var(--paper); font-family: inherit;
+    font-size: 15px; letter-spacing: -0.005em;
+  }
+  .notify input[type="email"]::placeholder { color: var(--mist); }
+  .notify button[type="submit"] {
+    background: var(--signal); color: var(--ink); border: 0;
+    padding: 13px 22px; font-weight: 700; letter-spacing: 0.02em;
+    font-family: inherit; font-size: 15px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+    transition: background 180ms;
+  }
+  .notify button[type="submit"]:hover { background: var(--signal-soft); }
+  .notify button[type="submit"]:disabled { background: var(--mist); cursor: progress; }
+  .notify .notify-hint { font-size: 11px; color: var(--paper-3); line-height: 1.55; letter-spacing: 0.02em; }
+  .notify .notify-hint b { color: var(--paper); font-weight: 700; }
+  .notify .notify-hint a { color: var(--signal); border-bottom: 1px solid currentColor; }
+  .notify.ok .notify-hint { color: var(--signal); }
+  .notify.compact { max-width: none; gap: 8px; }
+  .notify.compact input[type="email"] { padding: 11px 14px; }
+  .notify.compact button[type="submit"] {
+    padding: 11px 16px; font-size: 11px; letter-spacing: 0.10em; text-transform: uppercase;
+  }
+  .notify.compact .notify-hint { font-size: 11px; }
+  .final .links {
+    margin-top: 22px;
+    display: flex; gap: 18px; justify-content: center; flex-wrap: wrap;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .final .links a { transition: color 180ms; }
+  .final .links a:hover { color: var(--signal); }
+  .final .links .sep { color: var(--dim); }
+
+  /* COLOPHON ------------------------------------------------ */
+  .colophon {
+    padding: 22px 0 26px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 24px; flex-wrap: wrap;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .colophon a { color: var(--paper-3); transition: color 180ms; }
+  .colophon a:hover { color: var(--signal); }
+  .colophon .sep { color: var(--dim); margin: 0 4px; }
+
+  /* RESPONSIVE ---------------------------------------------- */
+  #loop .ch-head h2 { max-width: none; white-space: nowrap; }
+  #loop .ch-head { grid-template-columns: 1fr; gap: 20px; margin-bottom: 20px; }
+  @media (max-width: 980px) {
+    .page { padding: 0 22px; }
+    .masthead { grid-template-columns: 1fr auto; padding-top: 22px; gap: 16px; }
+    .masthead-nav { gap: 14px; }
+    .masthead-nav a:not(.buy) { display: none; }
+    .page-hero { padding: 40px 0 21px; }
+    .chapter { padding: 44px 0; }
+    .ch-head { grid-template-columns: 1fr; gap: 18px; margin-bottom: 32px; }
+    .how-grid, .how-grid.cols-4 { grid-template-columns: 1fr; }
+    .control-grid { grid-template-columns: 1fr; }
+    .control-preview { border-left: 0; padding-left: 0; padding-top: 18px; border-top: 1px solid var(--line-2); }
+    .slider-details { grid-template-columns: 1fr; }
+    .slider-details .cell { border-right: 0; border-bottom: 1px solid var(--line-2); }
+    .slider-details .cell:last-child { border-bottom: 0; }
+    .modes-grid { grid-template-columns: 1fr 1fr; }
+    .mode { border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
+    .mode:nth-child(2n) { border-right: 0; }
+    .mode:nth-last-child(-n+2) { border-bottom: 0; }
+    .keep-grid { grid-template-columns: 1fr 1fr; }
+    .keep-card { border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
+    .keep-card:nth-child(2n) { border-right: 0; }
+    .keep-card:nth-last-child(-n+2) { border-bottom: 0; }
+    .term-row { grid-template-columns: 1fr; gap: 6px; }
+    .term-row .k { justify-self: start; }
+    .final { padding: 48px 0; }
+  }
+
+  /* === MOBILE FIXES === */
+  @media (max-width: 700px) {
+    .page { padding: 0 18px; }
+    .masthead { padding: 14px 0 12px; gap: 10px; }
+    .masthead-nav { gap: 14px; flex-wrap: nowrap; }
+    .masthead-nav a {
+      font-size: 11px; letter-spacing: 0.06em; white-space: nowrap;
+    }
+    .wordmark { font-size: 19px; gap: 8px; }
+    .wordmark .glyph { width: 24px; height: 22px; }
+    .page-hero { padding: 28px 0 32px !important; }
+    .page-hero h1, .hero-polished h1, .final h2, .ch-head h2 {
+      font-size: clamp(36px, 9vw, 56px) !important;
+    }
+    .ch-head { gap: 14px !important; margin-bottom: 24px !important; }
+    .ch-tag, .hero-dek, .page-hero .dek { font-size: 15px !important; }
+    .ch-body p { font-size: 15px !important; }
+    .hero-raw, .hero-spine { display: none !important; }
+    .hero-polished { opacity: 1 !important; transform: none !important; padding: 0 !important; }
+    .hero-polished .stamp { display: none; }
+    .hero-eyebrow { gap: 10px !important; margin-bottom: 22px !important; }
+    .hero-eyebrow .ti, .pill { font-size: 11px !important; }
+    .hero { padding: 24px 0 36px !important; }
+    .chapter, .versus, .pricing, .langs { padding: 40px 0 !important; }
+    .bar-row .bar-label { font-size: 15px !important; }
+    .bar-val { font-size: 24px !important; }
+    .how-card { min-height: 0 !important; padding: 20px !important; }
+    .how-card h3 { font-size: 24px !important; }
+    .control-grid { padding: 20px !important; gap: 22px !important; }
+    /* On mobile, show the dictation preview ABOVE the sliders so users see
+       what changes before they touch the controls. */
+    .control-preview {
+      order: -1;
+      padding-top: 0 !important;
+      padding-bottom: 18px !important;
+      border-top: 0 !important;
+      border-bottom: 1px solid var(--line-2) !important;
+    }
+    .control-tb { padding: 0 14px !important; }
+    .control-foot { padding: 12px 14px !important; font-size: 11px !important; gap: 8px !important; }
+    .feature-grid, .keep-grid, .pricing-grid, .provider-grid, .modes-grid, .lives-grid, .ways-grid, .slider-details {
+      grid-template-columns: 1fr !important;
+    }
+    .vs-row { grid-template-columns: 1fr !important; }
+    .vs-row > * { padding: 8px 12px !important; }
+    .vs-tab { font-size: 15px !important; }
+    .vs-row .lbl { background: var(--ink-3); }
+    .vs-row > * { border-right: 0 !important; border-bottom: 1px solid var(--line-2) !important; }
+    .vs-row.head { display: none !important; }
+    .price-card { min-height: 0 !important; padding: 22px !important; }
+    .price-card .px { font-size: 40px !important; }
+    .final { padding: 56px 0 !important; }
+    /* Keep the final CTA buttons side-by-side on mobile instead of stacking. */
+    .final .row { flex-wrap: nowrap !important; gap: 10px !important; }
+    .final .row .btn { padding: 11px 14px !important; font-size: 15px !important; flex: 0 1 auto; white-space: nowrap; }
+    .secnav-wrap { top: 56px; }
+    .secnav a { padding: 12px 14px; font-size: 11px; }
+    .colophon { font-size: 11px; gap: 14px; }
+    .keep-file { grid-template-columns: 1fr !important; gap: 8px !important; }
+    .cost-head, .cost-row { grid-template-columns: 1fr !important; gap: 4px !important; padding: 14px 18px !important; }
+    .cost-row .px { text-align: left !important; font-size: 19px !important; }
+    #license .lives-grid { grid-template-columns: 1fr !important; }
+    #license .lives h4 { white-space: normal !important; font-size: 24px !important; }
+    .team-block { grid-template-columns: 1fr !important; }
+    .langs-grid { grid-template-columns: 1fr 1fr; }
+    .stickbar { display: none !important; }
+    .page-hero .hero-wedge { grid-template-columns: 1fr 1fr !important; gap: 0 !important; }
+    .page-hero .wedge { padding: 16px 18px !important; border-right: 1px solid var(--line-2) !important; border-bottom: 1px solid var(--line-2) !important; }
+    .page-hero .wedge:nth-child(2n) { border-right: 0 !important; padding-right: 0 !important; }
+    .page-hero .wedge:nth-child(2n+1) { padding-left: 0 !important; }
+    .page-hero .wedge:nth-last-child(-n+2) { border-bottom: 0 !important; padding-bottom: 0 !important; }
+    .chapter-shot { margin-top: 28px !important; }
+  }
+
+  /* PAGE-HERO WEDGE STRIP */
+  .page-hero .hero-wedge {
+    margin-top: 44px; padding-top: 32px;
+    border-top: 1px solid var(--line-2);
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    max-width: clamp(1280px, 92vw, 1480px);
+  }
+  .page-hero .wedge {
+    display: flex; flex-direction: column; gap: 10px;
+    padding: 0 28px;
+    border-right: 1px solid var(--line-2);
+  }
+  .page-hero .wedge:first-child { padding-left: 0; }
+  .page-hero .wedge:last-child { border-right: 0; padding-right: 0; }
+  .page-hero .wedge .eb {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .page-hero .wedge .v {
+    font-weight: 800; font-size: clamp(26px, 2.6vw, 36px);
+    line-height: 1.0; letter-spacing: -0.024em; color: var(--signal);
+  }
+  .page-hero .wedge .sub {
+    font-size: 13px; line-height: 1.45; color: var(--paper-2);
+    letter-spacing: -0.003em;
+  }
+  .page-hero .wedge .sub b { font-weight: 700; color: var(--paper); }
+
+  /* In-chapter screenshots */
+  .chapter-shot {
+    display: block; width: 100%; height: auto;
+    margin-top: 36px;
+    border: 1px solid var(--line-2);
+    border-radius: 8px;
+    background: var(--ink-2);
+    box-shadow: 0 1px 0 0 var(--line) inset, 0 30px 60px -30px rgba(0,0,0,0.6);
+  }
+
+  /* CUSTOM HUD: a CSS recreation of the live recording HUD, with breathing waveform */
+  .hud-mock-wrap {
+    margin: 40px 0 0;
+    display: flex; justify-content: center;
+    padding: 56px 24px;
+    background: var(--ink-2);
+    border: 1px solid var(--line-2);
+    border-radius: 8px;
+    position: relative;
+  }
+  .hud-mock-wrap::before {
+    content: 'live HUD';
+    position: absolute; top: 14px; left: 18px;
+    font-family: var(--mono); font-size: 10px;
+    font-weight: 700; letter-spacing: 0.12em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .hud-mock {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 11px 18px;
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 999px;
+    box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.7), 0 2px 4px rgba(0, 0, 0, 0.4);
+  }
+  .hud-mock .hud-glyph {
+    display: inline-flex;
+    width: 22px; height: 20px;
+    color: var(--signal);
+  }
+  .hud-mock .hud-glyph svg { width: 100%; height: 100%; display: block; }
+  .hud-mock .hud-glyph ellipse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: hud-breathe 1.6s ease-in-out infinite;
+  }
+  .hud-mock .hud-glyph ellipse:nth-of-type(1) { animation-delay: 0s; }
+  .hud-mock .hud-glyph ellipse:nth-of-type(2) { animation-delay: 0.10s; }
+  .hud-mock .hud-glyph ellipse:nth-of-type(3) { animation-delay: 0.20s; }
+  .hud-mock .hud-glyph ellipse:nth-of-type(4) { animation-delay: 0.30s; }
+  @keyframes hud-breathe {
+    0%, 100% { transform: scaleY(0.78); }
+    50%      { transform: scaleY(1); }
+  }
+  .hud-mock .hud-state {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 12px; font-weight: 600;
+    color: #ede7df;
+    letter-spacing: 0.02em;
+  }
+  .hud-mock .hud-state .hud-led {
+    width: 8px; height: 8px; border-radius: 99px;
+    background: #ea6a64;
+    box-shadow: 0 0 0 2px rgba(234, 106, 100, 0.22), 0 0 10px rgba(234, 106, 100, 0.55);
+    animation: hud-pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes hud-pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.5; }
+  }
+  .hud-mock .hud-time {
+    font-family: var(--mono); font-size: 12px; font-weight: 500;
+    color: #9b948d;
+    letter-spacing: 0.05em;
+    padding-left: 12px;
+    border-left: 1px solid #333;
+  }
+
+  /* PIPELINE: horizontal flow showing user gesture + software stages + result */
+  .pipeline {
+    margin-top: 24px;
+    border: 1px solid var(--line-2);
+    border-radius: 8px;
+    background: var(--ink-3);
+    overflow: hidden;
+  }
+  .pipeline-row {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-bottom: 1px solid var(--line-2);
+  }
+  .pipeline-row:last-child { border-bottom: 0; }
+  .pipeline-cell {
+    padding: 28px 22px;
+    border-right: 1px solid var(--line-2);
+    display: flex; flex-direction: column; gap: 10px;
+    position: relative;
+  }
+  .pipeline-cell:last-child { border-right: 0; }
+  .pipeline-cell .stage {
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em; color: var(--paper-3);
+    text-transform: uppercase;
+  }
+  .pipeline-cell .label {
+    font-size: 20px; font-weight: 700; color: var(--paper);
+    letter-spacing: -0.010em; line-height: 1.2;
+  }
+  .pipeline-cell .label em { font-style: italic; color: var(--signal); font-weight: 500; }
+  .pipeline-cell .timing {
+    font-family: var(--mono); font-size: 12px; color: var(--paper-3);
+    letter-spacing: 0.02em;
+    margin-top: auto; padding-top: 10px;
+  }
+  .pipeline-cell.user .stage { color: var(--signal); }
+  .pipeline-cell.user .label { color: var(--paper); }
+  .pipeline-cell.software .stage { color: var(--paper-3); }
+  .pipeline-cell.software .label { color: var(--paper-2); }
+  .pipeline-cell.result {
+    background: linear-gradient(180deg, rgba(250, 227, 83, 0.02) 0%, rgba(250, 227, 83, 0.08) 100%);
+  }
+  .pipeline-cell.result::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--signal-deep) 50%, transparent 100%);
+    opacity: 0.6;
+  }
+  .pipeline-cell.result .stage { color: var(--signal); }
+  .pipeline-cell.result .label { color: var(--signal); }
+  .pipeline-strip {
+    padding: 16px 22px;
+    display: flex; gap: 24px; flex-wrap: wrap;
+    align-items: center;
+    background: var(--ink-2);
+    border-top: 1px solid var(--line-2);
+    font-family: var(--mono); font-size: 11px; color: var(--paper-3);
+    letter-spacing: 0.04em;
+  }
+  .pipeline-strip b {
+    color: var(--signal); font-weight: 700; letter-spacing: 0.06em;
+  }
+
+  /* Inline strike-pill (used in Sensitive prose) */
+  .strike-pill {
+    display: inline-block;
+    padding: 3px 11px; border-radius: 99px;
+    background: var(--ink-2); border: 1px solid var(--line-2);
+    color: var(--paper-2);
+    font-family: var(--mono); font-size: 14px; font-weight: 500;
+    text-decoration: line-through;
+    text-decoration-color: var(--ember);
+    text-decoration-thickness: 1.5px;
+    margin: 0 2px;
+  }
+
+  /* Sensitive section: featured default-patterns row */
+  .sensitive-row {
+    margin-top: 24px;
+    padding: 20px 24px;
+    background: var(--ink-3);
+    border: 1px solid var(--line-2);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    width: fit-content;
+    max-width: 100%;
+  }
+  .sensitive-row .ss-label {
+    font-family: var(--mono);
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.10em;
+    color: var(--paper);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .sensitive-row .ss-pills {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  }
+
+  @media (max-width: 700px) {
+    .pipeline-row { grid-template-columns: 1fr 1fr; }
+    .pipeline-cell:nth-child(2n) { border-right: 0; }
+    .pipeline-cell { border-bottom: 1px solid var(--line-2); }
+    .hud-mock-wrap { padding: 44px 16px 24px; }
+  }
+
+</style>
+<!-- __hamburger_v1 -->
+<style>
+  /* === HAMBURGER MENU =================================== */
+  .nav-burger {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--line-2);
+    border-radius: 6px;
+    width: 40px; height: 40px;
+    padding: 0; cursor: pointer;
+    flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 5px;
+    flex-shrink: 0;
+    transition: border-color 180ms, background 180ms;
+  }
+  .nav-burger:hover { border-color: var(--line-3); }
+  .nav-burger span {
+    display: block;
+    width: 16px; height: 1.5px;
+    background: var(--paper);
+    transition: transform 220ms cubic-bezier(.4,.2,.2,1), opacity 180ms;
+    transform-origin: center;
+  }
+  .nav-burger[aria-expanded="true"] { border-color: var(--signal); }
+  .nav-burger[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+    background: var(--signal);
+  }
+  .nav-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .nav-burger[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+    background: var(--signal);
+  }
+
+  .mobile-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: -22px; right: -22px;
+    background: rgba(1,1,0,0.98);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line-2);
+    padding: 4px 22px 18px;
+    flex-direction: column;
+    z-index: 39;
+  }
+  .mobile-menu a {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 4px;
+    font-size: 15px; font-weight: 700; letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--paper-3);
+    border-bottom: 1px solid var(--line-2);
+    transition: color 180ms;
+  }
+  .mobile-menu a:last-child { border-bottom: 0; }
+  .mobile-menu a:hover { color: var(--paper); }
+  .mobile-menu a.on { color: var(--signal); }
+  .mobile-menu a::after {
+    content: '→';
+    color: var(--dim);
+    transition: transform 220ms cubic-bezier(.4,.2,.2,1), color 180ms;
+  }
+  .mobile-menu a:hover::after { color: var(--signal); transform: translateX(4px); }
+  .mobile-menu a.on::after { color: var(--signal); }
+
+  @media (max-width: 980px) {
+    .masthead-nav { gap: 0 !important; }
+    .masthead-nav a:not(.buy) { display: none !important; }
+    .nav-burger { display: inline-flex; }
+    .masthead.nav-open .mobile-menu { display: flex; }
+  }
+  @media (min-width: 981px) {
+    .mobile-menu { display: none !important; }
+  }
+
+  /* IN-PAGE SECONDARY NAV (sticky below masthead) */
+  .secnav-wrap {
+    position: sticky; top: 70px; z-index: 30;
+    background: rgba(1, 1, 0, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line-2);
+  }
+  .secnav {
+    max-width: clamp(1280px, 92vw, 1480px); margin: 0 auto; padding: 0 40px;
+    display: flex; gap: 32px; align-items: center;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .secnav::-webkit-scrollbar { display: none; }
+  .secnav a {
+    display: inline-flex; align-items: center;
+    padding: 14px 0 10px;
+    line-height: 1;
+    font-family: var(--mono);
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.10em; color: var(--paper-3);
+    text-transform: uppercase; white-space: nowrap;
+    transition: color 180ms;
+    border-bottom: 1px solid transparent;
+  }
+  .secnav a:hover { color: var(--paper); }
+  .secnav a.on {
+    color: var(--signal); border-bottom-color: var(--signal);
+  }
+  .secnav .idx { color: var(--signal); margin-right: 8px; font-weight: 700; }
+  @media (max-width: 700px) {
+    .secnav-wrap { top: 56px; }
+    .secnav { padding: 0 18px; gap: 18px; }
+    .secnav a { padding: 11px 0 7px; font-size: 10px; letter-spacing: 0.06em; }
+    .secnav .idx { margin-right: 5px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page" id="top">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <a href="/" class="wordmark">
+      <svg class="glyph" viewBox="0 0 53 52" aria-hidden="true">
+        <g fill="none" stroke="currentColor">
+          <circle cx="4" cy="26" r="3.5" fill="currentColor" stroke="none"/>
+          <ellipse cx="14" cy="26" rx="3.5" ry="9" stroke-width="4"/>
+          <ellipse cx="24" cy="26" rx="3.5" ry="15" stroke-width="3.5" opacity=".7"/>
+          <ellipse cx="34" cy="26" rx="3.5" ry="20" stroke-width="3" opacity=".42"/>
+          <ellipse cx="49" cy="26" rx="3.5" ry="26" stroke-width="2" opacity=".22"/>
+        </g>
+      </svg>
+      <span class="text">auris<span class="dot">.</span></span>
+    </a>
+    <nav class="masthead-nav">
+      <a href="/how/" class="on">How it works</a>
+      <a href="/features/">Features</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/pricing/">Pricing</a>
+      <button class="nav-burger" aria-label="Menu" aria-controls="mobile-menu" aria-expanded="false" type="button">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="/how/" class="on">How it works</a>
+      <a href="/features/">Features</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/pricing/">Pricing</a>
+    </div>
+  </header>
+
+  <main>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <div class="page-eyebrow">How it works</div>
+    <h1>How Auris <em class="sig">works.</em></h1>
+    <p class="dek">The basic loop in three steps.<br>Everything else is how you shape what comes out.</p>
+  </section>
+
+  <!-- IN-PAGE JUMP NAV (sticky below masthead, sits under the hero) -->
+  <div class="secnav-wrap">
+    <nav class="secnav" aria-label="On this page">
+      <a href="#loop"><span class="idx">01</span>Loop</a>
+      <a href="#sliders"><span class="idx">02</span>Sliders</a>
+      <a href="#dict"><span class="idx">03</span>Dictionary</a>
+      <a href="#snippets"><span class="idx">04</span>Snippets</a>
+      <a href="#sensitive"><span class="idx">05</span>Sensitive</a>
+      <a href="#setup"><span class="idx">06</span>Setup</a>
+    </nav>
+  </div>
+
+  <!-- 1 · THE LOOP -->
+  <section class="chapter" id="loop">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">The loop</div>
+        <h2>Hold. Speak. Release.</h2>
+      </div>
+      <div class="ch-tag">Hold the hotkey, talk, release.<br>The full loop runs in <b>one to two seconds.</b></div>
+    </div>
+
+    <!-- Pipeline: 4-stage timeline (gesture + transcribe + polish + result) -->
+    <div class="pipeline" role="table" aria-label="Dictation pipeline">
+      <div class="pipeline-row">
+        <div class="pipeline-cell user">
+          <span class="stage">01 &middot; You</span>
+          <span class="label">Hold, talk, <em>release</em></span>
+          <span class="timing"><b style="color: var(--signal); font-weight: 700;">⌃⌘</b> Mac &middot; <b style="color: var(--signal); font-weight: 700;">⌃Win</b> Windows</span>
+        </div>
+        <div class="pipeline-cell software">
+          <span class="stage">02 &middot; Auris</span>
+          <span class="label">Whisper / Groq <em>transcribes</em></span>
+          <span class="timing">~200ms after release</span>
+        </div>
+        <div class="pipeline-cell software">
+          <span class="stage">03 &middot; Auris</span>
+          <span class="label">LLM <em>polishes</em></span>
+          <span class="timing">~500-900ms</span>
+        </div>
+        <div class="pipeline-cell result">
+          <span class="stage">04 &middot; Result</span>
+          <span class="label">Clean text in <em>active window</em></span>
+          <span class="timing">~1.5s total</span>
+        </div>
+      </div>
+      <div class="pipeline-strip">
+        <span><b>Local-only path:</b> Whisper-local + Ollama means audio and transcript both stay on your machine.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · THREE SLIDERS -->
+  <section class="chapter" id="sliders">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Sliders</div>
+        <h2>Three sliders that change the output.</h2>
+      </div>
+      <div class="ch-tag">Auris ships with three global tone sliders. Move them.<br>The next dictation reflects the change.</div>
+    </div>
+
+    <div class="control" role="group" aria-label="Style controls">
+      <div class="control-tb">
+        <div class="l"><span class="mk">auris<span class="cy">.</span></span><span>style</span></div>
+        <div class="c">live preview</div>
+        <div class="r"><span class="led" aria-hidden="true"></span>private</div>
+      </div>
+      <div class="control-grid">
+        <div class="control-sliders">
+          <label class="slider">
+            <span class="top"><span class="name">Formality</span><span class="v" id="v1">3 / 5</span></span>
+            <input type="range" min="0" max="5" value="3" id="s1" aria-label="Formality">
+            <span class="ends"><span>casual</span><span>professional</span></span>
+          </label>
+          <label class="slider">
+            <span class="top"><span class="name">Conciseness</span><span class="v" id="v2">3 / 5</span></span>
+            <input type="range" min="0" max="5" value="3" id="s2" aria-label="Conciseness">
+            <span class="ends"><span>verbose</span><span>tight</span></span>
+          </label>
+          <label class="slider">
+            <span class="top"><span class="name">Assertiveness</span><span class="v" id="v3">3 / 5</span></span>
+            <input type="range" min="0" max="5" value="3" id="s3" aria-label="Assertiveness">
+            <span class="ends"><span>soft</span><span>direct</span></span>
+          </label>
+        </div>
+        <div class="control-preview">
+          <span class="lbl">same dictation, drag to repolish</span>
+          <p class="out" id="preview">Following up on Tuesday: shipping the redesign as an opt-in beta. Target: end of month.</p>
+        </div>
+      </div>
+      <div class="control-foot">
+        <span><b>global defaults</b> · overridden per app</span>
+        <span><b>updates instantly</b> · no reload</span>
+      </div>
+    </div>
+
+    <div class="slider-details">
+      <div class="cell">
+        <span class="range">Casual ⟶ Professional</span>
+        <h4>Formality</h4>
+        <p><b>Casual</b> keeps contractions and a friend-tone. <b>Professional</b> uses full grammar and a measured tone.</p>
+      </div>
+      <div class="cell">
+        <span class="range">Verbose ⟶ Tight</span>
+        <h4>Conciseness</h4>
+        <p><b>Verbose</b> preserves your phrasing. <b>Tight</b> cuts fillers, hedges, and redundant phrases.</p>
+      </div>
+      <div class="cell">
+        <span class="range">Soft ⟶ Direct</span>
+        <h4>Assertiveness</h4>
+        <p><b>Soft</b> keeps hedges, qualifiers, and politeness markers. <b>Direct</b> removes them and states the point.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · LEARNING DICTIONARY -->
+  <section class="chapter" id="dict">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Dictionary</div>
+        <h2>Fix it <em class="sig">once.</em></h2>
+      </div>
+      <div class="ch-tag">When you edit a polished output, either in Auris's history view or by fixing a typo within five minutes of dictating, Auris notices the diff.</div>
+    </div>
+
+    <div class="how-grid">
+      <article class="how-card">
+        <span class="num">01 · You speak it</span>
+        <h3 style="font-size: 24px; line-height: 1.2;">"Send to <span style="color:var(--ember); text-decoration: line-through; text-decoration-thickness: 2px;">Cassettoni</span>."</h3>
+        <p>Auris hears the word, doesn't know it. Best guess lands in the app.</p>
+      </article>
+      <article class="how-card">
+        <span class="num">02 · You fix it</span>
+        <h3 style="font-size: 24px; line-height: 1.2;">"Send to <span style="color:var(--signal);">Castoni</span>."</h3>
+        <p>You fix the typo in whichever app it landed in. Auris works in every app where you can type.</p>
+      </article>
+      <article class="how-card">
+        <span class="num">03 · Auris learns</span>
+        <h3 style="font-size: 24px; line-height: 1.2;"><span style="color:var(--signal);">Castoni</span> → dictionary</h3>
+        <p>The correction goes into your dictionary <b>automatically.</b> Next time you say it, it lands right.</p>
+      </article>
+    </div>
+
+    <p class="ch-body" style="margin-top: 24px; max-width: 64ch;">
+      The dictionary catches matches <b>before</b> the polish step ever sees them. You stop fixing the same name, acronym, or technical term over and over.
+    </p>
+    <img class="chapter-shot" src="/assets/screenshots/dictionary-auto-editorial.png" alt="Auris Dict tab showing the custom dictionary with auto-learned corrections labeled, plus the snippet editor with a recap-template expansion open.">
+  </section>
+
+  <!-- 4 · SNIPPETS -->
+  <section class="chapter" id="snippets">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Snippets</div>
+        <h2>Spoken triggers, written shortcuts.</h2>
+      </div>
+      <div class="ch-tag">Snippets fire on phrases you say. Say "today's date," get the current date. Say "meeting template," get a notes skeleton with the date already filled in.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="dots"><i></i><i></i><i></i></span><span>Snippet variables</span><b>auris/snippets</b></div>
+      <div class="term-body">
+        <div class="term-row"><span class="k">{date}</span><span class="v">today's date</span><span class="ex"><small>→</small>May 18, 2026</span></div>
+        <div class="term-row"><span class="k">{signature}</span><span class="v">your name and title from Settings</span><span class="ex"><small>→</small>Jane Doe · VP Design</span></div>
+        <div class="term-row"><span class="k">{time}</span><span class="v">current time</span><span class="ex"><small>→</small>3:42 pm</span></div>
+        <div class="term-row"><span class="k">{clipboard}</span><span class="v">paste from your clipboard</span><span class="ex"><small>→</small>contents of ⌘V</span></div>
+      </div>
+    </div>
+
+    <p class="ch-body" style="margin-top: 16px; max-width: 64ch;">
+      Build your own snippets in the <b>Dict</b> tab. Edit them whenever.<br><b>They live on your machine.</b>
+    </p>
+  </section>
+
+  <!-- 5 · THINGS AURIS DOESN'T SAVE (annotated prose, not card grid) -->
+  <section class="chapter" id="sensitive">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Sensitive</div>
+        <h2>Sensitive content stays <em class="sig">out</em> of your history.</h2>
+      </div>
+      <div class="ch-tag">When you dictate something that matches a privacy pattern, the polished text <b>lands in the app you're typing in</b> like any other dictation. Auris skips writing it to <b>history.jsonl</b>. No local copy.</div>
+    </div>
+
+    <div class="sensitive-row">
+      <span class="ss-label">Default patterns</span>
+      <div class="ss-pills">
+        <span class="strike-pill">email</span>
+        <span class="strike-pill">phone</span>
+        <span class="strike-pill">SSN</span>
+        <span class="strike-pill">credit card</span>
+      </div>
+    </div>
+
+    <p class="ch-body" style="max-width: 64ch; margin-top: 18px;">
+      <b>Add your own</b> with regex for company-specific things: employee IDs, internal project codes, internal URLs. See the full pattern list on <a href="privacy.html#sensitive" style="color: var(--signal); border-bottom: 1px solid var(--signal-deep);">the privacy page</a>.
+    </p>
+
+    <p class="ch-body" style="max-width: 75%; margin-top: 18px; font-size: 14px; color: var(--paper-3);">
+      <b style="color: var(--paper);">Note:</b> Patterns match locally after the transcript returns. Cloud STT or cloud LLM polish sees the unredacted content first; only your local history gets filtered. For fully off-network protection, run both speech-to-text and polish locally.
+    </p>
+  </section>
+
+  <!-- 6 · FIRST-RUN SETUP -->
+  <section class="chapter" id="setup">
+    <div class="ch-head">
+      <div>
+        <div class="ch-eyebrow">Setup</div>
+        <h2>Two minutes to start.</h2>
+      </div>
+      <div class="ch-tag">First time you open Auris, a setup walks you through four steps.<br>None of them take long.</div>
+    </div>
+
+    <div class="how-grid cols-4">
+      <article class="how-card">
+        <span class="num">01 · Microphone</span>
+        <h3 style="font-size: 24px;">Microphone access</h3>
+        <p>Click <b>"Allow"</b> when the system prompt appears. On Windows, you might also need to grant access in <b>Settings → Privacy → Microphone.</b></p>
+      </article>
+      <article class="how-card">
+        <span class="num">02 · Polish path</span>
+        <h3 style="font-size: 24px;">Pick your polish path</h3>
+        <p>Choose where Auris runs the polish step: <b>OpenAI, Anthropic, or Groq</b> with your own key, or a <b>local model</b> on your machine.</p>
+      </article>
+      <article class="how-card">
+        <span class="num">03 · Hotkey</span>
+        <h3 style="font-size: 24px;">Confirm hotkeys</h3>
+        <p><b>Ctrl + Cmd</b> on Mac, <b>Ctrl + Win</b> on Windows by default. Change them if you want.</p>
+      </article>
+      <article class="how-card">
+        <span class="num">04 · Speak</span>
+        <h3 style="font-size: 24px;">Start talking</h3>
+        <p>Hold the key. Say something. <b>Watch your words land</b> in the text field.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final" id="final">
+    <h2>See it run on <em class="sig">your machine.</em></h2>
+    <p class="dek">Auris is in beta. One email when it ships, no newsletter.<br>The setup is two minutes; the first dictation is one keystroke away.</p>
+    <div class="row">
+      <form class="notify" action="https://app.kit.com/forms/9456910/subscriptions" method="POST" novalidate>
+        <input type="hidden" name="fields[source]" value="how-final">
+        <div class="notify-row">
+          <input type="email" name="email_address" placeholder="you@example.com" required aria-label="Email address">
+          <button type="submit">Notify me <span class="arr">→</span></button>
+        </div>
+        <div class="notify-hint"><b>One email</b> when Auris ships.</div>
+      </form>
+    </div>
+    <div class="micro"><b>Mac &amp; Windows</b> · Lifetime updates</div>
+  </section>
+
+  </main>
+
+  <!-- COLOPHON -->
+  <footer class="colophon">
+    <span>© 2026 Auris</span>
+    <span><a href="/terms/">Terms</a> <span class="sep">·</span> <a href="/privacy/">Privacy</a></span>
+    <span><a href="mailto:hello@auris.talk">hello@auris.talk</a></span>
+  </footer>
+
+</div>
+
+<script>
+  // Scroll-spy: highlight current section in the sticky in-page nav
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.secnav a[href^="#"]'));
+    if (!links.length || !('IntersectionObserver' in window)) return;
+    var byId = {};
+    links.forEach(function (a) {
+      var id = a.getAttribute('href').slice(1);
+      var sec = document.getElementById(id);
+      if (sec) byId[id] = a;
+    });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          links.forEach(function (a) { a.classList.remove('on'); });
+          var link = byId[e.target.id];
+          if (link) link.classList.add('on');
+        }
+      });
+    }, { rootMargin: '-30% 0px -55% 0px', threshold: 0 });
+    Object.keys(byId).forEach(function (id) {
+      io.observe(document.getElementById(id));
+    });
+  })();
+
+  // Dev console note
+  (function () {
+    if (typeof console === 'undefined' || !console.log) return;
+    var css = 'font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px;';
+    console.log('%cauris. %chold. speak. release.', css + ' color: #fae353; font-weight: 700;', css + ' color: #ede7df;');
+    console.log('%chello@auris.talk · we read every reply.', css + ' color: #9b948d;');
+  })();
+</script>
+
+<script>
+  /* SLIDER PREVIEW: same 11-variant pattern as the home page. */
+  (function () {
+    const sliders = ['s1','s2','s3'].map(id => document.getElementById(id));
+    const values  = ['v1','v2','v3'].map(id => document.getElementById(id));
+    const preview = document.getElementById('preview');
+    if (sliders.some(s => !s) || !preview) return;
+
+    const variants = [
+      { max: 1,  text: "hey yeah so um following up on tuesday like, the team and i, we talked about your suggestion and basically you know, we kinda agree that we should ship the redesign as like an opt-in beta first, and we're thinking end of the month maybe" },
+      { max: 3,  text: "hey, following up on tuesday \u2014 the team talked about your suggestion and we basically agree, we'll ship the redesign as an opt-in beta first, probably end of month" },
+      { max: 5,  text: "following up on tuesday's chat \u2014 the team agrees on shipping the redesign as an opt-in beta first. targeting end of month." },
+      { max: 7,  text: "Following up on Tuesday. The team agrees on shipping the redesign as an opt-in beta first. Targeting end of month." },
+      { max: 9,  text: "Following up on Tuesday: the team agrees on shipping the redesign as an opt-in beta. Target: end of month." },
+      { max: 11, text: "Following up on Tuesday: shipping the redesign as an opt-in beta. Target: end of month." },
+      { max: 13, text: "Tuesday follow-up: opt-in beta for the redesign. Target: end of month." },
+      { max: 14, text: "Opt-in beta for the redesign. End of month." },
+      { max: 15, text: "Opt-in beta. End of month." }
+    ];
+    function render() {
+      const sum = sliders.reduce((acc, s, i) => { values[i].textContent = s.value + ' / 5'; return acc + Number(s.value); }, 0);
+      const v = variants.find(x => sum <= x.max) || variants[variants.length - 1];
+      preview.style.opacity = '0';
+      setTimeout(() => { preview.textContent = v.text; preview.style.opacity = '1'; }, 90);
+    }
+    sliders.forEach(s => s.addEventListener('input', render));
+    render();
+  })();
+</script>
+
+
+<script>
+  // Hamburger toggle: single delegated listener
+  (function () {
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest && e.target.closest('.nav-burger');
+      if (btn) {
+        var header = btn.closest('.masthead');
+        var open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!open));
+        if (header) header.classList.toggle('nav-open', !open);
+        return;
+      }
+      // Click outside an open menu closes it
+      var openHeader = document.querySelector('.masthead.nav-open');
+      if (openHeader && !e.target.closest('.masthead')) {
+        openHeader.classList.remove('nav-open');
+        var b = openHeader.querySelector('.nav-burger');
+        if (b) b.setAttribute('aria-expanded', 'false');
+      }
+    });
+    // Esc closes
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      var openHeader = document.querySelector('.masthead.nav-open');
+      if (!openHeader) return;
+      openHeader.classList.remove('nav-open');
+      var b = openHeader.querySelector('.nav-burger');
+      if (b) b.setAttribute('aria-expanded', 'false');
+    });
+  })();
+</script>
+<!-- __viewport_scale_v1 -->
+<script>
+  // Scale the page up on monitors wider than 1440px so the layout always
+  // matches the 1440-wide desktop design. Below 1440 nothing changes.
+  (function () {
+    function fit() {
+      var w = window.innerWidth || document.documentElement.clientWidth;
+      var root = document.documentElement;
+      if (w > 1440) {
+        // Gentle scale: 40% of the way between no zoom and full-fit zoom.
+        var z = 1 + 0.4 * ((w / 1440) - 1);
+        root.style.zoom = z.toFixed(3);
+      } else {
+        root.style.zoom = '';
+      }
+    }
+    fit();
+    window.addEventListener('resize', fit);
+  })();
+</script>
+<!-- __notify_v1 -->
+<script>
+  // Notify-form handler: POSTs form-encoded to ConvertKit, swaps UI on success.
+  // Uses DOM-builder helpers (no innerHTML).
+  (function () {
+    function setText(node, text) {
+      while (node.firstChild) node.removeChild(node.firstChild);
+      node.appendChild(document.createTextNode(text));
+    }
+    function swapHint(hint, parts) {
+      while (hint.firstChild) hint.removeChild(hint.firstChild);
+      parts.forEach(function (p) {
+        if (typeof p === 'string') { hint.appendChild(document.createTextNode(p)); return; }
+        var el = document.createElement(p.tag);
+        if (p.href) el.setAttribute('href', p.href);
+        el.textContent = p.text;
+        hint.appendChild(el);
+      });
+    }
+    function makeHint(form, parts) {
+      var p = document.createElement('div');
+      p.className = 'notify-hint';
+      p.style.marginTop = '10px';
+      swapHint(p, parts);
+      form.appendChild(p);
+    }
+    document.querySelectorAll('form.notify').forEach(function (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var hint = form.querySelector('.notify-hint');
+        var row  = form.querySelector('.notify-row');
+        var btn  = form.querySelector('button[type="submit"]');
+        var origLabel = btn.textContent;
+        btn.disabled = true; setText(btn, 'Sending');
+        fetch(form.action, {
+          method: 'POST',
+          body: new URLSearchParams(new FormData(form)),
+          headers: { 'Accept': 'application/json' }
+        })
+          .then(function (res) {
+            if (!res.ok) throw new Error('http ' + res.status);
+            form.classList.add('ok');
+            if (row) row.style.display = 'none';
+            var msg = [
+              { tag: 'b', text: "You're on the list." },
+              ' One email when Auris ships.'
+            ];
+            if (hint) swapHint(hint, msg); else makeHint(form, msg);
+          })
+          .catch(function () {
+            btn.disabled = false; setText(btn, origLabel);
+            var msg = [
+              { tag: 'b', text: 'Something broke.' },
+              ' Email ',
+              { tag: 'a', text: 'notify@auris.talk', href: 'mailto:notify@auris.talk' },
+              ' instead.'
+            ];
+            if (hint) swapHint(hint, msg); else makeHint(form, msg);
+          });
+      });
+    });
+  })();
+</script>
+</body>
+</html>
