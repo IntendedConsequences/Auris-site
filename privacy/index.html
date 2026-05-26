@@ -3,7 +3,7 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Privacy · Auris</title>
+<title>Privacy · No audio stored, no transcripts saved · Auris</title>
 <script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","wwzponhh5a");</script>
 <script type="application/ld+json">
 {
@@ -84,7 +84,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
 <link rel="shortcut icon" href="/favicon.ico">
 <meta name="theme-color" content="#010100">
-<meta name="description" content="Auris doesn't store your audio or your transcripts. We don't have servers for them. Here's the full story.">
+<meta name="description" content="Auris doesn't store your audio or transcripts. No servers, optional local-only processing. The full story on data, GDPR, and telemetry, in plain language.">
 <meta property="og:title" content="Privacy · Auris">
 <meta property="og:description" content="Auris doesn't store your audio or your transcripts. We don't have servers for them. Here's the full story.">
 <meta property="og:url" content="https://auris.talk/privacy">
@@ -907,6 +907,30 @@
     .secnav a { padding: 11px 0 7px; font-size: 10px; letter-spacing: 0.06em; }
     .secnav .idx { margin-right: 5px; }
   }
+
+  /* BETA STATUS PILL: closed-beta announcement at top of every page */
+  .beta-pill-wrap {
+    display: flex; justify-content: center;
+    margin: 18px 0 8px;
+  }
+  .beta-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--signal);
+    padding: 8px 14px; border-radius: 99px;
+    border: 1px solid rgba(250,227,83,0.25);
+    background: rgba(250,227,83,0.06);
+  }
+  .beta-pill::before {
+    content: ''; width: 6px; height: 6px; background: var(--signal);
+    border-radius: 99px; box-shadow: 0 0 8px rgba(250,227,83,0.7);
+    animation: beta-pill-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes beta-pill-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
 </style>
 </head>
 <body>
@@ -943,6 +967,9 @@
     </div>
   </header>
 
+  <!-- BETA STATUS PILL: present on every page -->
+  <div class="beta-pill-wrap"><span class="beta-pill">Closed beta · Public launch TBD</span></div>
+
   <section class="page-hero">
     <div class="page-eyebrow">Privacy</div>
     <h1>We don't have <em class="sig">servers.</em></h1>
@@ -968,7 +995,7 @@
       <div class="pillar-num">0<span class="underbar" aria-hidden="true"></span></div>
       <div class="pillar-body">
         <span class="eb">In local mode</span>
-        <h2>bytes leave <em class="sig">your machine.</em></h2>
+        <h2>data leaves <em class="sig">your machine.</em></h2>
         <p>Run Whisper locally for transcription, Ollama (or any local LLM) for polish. Outbound network traffic is <b>empty</b>. No telemetry, no analytics, no error reporting, no update pings, no model-training payloads. <b>Pull the network cable. It still works.</b></p>
         <div class="pillar-strip">
           <span class="item"><span class="v">0</span> servers</span>
@@ -1000,19 +1027,19 @@
       <div class="flow-step">
         <span class="num">02 · Transcribe</span>
         <h4>Auris transcribes.</h4>
-        <p>Speech-to-text runs <b>locally</b> by default. Pick cloud STT and audio routes <b>directly to Groq.</b> Never to us.</p>
+        <p>Speech-to-text runs <b>locally</b> by default. Cloud goes to Groq, never us.</p>
         <span class="arrow">→</span>
       </div>
       <div class="flow-step">
         <span class="num">03 · Polish</span>
         <h4>Your provider.</h4>
-        <p>Transcript goes to your <b>LLM of choice</b> for polish.<br>Auris never sees it.</p>
+        <p>Transcript goes to your <b>LLM of choice</b> for polish. Auris never sees it.</p>
         <span class="arrow">→</span>
       </div>
       <div class="flow-step">
         <span class="num">04 · Result</span>
         <h4>Clean text lands.</h4>
-        <p>Polished result lands in the window you started in.<br><b>No round trip</b> through us.</p>
+        <p>Polished result lands in the window you started in.</p>
       </div>
     </div>
     <img class="chapter-shot chapter-shot-dark" src="/assets/screenshots/data-flow-editorial.png" alt="Auris Data Flow board showing microphone open only while recording, audio routed to Groq Cloud (whisper-large-v3-turbo), and transcript routed to Anthropic Cloud (claude-haiku-4-5), with a note to toggle the lock icon to force everything local">
@@ -1133,9 +1160,9 @@
     <div class="ch-head">
       <div>
         <div class="ch-eyebrow">Guarantees</div>
-        <h2>What we <em class="sig">stand behind.</em></h2>
+        <h2>What we stand behind.</h2>
       </div>
-      <div class="ch-tag">Four claims, four receipts.<br>No HIPAA badge we don't have, no enterprise theater.</div>
+      <div class="ch-tag">Four claims, four proofs.<br>No marketing fluff, no buzzwords. Just plain proof.</div>
     </div>
 
     <div class="g-grid">
@@ -1173,7 +1200,7 @@
           </svg>
         </div>
         <h4>BYOK or Local</h4>
-        <p>Bring your Anthropic, OpenAI, or Groq key. Or run Ollama, llama.cpp, LM Studio locally. <b>Auris never proxies your keys.</b></p>
+        <p>Bring your Anthropic, OpenAI, or Groq key. Or run a local LLM for full privacy. <b>Auris never proxies your keys.</b></p>
       </article>
 
       <article class="guarantee">

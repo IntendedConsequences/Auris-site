@@ -92,9 +92,9 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
 <link rel="shortcut icon" href="/favicon.ico">
 <meta name="theme-color" content="#010100">
-<meta name="description" content="$49 once for the lifetime app. $29 for students. $199 for a three-seat self-hosted team. 30-day money-back on every tier. Voice-to-text for Mac and Windows.">
+<meta name="description" content="$49 once for the lifetime app. $29 for students. $59 per seat for self-hosted teams, with volume discounts. 30-day money-back on every tier. Voice-to-text for Mac and Windows.">
 <meta property="og:title" content="Pricing · $49 once, no subscription · Auris">
-<meta property="og:description" content="$49 once for the lifetime app. $29 for students. $199 for a three-seat self-hosted team. 30-day money-back on every tier.">
+<meta property="og:description" content="$49 once for the lifetime app. $29 for students. $59 per seat for self-hosted teams, with volume discounts. 30-day money-back on every tier.">
 <meta property="og:url" content="https://auris.talk/pricing">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -235,6 +235,29 @@
   .ch-body p b { font-weight: 700; color: var(--paper); }
   .ch-body p .sg { color: var(--signal); font-weight: 600; }
 
+  /* BETA BANNER: closed-beta status above pricing cards */
+  .beta-banner {
+    display: inline-flex; align-items: center; gap: 10px;
+    width: fit-content; max-width: 100%;
+    margin: 0 0 18px; padding: 12px 18px;
+    border: 1px solid rgba(250,227,83,0.25);
+    background: rgba(250,227,83,0.06);
+    border-radius: 6px;
+    color: var(--paper-2); font-size: 14px; line-height: 1.5;
+    letter-spacing: -0.002em;
+  }
+  .beta-banner b { color: var(--paper); font-weight: 700; }
+  .beta-banner .bb-dot {
+    flex: 0 0 auto;
+    width: 8px; height: 8px; border-radius: 99px; background: var(--signal);
+    box-shadow: 0 0 8px rgba(250,227,83,0.7);
+    animation: bb-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes bb-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+
   /* PRICING CARDS ------------------------------------------- */
   .pricing-grid {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
@@ -247,6 +270,7 @@
     border-radius: 6px; overflow: hidden;
     display: flex; flex-direction: column; gap: 12px;
     position: relative;
+    text-align: left;
   }
   .price-card .label {
     font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
@@ -1047,6 +1071,30 @@
     .secnav a { padding: 11px 0 7px; font-size: 10px; letter-spacing: 0.06em; }
     .secnav .idx { margin-right: 5px; }
   }
+
+  /* BETA STATUS PILL: closed-beta announcement at top of every page */
+  .beta-pill-wrap {
+    display: flex; justify-content: center;
+    margin: 18px 0 8px;
+  }
+  .beta-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--signal);
+    padding: 8px 14px; border-radius: 99px;
+    border: 1px solid rgba(250,227,83,0.25);
+    background: rgba(250,227,83,0.06);
+  }
+  .beta-pill::before {
+    content: ''; width: 6px; height: 6px; background: var(--signal);
+    border-radius: 99px; box-shadow: 0 0 8px rgba(250,227,83,0.7);
+    animation: beta-pill-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes beta-pill-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
 </style>
 </head>
 <body>
@@ -1083,6 +1131,9 @@
     </div>
   </header>
 
+  <!-- BETA STATUS PILL: present on every page -->
+  <div class="beta-pill-wrap"><span class="beta-pill">Closed beta · Public launch TBD</span></div>
+
   <section class="page-hero">
     <div class="page-eyebrow">Pricing</div>
     <h1>Not a <em class="sig">subscription.</em></h1>
@@ -1108,27 +1159,32 @@
         <div class="ch-eyebrow">Tiers</div>
         <h2>Pick what fits.</h2>
       </div>
-      <div class="ch-tag">Every tier ships the same software.<br><b>Every feature, Mac and Windows, lifetime updates.</b><br>The price reflects who you are, not which features you get.</div>
+      <div class="ch-tag">Every tier ships the same software.<br><b>Every feature, Mac and Windows, lifetime updates.</b></div>
+    </div>
+
+    <div class="beta-banner" role="note">
+      <span class="bb-dot" aria-hidden="true"></span>
+      <span><b>Pricing for public launch.</b> Auris is currently in closed beta. Join the waitlist below to be notified when it opens.</span>
     </div>
 
     <div class="pricing-grid">
       <div class="price-card featured">
-        <div class="label">Founder pricing</div>
-        <div class="name">Lifetime Founder</div>
+        <div class="label">Early Access pricing</div>
+        <div class="name">Early Access</div>
         <div class="px">$49<small>once</small></div>
         <p class="desc"><b>$30 off Standard</b> pricing.<br>Full app, every feature.</p>
       </div>
 
       <div class="price-card">
-        <div class="label">After founder window</div>
-        <div class="name">Lifetime Standard</div>
+        <div class="label">After Early Access</div>
+        <div class="name">Standard</div>
         <div class="px">$79<small>once</small></div>
-        <p class="desc">After Founder pricing ends.<br><b>$30 more,</b> same app.</p>
+        <p class="desc">After early access pricing ends.<br><b>$30 more,</b> same app.</p>
       </div>
 
       <div class="price-card">
         <div class="label">.edu email required</div>
-        <div class="name">Student Lifetime</div>
+        <div class="name">Student</div>
         <div class="px">$29<small>once</small></div>
         <p class="desc">Verified <b>.edu</b> email.<br>Full app, every feature.</p>
       </div>
@@ -1136,22 +1192,22 @@
       <div class="price-card">
         <div class="label">3 to 50 seats</div>
         <div class="name">Team Self-Hosted</div>
-        <div class="px">$199<small>from</small></div>
-        <p class="desc">Three seats and up. Runs on your team's own machines.</p>
+        <div class="px">$59<small>per seat</small></div>
+        <p class="desc"><b>Volume discounts</b> at 10, 25, 50+ seats.</p>
       </div>
     </div>
 
     <!-- FOUNDERS LIST: free founder license for first 100 signups -->
-    <aside class="founders-box" aria-label="Free founder license offer">
+    <aside class="founders-box" aria-label="Free copy for first 100 signups">
       <div class="fb-left">
-        <span class="fb-eb">Founders list</span>
-        <h3>Claim a <em>free</em> founder license.</h3>
-        <p class="fb-body"><b>First 100 signups get a free copy at launch.</b><br>One email when claiming opens.<br>No newsletter, no drip.</p>
+        <span class="fb-eb">Early access</span>
+        <h3>First 100 get Auris <em>free</em>.</h3>
+        <p class="fb-body">After that, everyone on the list locks in <b>$49 early access pricing</b>.<br>You'll be notified by email when public launch opens.</p>
       </div>
       <form class="fb-form" action="https://app.kit.com/forms/9456910/subscriptions" method="POST" novalidate>
         <input type="hidden" name="fields[source]" value="founders-list-pricing">
         <input type="email" name="email_address" placeholder="you@example.com" required aria-label="Email address">
-        <button type="submit">Claim my spot <span aria-hidden="true">→</span></button>
+        <button type="submit">Join Waitlist <span aria-hidden="true">→</span></button>
       </form>
     </aside>
   </section>
@@ -1305,10 +1361,10 @@
     <div class="team-block">
       <div class="l">
         <h3>Self-hosted, 3 seats and up.</h3>
-        <p><b>$199 for 3 seats.</b> For 10, 25, or 50 seats, email <b><a href="mailto:hello@auris.talk" style="color: var(--signal);">hello@auris.talk</a></b> for a quote. Above 50 seats, get in touch and we'll work something out.</p>
+        <p><b>$59 per seat,</b> 3 seat minimum. <b>Volume discounts</b> at 10, 25, and 50 seats. Email <b><a href="mailto:hello@auris.talk" style="color: var(--signal);">hello@auris.talk</a></b> for a quote. Above 50 seats, get in touch and we'll work something out.</p>
       </div>
       <div class="r">
-        <span class="px">$199<small>from · 3 seats</small></span>
+        <span class="px">$59<small>per seat · 3 min</small></span>
       </div>
     </div>
   </section>

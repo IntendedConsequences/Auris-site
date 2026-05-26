@@ -3,7 +3,7 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Features · Auris</title>
+<title>Voice-to-text features · Tone sliders, app modes · Auris</title>
 <script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","wwzponhh5a");</script>
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://auris.talk/features/">
@@ -28,7 +28,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
 <link rel="shortcut icon" href="/favicon.ico">
 <meta name="theme-color" content="#010100">
-<meta name="description" content="Every feature in Auris, grouped to skim. Capture, polish, vocabulary, per-app presets, history, privacy.">
+<meta name="description" content="Every feature in Auris voice-to-text: hotkey capture, AI polish with tone sliders, learning vocabulary, per-app presets, history, and end-to-end privacy.">
 <meta property="og:title" content="Features · Auris">
 <meta property="og:description" content="Every feature in Auris, grouped to skim. Capture, polish, vocabulary, per-app presets, history, privacy.">
 <meta property="og:url" content="https://auris.talk/features">
@@ -1021,6 +1021,30 @@
   @media (min-width: 981px) {
     .mobile-menu { display: none !important; }
   }
+
+  /* BETA STATUS PILL: closed-beta announcement at top of every page */
+  .beta-pill-wrap {
+    display: flex; justify-content: center;
+    margin: 18px 0 8px;
+  }
+  .beta-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--signal);
+    padding: 8px 14px; border-radius: 99px;
+    border: 1px solid rgba(250,227,83,0.25);
+    background: rgba(250,227,83,0.06);
+  }
+  .beta-pill::before {
+    content: ''; width: 6px; height: 6px; background: var(--signal);
+    border-radius: 99px; box-shadow: 0 0 8px rgba(250,227,83,0.7);
+    animation: beta-pill-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes beta-pill-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
 </style>
 </head>
 <body>
@@ -1058,6 +1082,9 @@
     </div>
   </header>
 
+  <!-- BETA STATUS PILL: present on every page -->
+  <div class="beta-pill-wrap"><span class="beta-pill">Closed beta · Public launch TBD</span></div>
+
   <!-- HERO -->
   <section class="page-hero">
     <div class="page-eyebrow">Features</div>
@@ -1094,17 +1121,17 @@
     <div class="feature-grid">
       <article class="feature featured">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Hold-to-talk.</h4>
-        <p>Press and hold <span class="kbd-inline">Ctrl</span>+<span class="kbd-inline">Cmd</span> on Mac, <span class="kbd-inline">Ctrl</span>+<span class="kbd-inline">Win</span> on Windows. <b>Speak. Release.</b></p>
+        <h3>Hold-to-talk.</h3>
+        <p>Press and hold <span class="kbd-inline">Ctrl</span>+<span class="kbd-inline">Fn</span> on Mac, <span class="kbd-inline">Ctrl</span>+<span class="kbd-inline">Win</span> on Windows. <b>Speak. Release.</b></p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Hands-free toggle.</h4>
+        <h3>Hands-free toggle.</h3>
         <p>Tap to start, tap to stop. Or <b>stay quiet</b> and auto-stop kicks in.</p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Dictation HUD.</h4>
+        <h3>Dictation HUD.</h3>
         <p>A small indicator pulses with your mic level. <b><br>Click-through, multi-monitor aware.</b></p>
       </article>
     </div>
@@ -1145,32 +1172,32 @@
     <div class="feature-grid" style="margin-top: 32px;">
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Remove fillers.</h4>
+        <h3>Remove fillers.</h3>
         <p>Strip <span class="sg">"um, uh, like, you know"</span> from every transcript automatically.</p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Fix grammar + punctuation.</h4>
+        <h3>Fix grammar + punctuation.</h3>
         <p><b>Subject-verb agreement,</b> missing commas, run-on sentences.</p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Expand contractions.</h4>
+        <h3>Expand contractions.</h3>
         <p>"Don't" becomes <span class="sg">"do not"</span> when you want a formal register.</p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Auto-capitalize.</h4>
+        <h3>Auto-capitalize.</h3>
         <p>First letter of every sentence. <b>No thinking required.</b></p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Remove em-dashes.</h4>
+        <h3>Remove em-dashes.</h3>
         <p>No em-dashes anywhere. <span class="sg">Periods and commas only.</span></p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Auto-format.</h4>
+        <h3>Auto-format.</h3>
         <p>Code blocks, lists, and links <b>formatted on the fly.</b></p>
       </article>
     </div>
@@ -1189,32 +1216,32 @@
     <div class="feature-grid">
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Custom dictionary.</h4>
+        <h3>Custom dictionary.</h3>
         <p>Add words manually, or <b><br>let Auris learn from your edits.</b></p>
       </article>
       <article class="feature featured">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Auto-learn.</h4>
+        <h3>Auto-learn.</h3>
         <p>Fix a word in any app within <b>five minutes;</b> <br>Auris adds the correction.</p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Snippets.</h4>
+        <h3>Snippets.</h3>
         <p>Spoken triggers expand to longer text. <br><span class="sg">Variables for date, time, clipboard.</span></p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Domain Profiles.</h4>
+        <h3>Domain Profiles.</h3>
         <p>Healthcare, Legal, Finance, SEO, Tech, YouTube. <b>Create your own,</b> or pin one as default.</p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Brand voices.</h4>
+        <h3>Brand voices.</h3>
         <p>Upload a Markdown style guide. <b><br>Switch between voices per project.</b></p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Plain-text files.</h4>
+        <h3>Plain-text files.</h3>
         <p>Dictionary and snippets are <b>files on your machine.</b><br>Edit them directly if you want.</p>
       </article>
     </div>
@@ -1234,32 +1261,32 @@
     <div class="modes-grid">
       <article class="mode">
         <span class="lbl">Mode · 01</span>
-        <h4>Default.</h4>
+        <h3>Default.</h3>
         <p>The global slider settings apply. Most apps you don't override end up here.</p>
       </article>
       <article class="mode">
         <span class="lbl">Mode · 02</span>
-        <h4>Formal.</h4>
+        <h3>Formal.</h3>
         <p>Formality and assertiveness pushed up. Email clients, document editors, board updates.</p>
       </article>
       <article class="mode">
         <span class="lbl">Mode · 03</span>
-        <h4>Casual.</h4>
+        <h3>Casual.</h3>
         <p>Formality pushed down. Chat apps: Slack, Discord, Messages.</p>
       </article>
       <article class="mode">
         <span class="lbl">Mode · 04</span>
-        <h4>Minimal.</h4>
+        <h3>Minimal.</h3>
         <p>Only fixes typos and grammar. Leaves your phrasing alone.</p>
       </article>
       <article class="mode default">
         <span class="lbl">Mode · 05</span>
-        <h4>Code<span class="sg">.</span></h4>
+        <h3>Code<span class="sg">.</span></h3>
         <p>Preserves quotes and brackets. Doesn't auto-capitalize identifiers. Terminals and editors.</p>
       </article>
       <article class="mode">
         <span class="lbl">Mode · 06</span>
-        <h4>Email.</h4>
+        <h3>Email.</h3>
         <p>Full sentences, signature-ready phrasing. Mail, Outlook, Gmail.</p>
       </article>
     </div>
@@ -1370,32 +1397,32 @@
     <div class="feature-grid">
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Pattern redaction.</h4>
+        <h3>Pattern redaction.</h3>
         <p>Email, phone, SSN, credit card.<br><b>Add your own regex.</b></p>
       </article>
       <article class="feature featured">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Force offline mode.</h4>
+        <h3>Force offline mode.</h3>
         <p>One toggle. <b>No cloud calls,</b> regardless of config.</p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Data flow board.</h4>
+        <h3>Data flow board.</h3>
         <p>Live view of <b>what travels where</b> with your current settings.</p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Network audit log.</h4>
+        <h3>Network audit log.</h3>
         <p>Every outbound call, with <span class="sg">destination and bytes.</span></p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Export everything.</h4>
+        <h3>Export everything.</h3>
         <p>One-click archive of your <b>full data set.</b></p>
       </article>
       <article class="feature">
         <span class="dot" aria-hidden="true"></span>
-        <h4>Wipe everything.</h4>
+        <h3>Wipe everything.</h3>
         <p>One-click destructive reset. <span class="sg">No undo.</span></p>
       </article>
     </div>

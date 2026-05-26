@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -40,7 +40,7 @@
       "name": "Will it run on my computer?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "If you're on Mac or Windows from this decade, yes. Linux is on the way. For cloud STT and cloud polish, any modern laptop is fine. The work happens on the API. For local Whisper or local LLM polish, your CPU and GPU do the work. Apple M1 and newer handle it comfortably. Older Intel Macs and lower-end Windows machines will run it, but transcription and polish will be slower. If your hardware can't keep up, run the cloud backends for the fastest results."
+        "text": "If you're on Mac or Windows from this decade, yes. Linux is on the way. For cloud speech-to-text (STT) and cloud polish, any modern laptop is fine. The work happens on the API. For local Whisper or local LLM polish, your CPU and GPU do the work. Apple M1 and newer handle it comfortably. Older Intel Macs and lower-end Windows machines will run it, but transcription and polish will be slower. If your hardware can't keep up, run the cloud backends for the fastest results."
       }
     },
     {
@@ -97,7 +97,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
 <link rel="shortcut icon" href="/favicon.ico">
 <meta name="theme-color" content="#010100">
-<meta name="description" content="Hold a hotkey, talk, release. Clean text appears in any app. Mac and Windows. $49 once. 30-day money-back.">
+<meta name="description" content="Voice-to-text for Mac and Windows. Hold a hotkey, talk, release — clean polished text lands in any app. $49 once, lifetime updates, 30-day money-back.">
 <meta property="og:title" content="Auris. Voice-to-text for Mac and Windows. $49 once.">
 <meta property="og:description" content="Hold a hotkey, talk, release. Clean text appears in any app.">
 <meta property="og:url" content="https://auris.talk">
@@ -302,6 +302,30 @@
   .hero-cta-secondary { margin-top: 4px; }
   .hero-cta-secondary .btn-ghost {
     font-size: 13px; padding: 10px 16px; letter-spacing: 0.04em;
+  }
+
+  /* BETA STATUS PILL: closed-beta announcement at top of every page */
+  .beta-pill-wrap {
+    display: flex; justify-content: center;
+    margin: 18px 0 8px;
+  }
+  .beta-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--signal);
+    padding: 8px 14px; border-radius: 99px;
+    border: 1px solid rgba(250,227,83,0.25);
+    background: rgba(250,227,83,0.06);
+  }
+  .beta-pill::before {
+    content: ''; width: 6px; height: 6px; background: var(--signal);
+    border-radius: 99px; box-shadow: 0 0 8px rgba(250,227,83,0.7);
+    animation: beta-pill-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes beta-pill-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
   }
 
   /* HERO LEAD (the static h1 above the animation) ---------- */
@@ -1004,7 +1028,26 @@
     content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
     background: transparent;
   }
-  .control-grid { display: grid; grid-template-columns: 1fr; gap: 22px; padding: 24px 28px 20px; }
+  .control-badge-wrap {
+    display: flex; justify-content: center;
+    margin: 0 0 16px;
+  }
+  .control-badge {
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--signal); display: inline-flex; align-items: center; gap: 8px;
+    pointer-events: none;
+  }
+  .control-badge::before {
+    content: ''; width: 6px; height: 6px; background: var(--signal);
+    border-radius: 99px; box-shadow: 0 0 8px rgba(250,227,83,0.7);
+    animation: control-badge-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes control-badge-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+  .control-grid { display: grid; grid-template-columns: 1fr; gap: 22px; padding: 24px 28px 18px; }
   .control-sliders { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
   .slider { display: grid; gap: 10px; }
   .slider .top { display: flex; justify-content: space-between; align-items: baseline; }
@@ -1027,18 +1070,43 @@
     font-size: 11px; font-weight: 700; color: var(--paper-3);
     letter-spacing: 0.10em; text-transform: uppercase;
   }
-  .control-preview {
-    display: grid; grid-template-rows: auto 1fr; gap: 10px;
-    border-top: 1px solid var(--line-2); padding-top: 18px;
+  .control-io {
+    display: grid; grid-template-columns: minmax(0, 1fr) 60px minmax(0, 1fr);
+    gap: 0; align-items: stretch;
+    border-top: 1px solid var(--line-2); padding-top: 22px;
   }
-  .control-preview .lbl {
-    font-size: 11px; font-weight: 700; color: var(--paper-3);
-    letter-spacing: 0.10em; text-transform: uppercase;
+  .control-input, .control-output {
+    display: flex; flex-direction: column; gap: 10px;
   }
-  .control-preview .out {
+  .control-input { padding-right: 18px; }
+  .control-output { padding-left: 18px; }
+  .control-io .lbl {
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.10em; color: var(--signal); text-transform: uppercase;
+    font-style: italic;
+  }
+  .control-input .raw {
+    font-size: 17px; line-height: 1.5; color: var(--paper-2);
+    letter-spacing: -0.002em; font-style: italic;
+    margin: 0;
+  }
+  .control-output .out {
     font-weight: 500; font-size: 19px; line-height: 1.5;
     color: var(--paper); letter-spacing: -0.005em;
-    transition: opacity 180ms; font-style: italic;
+    transition: opacity 180ms;
+    margin: 0;
+  }
+  .control-spine {
+    position: relative; display: flex; align-items: center; justify-content: center;
+  }
+  .control-spine::before {
+    content: ''; position: absolute; top: 8%; bottom: 8%; left: 50%; width: 1px;
+    background: var(--line-2); transform: translateX(-0.5px);
+  }
+  .control-spine .arrow {
+    background: var(--ink-3); padding: 8px 0;
+    color: var(--signal); font-size: 22px; line-height: 1;
+    z-index: 1; font-weight: 400;
   }
   /* PROVIDER GRID ------------------------------------------- */
   .provider-grid {
@@ -1104,9 +1172,10 @@
     background: transparent;
   }
   .keep-card .strike {
-    font-weight: 700; font-size: 24px; color: var(--paper);
+    font-weight: 700; font-size: 21px; color: var(--paper);
     letter-spacing: -0.022em; position: relative;
     display: inline-block; align-self: flex-start;
+    white-space: nowrap;
   }
   .keep-card .strike::after {
     content: ''; position: absolute; left: -3px; right: -3px; top: 53%;
@@ -1244,6 +1313,7 @@
     padding: 28px 24px 26px; display: flex; flex-direction: column; gap: 12px;
     border-radius: 6px; overflow: hidden;
     position: relative;
+    text-align: left;
   }
   .price-card .label { font-size: 11px; font-weight: 700; letter-spacing: 0.10em; color: var(--paper-3); text-transform: uppercase; }
   .price-card .name { font-weight: 700; font-size: 19px; color: var(--paper); letter-spacing: -0.012em; line-height: 1.2; }
@@ -1402,7 +1472,10 @@
     .bar-row .bar-val { text-align: left; }
     .how-grid { grid-template-columns: 1fr; }
     .control-sliders { grid-template-columns: 1fr; gap: 22px; }
-    .control-preview { border-left: 0; padding-left: 0; padding-top: 18px; border-top: 1px solid var(--line-2); }
+    .control-io { grid-template-columns: 1fr; gap: 18px; }
+    .control-spine { display: none; }
+    .control-input, .control-output { padding: 0; min-height: 0; }
+    .control-output { border-top: 1px solid var(--line-2); padding-top: 18px; }
     .provider-grid { grid-template-columns: 1fr; }
     .provider { border-right: 0; border-bottom: 1px solid var(--line-2); }
     .provider:last-child { border-bottom: 0; }
@@ -1496,8 +1569,8 @@
     .how-card { min-height: 0 !important; padding: 20px !important; }
     .how-card h3 { font-size: 24px !important; }
     .control-grid { padding: 20px !important; gap: 22px !important; }
-    /* Mobile: dictation preview ABOVE the sliders, matching how.html. */
-    .control-preview {
+    /* Mobile: input/output stacks above sliders for clearer demo flow. */
+    .control-io {
       order: -1;
       padding-top: 0 !important;
       padding-bottom: 18px !important;
@@ -1840,6 +1913,9 @@
     </div>
   </header>
 
+  <!-- BETA STATUS PILL: present on every page -->
+  <div class="beta-pill-wrap"><span class="beta-pill">Closed beta · Public launch TBD</span></div>
+
   <main>
 
   <!-- HERO -->
@@ -1859,21 +1935,21 @@
 
     <div class="hero-deck">
       <div class="hero-deck-l">
-        <p class="hero-dek">Hold a hotkey, talk, release. Auris turns your voice into clean text in the window you're already in. Bring <b>your own API keys</b>, or run <b>fully local</b>.</p>
+        <p class="hero-dek">Hold a hotkey, talk, release.<br>Auris transcribes, polishes, and inserts clean text into your text box.<br>Bring <b>your own API keys</b> (<b style="color: var(--signal);">BYOK</b>), or run <b>fully local and private</b>.</p>
       </div>
     </div>
 
     <!-- FOUNDERS LIST: free founder license for first 100 signups -->
     <aside class="founders-box" aria-label="Free copy for first 100 signups">
       <div class="fb-left">
-        <span class="fb-eb">Founders list</span>
+        <span class="fb-eb">Early access</span>
         <h3>First 100 get Auris <em>free</em>.</h3>
-        <p class="fb-body">After that, everyone on the list locks in <b>$49 Founder pricing</b>.</p>
+        <p class="fb-body">After that, everyone on the list locks in <b>$49 early access pricing</b>.<br>You'll be notified by email when public launch opens.</p>
       </div>
       <form class="fb-form" action="https://app.kit.com/forms/9456910/subscriptions" method="POST" novalidate>
         <input type="hidden" name="fields[source]" value="founders-list-hero">
         <input type="email" name="email_address" placeholder="you@example.com" required aria-label="Email address">
-        <button type="submit">Reserve mine <span aria-hidden="true">→</span></button>
+        <button type="submit">Join Waitlist <span aria-hidden="true">→</span></button>
       </form>
     </aside>
   </section>
@@ -1897,7 +1973,7 @@
         <div class="ch-eyebrow">Math</div>
         <h2>You <em class="sig">speak</em> faster than you type.</h2>
       </div>
-      <div class="ch-tag">The speed has always been there.<br><b>The cleanup is what was missing.</b> Auris ships both.</div>
+      <div class="ch-tag">The speed has always been there.<br><b>The cleanup is what was missing.</b> Auris handles both.</div>
     </div>
 
     <div class="speed-chart" aria-label="Words per minute">
@@ -1926,7 +2002,7 @@
         <div class="ch-eyebrow">How</div>
         <h2>Hold. Speak. Release.</h2>
       </div>
-      <div class="ch-tag">One hotkey, any app.<br><b>One to two seconds</b> from press to polished text.</div>
+      <div class="ch-tag">One hotkey, any app.<br><b>Two seconds</b> from press to polished text.</div>
     </div>
 
     <div class="how-grid">
@@ -1934,7 +2010,7 @@
         <span class="num">01 · Hold</span>
         <h3>Press to talk.</h3>
         <div class="keys">
-          <span class="kbd">Ctrl</span><span class="kbd-plus">+</span><span class="kbd">Cmd</span>
+          <span class="kbd">Ctrl</span><span class="kbd-plus">+</span><span class="kbd">Fn</span>
           <span class="kbd-plus" style="margin: 0 6px;">or</span>
           <span class="kbd">Ctrl</span><span class="kbd-plus">+</span><span class="kbd">Win</span>
         </div>
@@ -1950,7 +2026,7 @@
         <span class="num">03 · Release</span>
         <h3>Read it back.</h3>
         <div class="keys"><span class="kbd" style="border-color: var(--signal-deep); color: var(--signal);">Clean text · 1–2s later</span></div>
-        <p>Let go. <b>Clean text lands in the window you started in.</b> Filler gone, punctuation right, your voice intact.</p>
+        <p><b>Clean text lands in the window you started in.</b> Filler gone, punctuation right, your voice intact.</p>
       </article>
     </div>
 
@@ -1962,12 +2038,15 @@
     <div class="ch-head">
       <div>
         <div class="ch-eyebrow">Voice</div>
-        <h2>It sounds like you.</h2>
+        <h2>Pick <em class="sig">your voice.</em></h2>
       </div>
-      <div class="ch-tag">Three sliders, three dimensions.<br>Drag any one and the same dictation repolishes to match your tone.</div>
+      <div class="ch-tag">Three sliders, same words.<br>Different voice. Drag a slider <span style="color: var(--signal);">→</span></div>
     </div>
 
     <div class="ch-body" style="max-width: none;">
+      <div class="control-badge-wrap" aria-hidden="true">
+        <span class="control-badge">Live demo — drag any slider</span>
+      </div>
       <div class="control" role="group" aria-label="Style controls">
         <div class="control-grid">
           <div class="control-sliders">
@@ -1987,9 +2066,18 @@
               <span class="ends"><span>soft</span><span>direct</span></span>
             </label>
           </div>
-          <div class="control-preview">
-            <span class="lbl">Result</span>
-            <p class="out" id="preview">Migration is blocked on auth. We need two more days for staging.</p>
+          <div class="control-io">
+            <div class="control-input">
+              <span class="lbl">You said</span>
+              <p class="raw">"hey just wanted to check in see how youve been doing havent talked in a while would love to grab coffee or something soon"</p>
+            </div>
+            <div class="control-spine" aria-hidden="true">
+              <span class="arrow">→</span>
+            </div>
+            <div class="control-output">
+              <span class="lbl">Auris polished</span>
+              <p class="out" id="preview">Hi, want to grab coffee soon?</p>
+            </div>
           </div>
         </div>
       </div>
@@ -2002,7 +2090,7 @@
     <div class="ch-head">
       <div>
         <div class="ch-eyebrow">Per-app presets</div>
-        <h2>Voice for <em class="alt">your stack.</em></h2>
+        <h2>Different apps, different tones.</h2>
       </div>
       <div class="ch-tag">Auris detects the active window and switches tone.<br>Set the preset once per app; forget it forever.</div>
     </div>
@@ -2125,9 +2213,9 @@
     <div class="ch-head">
       <div>
         <div class="ch-eyebrow">Defaults</div>
-        <h2>Six fixes, <em class="alt">handled.</em></h2>
+        <h2>Cleanup work, <em class="sig">built in.</em></h2>
       </div>
-      <div class="ch-tag">Stray em-dashes, fillers, missing punctuation, wrong caps.<br><b>Auris fixes them by default.</b></div>
+      <div class="ch-tag">Stray em-dashes, fillers, missing punctuation, wrong caps.<br><b>Auris fixes them by default and keeps your text <span style="color: var(--signal);">humanized</span>.</b></div>
     </div>
 
     <div class="feat-grid">
@@ -2214,7 +2302,7 @@
           </div>
         </div>
         <h4>Punctuation that wasn't there.</h4>
-        <p>Commas, periods, question marks added where the sentence demands. Run-ons split. Lists comma-separated.</p>
+        <p>Commas, periods, question marks added where the sentence demands. Run-ons split. Lists formatted.</p>
       </article>
 
       <article class="feat-card">
@@ -2244,14 +2332,14 @@
         <div class="ch-eyebrow">Run it</div>
         <h2>Three ways to run Auris.</h2>
       </div>
-      <div class="ch-tag">Auris doesn't host an AI.<br>You bring your own, or run one on your own machine.</div>
+      <div class="ch-tag">Auris doesn't host an AI.<br>You bring your own API keys, or run one on your own machine.</div>
     </div>
 
     <div class="feature-grid run-grid">
       <article class="feature run-mode">
         <div class="run-tag"><b>01</b> Cloud</div>
-        <h4>Bring your keys.</h4>
-        <p>Plug in your <b>OpenAI</b>, <b>Anthropic</b>, or <b>Groq</b> key. Auris talks to them directly. <span class="rh">Groq has a free tier</span>, no payment method needed to start.</p>
+        <h4>Bring your API keys.</h4>
+        <p>Plug in your <b>OpenAI</b>, <b>Anthropic</b>, or <b>Groq</b> API keys. Auris talks to them directly.</p>
         <div class="run-pipe">
           <span class="rp-stage"><span class="rp-lbl">STT</span><span class="rp-val">Cloud</span></span>
           <span class="rp-arrow" aria-hidden="true">→</span>
@@ -2261,7 +2349,7 @@
       <article class="feature run-mode">
         <div class="run-tag"><b>02</b> Local</div>
         <h4>Fully local.</h4>
-        <p><b>Whisper</b> for speech, <b>any local LLM</b> for polish, or built-in rules. <span class="rh">Audio stays local.</span></p>
+        <p><b>Whisper</b> for speech, <b>any local LLM</b> for polish, or built-in rules. <span class="rh">Audio stays local and private.</span></p>
         <div class="run-pipe">
           <span class="rp-stage"><span class="rp-lbl">STT</span><span class="rp-val local">Local</span></span>
           <span class="rp-arrow" aria-hidden="true">→</span>
@@ -2271,7 +2359,7 @@
       <article class="feature run-mode">
         <div class="run-tag"><b>03</b> Mixed</div>
         <h4>Mix and match.</h4>
-        <p>STT and polish are <span class="rh">independent.</span> Cloud Whisper with a local LLM, local Whisper with Claude, or any combination. <b>Switch in Settings any time.</b></p>
+        <p>Dictation and polish are <span class="rh">independent.</span> <b>Swap them as you want.</b></p>
         <div class="run-pipe">
           <span class="rp-stage"><span class="rp-lbl">STT</span><span class="rp-val"><span class="lc">Local</span> or Cloud</span></span>
           <span class="rp-arrow" aria-hidden="true">→</span>
@@ -2286,9 +2374,9 @@
     <div class="ch-head">
       <div>
         <div class="ch-eyebrow">Backend</div>
-        <h2>Use any AI, or no cloud at all.</h2>
+        <h2>Use any AI, or go fully local.</h2>
       </div>
-      <div class="ch-tag">Bring your own API keys.<br>Or run a local model and work offline. No internet needed.</div>
+      <div class="ch-tag">Bring your own API keys (<b style="color: var(--signal);">BYOK</b>).<br>Or run a local model and stay <b style="color: var(--signal);">private</b>. No internet needed.</div>
     </div>
 
     <div class="provider-grid">
@@ -2322,7 +2410,7 @@
           <span class="provider-icon"><svg fill="currentColor" fill-rule="evenodd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="Ollama"><path d="M7.905 1.09c.216.085.411.225.588.41.295.306.544.744.734 1.263.191.522.315 1.1.362 1.68a5.054 5.054 0 012.049-.636l.051-.004c.87-.07 1.73.087 2.48.474.101.053.2.11.297.17.05-.569.172-1.134.36-1.644.19-.52.439-.957.733-1.264a1.67 1.67 0 01.589-.41c.257-.1.53-.118.796-.042.401.114.745.368 1.016.737.248.337.434.769.561 1.287.23.934.27 2.163.115 3.645l.053.04.026.019c.757.576 1.284 1.397 1.563 2.35.435 1.487.216 3.155-.534 4.088l-.018.021.002.003c.417.762.67 1.567.724 2.4l.002.03c.064 1.065-.2 2.137-.814 3.19l-.007.01.01.024c.472 1.157.62 2.322.438 3.486l-.006.039a.651.651 0 01-.747.536.648.648 0 01-.54-.742c.167-1.033.01-2.069-.48-3.123a.643.643 0 01.04-.617l.004-.006c.604-.924.854-1.83.8-2.72-.046-.779-.325-1.544-.8-2.273a.644.644 0 01.18-.886l.009-.006c.243-.159.467-.565.58-1.12a4.229 4.229 0 00-.095-1.974c-.205-.7-.58-1.284-1.105-1.683-.595-.454-1.383-.673-2.38-.61a.653.653 0 01-.632-.371c-.314-.665-.772-1.141-1.343-1.436a3.288 3.288 0 00-1.772-.332c-1.245.099-2.343.801-2.67 1.686a.652.652 0 01-.61.425c-1.067.002-1.893.252-2.497.703-.522.39-.878.935-1.066 1.588a4.07 4.07 0 00-.068 1.886c.112.558.331 1.02.582 1.269l.008.007c.212.207.257.53.109.785-.36.622-.629 1.549-.673 2.44-.05 1.018.186 1.902.719 2.536l.016.019a.643.643 0 01.095.69c-.576 1.236-.753 2.252-.562 3.052a.652.652 0 01-1.269.298c-.243-1.018-.078-2.184.473-3.498l.014-.035-.008-.012a4.339 4.339 0 01-.598-1.309l-.005-.019a5.764 5.764 0 01-.177-1.785c.044-.91.278-1.842.622-2.59l.012-.026-.002-.002c-.293-.418-.51-.953-.63-1.545l-.005-.024a5.352 5.352 0 01.093-2.49c.262-.915.777-1.701 1.536-2.269.06-.045.123-.09.186-.132-.159-1.493-.119-2.73.112-3.67.127-.518.314-.95.562-1.287.27-.368.614-.622 1.015-.737.266-.076.54-.059.797.042zm4.116 9.09c.936 0 1.8.313 2.446.855.63.527 1.005 1.235 1.005 1.94 0 .888-.406 1.58-1.133 2.022-.62.375-1.451.557-2.403.557-1.009 0-1.871-.259-2.493-.734-.617-.47-.963-1.13-.963-1.845 0-.707.398-1.417 1.056-1.946.668-.537 1.55-.849 2.485-.849zm0 .896a3.07 3.07 0 00-1.916.65c-.461.37-.722.835-.722 1.25 0 .428.21.829.61 1.134.455.347 1.124.548 1.943.548.799 0 1.473-.147 1.932-.426.463-.28.7-.686.7-1.257 0-.423-.246-.89-.683-1.256-.484-.405-1.14-.643-1.864-.643zm.662 1.21l.004.004c.12.151.095.37-.056.49l-.292.23v.446a.375.375 0 01-.376.373.375.375 0 01-.376-.373v-.46l-.271-.218a.347.347 0 01-.052-.49.353.353 0 01.494-.051l.215.172.22-.174a.353.353 0 01.49.051zm-5.04-1.919c.478 0 .867.39.867.871a.87.87 0 01-.868.871.87.87 0 01-.867-.87.87.87 0 01.867-.872zm8.706 0c.48 0 .868.39.868.871a.87.87 0 01-.868.871.87.87 0 01-.867-.87.87.87 0 01.867-.872zM7.44 2.3l-.003.002a.659.659 0 00-.285.238l-.005.006c-.138.189-.258.467-.348.832-.17.692-.216 1.631-.124 2.782.43-.128.899-.208 1.404-.237l.01-.001.019-.034c.046-.082.095-.161.148-.239.123-.771.022-1.692-.253-2.444-.134-.364-.297-.65-.453-.813a.628.628 0 00-.107-.09L7.44 2.3zm9.174.04l-.002.001a.628.628 0 00-.107.09c-.156.163-.32.45-.453.814-.29.794-.387 1.776-.23 2.572l.058.097.008.014h.03a5.184 5.184 0 011.466.212c.086-1.124.038-2.043-.128-2.722-.09-.365-.21-.643-.349-.832l-.004-.006a.659.659 0 00-.285-.239h-.004z"/></svg></span>
           <h4>On your machine</h4>
         </div>
-        <p>Run a local model. <b>Fully offline.</b> Pay nothing past your electric bill.</p>
+        <p>Run a local model. <b>Fully offline and private.</b></p>
       </div>
     </div>
 
@@ -2334,26 +2422,26 @@
       <div class="pillar-num">0<span class="underbar" aria-hidden="true"></span></div>
       <div class="pillar-body">
         <span class="eb">Privacy &middot; in local mode</span>
-        <h2>bytes leave <em class="sig">your machine.</em></h2>
+        <h2>data leaves <em class="sig">your machine.</em></h2>
         <p>Run Whisper locally for transcription, Ollama (or any local LLM) for polish. Auris's outbound network traffic is <b>empty</b>. No telemetry, no analytics, no error reporting, no update pings, no model-training payloads. <b>Pull the network cable. It still works.</b></p>
       </div>
     </div>
 
     <div class="keep-grid">
       <article class="keep-card">
-        <span class="strike">No server</span>
-        <p>Audio runs locally or goes <b>direct to your provider.</b> Nothing routes through us.</p>
+        <span class="strike">No server required</span>
+        <p>Audio runs locally or goes <b>direct to your provider.</b> Nothing goes to us.</p>
       </article>
       <article class="keep-card">
-        <span class="strike">No account</span>
+        <span class="strike">No account required</span>
         <p>No email, no password, no profile.<br><b>Buy the license</b> and it's yours.</p>
       </article>
       <article class="keep-card">
-        <span class="strike">No subscription</span>
+        <span class="strike">No subscription required</span>
         <p><b>$49 once.</b> No recurring charges. Updates included.</p>
       </article>
       <article class="keep-card">
-        <span class="strike">No training</span>
+        <span class="strike">No training required</span>
         <p>Your dictation never trains a model. <b>Yours, used by you,</b> then gone.</p>
       </article>
     </div>
@@ -2374,9 +2462,9 @@
     <div class="ch-head">
       <div>
         <div class="ch-eyebrow">Guarantees</div>
-        <h2>What we <em class="alt">stand behind.</em></h2>
+        <h2>What we stand behind.</h2>
       </div>
-      <div class="ch-tag">Four claims, four receipts.<br>No HIPAA badge we don't have, no enterprise theater.</div>
+      <div class="ch-tag">Four claims, four proofs.<br>No marketing fluff, no buzzwords. Just plain proof.</div>
     </div>
 
     <div class="g-grid">
@@ -2390,7 +2478,7 @@
           </svg>
         </div>
         <h4>On-Device Audio</h4>
-        <p>Run Whisper-local for transcription and audio never leaves your machine. Bytes are <b>opened, processed, discarded</b> in RAM.</p>
+        <p>Run local for transcription and audio that never leaves your machine. Data is <b>opened, processed, discarded</b> in RAM.</p>
         <a class="stamp-link" href="#run">Run it <span aria-hidden="true">↗</span></a>
       </article>
 
@@ -2416,7 +2504,7 @@
           </svg>
         </div>
         <h4>BYOK or Local</h4>
-        <p>Bring your Anthropic, OpenAI, or Groq key. Or run Ollama, llama.cpp, LM Studio locally. <b>Auris never proxies your keys.</b></p>
+        <p>Bring your Anthropic, OpenAI, or Groq key. Or run a local LLM for full privacy. <b>Auris never proxies your keys.</b></p>
         <a class="stamp-link" href="#ai">Backend <span aria-hidden="true">↗</span></a>
       </article>
 
@@ -2490,42 +2578,42 @@
 
     <div class="pricing-grid">
       <div class="price-card featured">
-        <div class="label">Founder pricing</div>
-        <div class="name">Lifetime Founder</div>
+        <div class="label">Early Access pricing</div>
+        <div class="name">Early Access</div>
         <div class="px">$49<small>once</small></div>
         <p class="desc"><b>$30 off Standard</b> pricing.<br>Full app, every feature.</p>
       </div>
       <div class="price-card">
-        <div class="label">After founder window</div>
-        <div class="name">Lifetime Standard</div>
+        <div class="label">After Early Access</div>
+        <div class="name">Standard</div>
         <div class="px">$79<small>once</small></div>
-        <p class="desc">After Founder pricing ends.<br><b>$30 more,</b> same app.</p>
+        <p class="desc">After early access pricing ends.<br><b>$30 more,</b> same app.</p>
       </div>
       <div class="price-card">
         <div class="label">.edu email required</div>
-        <div class="name">Student Lifetime</div>
+        <div class="name">Student</div>
         <div class="px">$29<small>once</small></div>
         <p class="desc">Verified <b>.edu</b> email.<br>Full app, every feature.</p>
       </div>
       <div class="price-card">
         <div class="label">3 to 50 seats</div>
         <div class="name">Team Self-Hosted</div>
-        <div class="px">from $199</div>
-        <p class="desc">Three seats and up. Runs on your team's own machines.</p>
+        <div class="px">$59<small>per seat</small></div>
+        <p class="desc"><b>Volume discounts</b> at 10, 25, 50+ seats.</p>
       </div>
     </div>
 
     <!-- FOUNDERS LIST: free founder license for first 100 signups -->
     <aside class="founders-box" aria-label="Free copy for first 100 signups">
       <div class="fb-left">
-        <span class="fb-eb">Founders list</span>
+        <span class="fb-eb">Early access</span>
         <h3>First 100 get Auris <em>free</em>.</h3>
-        <p class="fb-body">After that, everyone on the list locks in <b>$49 Founder pricing</b>.</p>
+        <p class="fb-body">After that, everyone on the list locks in <b>$49 early access pricing</b>.<br>You'll be notified by email when public launch opens.</p>
       </div>
       <form class="fb-form" action="https://app.kit.com/forms/9456910/subscriptions" method="POST" novalidate>
         <input type="hidden" name="fields[source]" value="founders-list-home">
         <input type="email" name="email_address" placeholder="you@example.com" required aria-label="Email address">
-        <button type="submit">Reserve mine <span aria-hidden="true">→</span></button>
+        <button type="submit">Join Waitlist <span aria-hidden="true">→</span></button>
       </form>
     </aside>
   </section>
@@ -2579,7 +2667,7 @@
           </summary>
           <div class="note-body">
             <p>If you're on <b>Mac or Windows from this decade,</b> yes.<br>Linux is on the way.</p>
-            <p>For <b>cloud STT and cloud polish,</b> any modern laptop is fine. The work happens on the API.</p>
+            <p>For <b>cloud speech-to-text (STT) and cloud polish,</b> any modern laptop is fine. The work happens on the API.</p>
             <p>For <b>local Whisper or local LLM polish,</b> your CPU and GPU do the work. <b>Apple M1 and newer</b> handle it comfortably. Older Intel Macs and lower-end Windows machines will run it, but transcription and polish will be slower. If your hardware can't keep up, run the cloud backends for the fastest results.</p>
           </div>
         </details>
@@ -2756,308 +2844,309 @@
     if (sliders.some(s => !s) || !preview) return;
 
     // matrix[formality 0-5][conciseness 0-5][assertiveness 0-5] = output text
-    // F axis: lowercase casual w/ "Yeah so um" → neutral capitalized → very formal w/ "Per our standup,"
-    // C axis: verbose multi-clause → tight one-line → telegraphic fragment ("+2 days")
-    // A axis: heavy hedges ("might possibly", "if that's cool") → neutral → emphatic ("Period.", "Final.")
+    // F axis: lowercase casual ("Hey", "wanna") → neutral capitalized → formal ("Hello, I hope this finds you well")
+    // C axis: verbose multi-clause → tight one-line → telegraphic fragment ("Coffee. Now.")
+    // A axis: heavy hedges ("if you're around", "no rush") → neutral → emphatic ("Coffee. Now.")
     const matrix = [
-      [ // F=0 very casual
+      [ // F=0 very casual (proper caps + informal vocab)
         [ // C=0 very verbose
-          "Yeah so um the migration thing, it's like, we kinda hit a snag with the auth piece earlier today, and we might possibly need around two more days to get it working in staging, if that's cool with everyone.",
-          "Yeah so um the migration thing, it's like, we hit a snag with the auth piece earlier today, and we would probably need about two more days to get it working in staging, I think.",
-          "Yeah so um the migration thing, we hit a snag with the auth piece earlier today, and we should probably need about two more days to get it working in staging.",
-          "Yeah so um the migration thing, we hit a snag with the auth piece earlier today, and we'll need two more days to get it working in staging.",
-          "Yeah so um the migration thing, we hit a snag with the auth piece earlier today, and we need two more days to get it working in staging.",
-          "Yeah so um the migration thing, we hit a snag with the auth piece earlier today. We need two more days for staging. Period."
+          // A=0: bare-minimum polish — raw input with only punctuation + capitalization added
+          "Hey, just wanted to check in. See how you've been doing? Haven't talked in a while. Would love to grab coffee or something soon.",
+          "Hey been forever, how have you been? Wanna grab coffee or something sometime if you're around?",
+          "Hey been forever, how have you been? We should grab coffee soon, lmk when you're free.",
+          "Hey been a while, how have you been? Let's grab coffee soon, lmk what works.",
+          "Hey been forever, how have you been? Grab coffee this week, down whenever.",
+          "Hey been forever. Coffee this week."
         ],
         [ // C=1 verbose
-          "Yeah so um the migration hit a snag with the auth piece, and we might kinda need around two more days to get staging going, if that's cool.",
-          "Yeah so um the migration hit a snag with the auth piece, and we would probably need about two more days to get staging going, I think.",
-          "Yeah so um the migration hit a snag with the auth piece, and we should probably need about two more days to get staging going.",
-          "Yeah so um the migration hit a snag with the auth piece, and we'll need two more days to get staging going.",
-          "Yeah so um the migration hit a snag with the auth piece, and we need two more days to get staging going.",
-          "Yeah so um the migration hit a snag with the auth piece. We need two more days for staging. Period."
+          "Hey been forever, would love to grab coffee or something sometime if you're around.",
+          "Hey been forever, wanna grab coffee or something sometime if you're around?",
+          "Hey been forever, we should grab coffee sometime soon, lmk.",
+          "Hey been a while, let's grab coffee soon, lmk what works.",
+          "Hey been forever, grab coffee this week?",
+          "Hey been forever. Coffee this week."
         ],
-        [ // C=2 mid-verbose
-          "Yeah so um the migration's stuck on auth, and we might kinda need around two more days for staging, if that's cool.",
-          "Yeah so um the migration's stuck on auth, and we would probably need about two more days for staging, I think.",
-          "Yeah so um the migration's stuck on auth, and we should probably need about two more days for staging.",
-          "Yeah so um the migration's stuck on auth, and we'll need two more days for staging.",
-          "Yeah so um the migration's stuck on auth, and we need two more days for staging.",
-          "Yeah so um the migration's stuck on auth. We need two more days for staging. Period."
+        [ // C=2 medium
+          "Hey been a while, coffee sometime if you're free?",
+          "Hey been a while, coffee sometime if you're around?",
+          "Hey been a while, wanna grab coffee soon?",
+          "Hey, let's grab coffee soon.",
+          "Hey, coffee this week?",
+          "Hey, coffee. This week."
         ],
-        [ // C=3 mid
-          "Yeah so the migration's stuck on auth, maybe two more days for staging?",
-          "Yeah so the migration's stuck on auth, probably two more days for staging.",
-          "Yeah so the migration's stuck on auth, should be two more days for staging.",
-          "Yeah so the migration's stuck on auth, two more days for staging.",
-          "Yeah so the migration's stuck on auth. Two more days for staging.",
-          "Yeah so the migration's stuck on auth. Two more days. Period."
+        [ // C=3 medium-short
+          "Hey coffee soon if you're free?",
+          "Hey coffee soon if you're around?",
+          "Hey wanna coffee sometime?",
+          "Hey coffee soon?",
+          "Hey coffee this week?",
+          "Hey, coffee. This week."
         ],
-        [ // C=4 concise
-          "Yeah, migration's stuck on auth, maybe two more days?",
-          "Yeah, migration's stuck on auth, probably two more days.",
-          "Yeah, migration's stuck on auth, likely two more days.",
-          "Yeah, migration's stuck on auth, two more days for staging.",
-          "Yeah, migration's stuck on auth. +2 days for staging.",
-          "Yeah, migration's stuck on auth. +2 days. Final."
+        [ // C=4 short
+          "Hey coffee maybe?",
+          "Hey coffee sometime?",
+          "Hey coffee soon?",
+          "Hey, wanna coffee?",
+          "Hey, coffee this week.",
+          "Hey, coffee."
         ],
-        [ // C=5 very terse
-          "Yeah, auth's blocking, maybe +2 days?",
-          "Yeah, auth's blocking, probably +2 days.",
-          "Yeah, auth's blocking, likely +2 days.",
-          "Yeah, auth's blocking. +2 days.",
-          "Yeah, auth's blocking. +2 days, no question.",
-          "Yeah, auth's blocking. +2 days. Final."
+        [ // C=5 telegraphic
+          "Coffee maybe?",
+          "Coffee sometime?",
+          "Coffee soon?",
+          "Coffee?",
+          "Coffee. This week.",
+          "Coffee. Now."
         ]
       ],
-      [ // F=1 casual
-        [
-          "Yeah so the migration hit a snag with the auth piece earlier today, and we might possibly need around two more days to get it working in staging, if that's cool with everyone.",
-          "Yeah so the migration hit a snag with the auth piece earlier today, and we would probably need about two more days to get it working in staging, I think.",
-          "Yeah so the migration hit a snag with the auth piece earlier today, and we should probably need about two more days to get it working in staging.",
-          "Yeah so the migration hit a snag with the auth piece earlier today, and we'll need two more days to get it working in staging.",
-          "Yeah so the migration hit a snag with the auth piece earlier today, and we need two more days to get it working in staging.",
-          "Yeah so the migration hit a snag with the auth piece earlier today. We need two more days for staging. Period."
+      [ // F=1 casual ("Hey,", "want to")
+        [ // C=0
+          "Hey, it's been forever, how have you been? Would love to grab coffee or something sometime if you're around, no rush.",
+          "Hey, been forever, how have you been? Wanna grab coffee or something sometime if you're around?",
+          "Hey, been forever, how have you been? We should grab coffee soon, let me know when works.",
+          "Hey, been a while, how have you been? Let's grab coffee soon, let me know what works.",
+          "Hey, been forever, how have you been? Grab coffee this week, down whenever.",
+          "Hey, been forever. Coffee this week."
         ],
-        [
-          "Yeah so the migration hit a snag with the auth piece, and we might possibly need around two more days to reach staging, if that's cool.",
-          "Yeah so the migration hit a snag with the auth piece, and we would probably need about two more days to reach staging, I think.",
-          "Yeah so the migration hit a snag with the auth piece, and we should probably need about two more days to reach staging.",
-          "Yeah so the migration hit a snag with the auth piece, and we'll need two more days to reach staging.",
-          "Yeah so the migration hit a snag with the auth piece, and we need two more days to reach staging.",
-          "Yeah so the migration hit a snag with the auth piece. We need two more days for staging. Period."
+        [ // C=1
+          "Hey, been forever, would love to grab coffee sometime if you're around.",
+          "Hey, been forever, wanna grab coffee sometime if you're around?",
+          "Hey, been forever, we should grab coffee soon, let me know.",
+          "Hey, been a while, let's grab coffee soon, let me know what works.",
+          "Hey, been forever, grab coffee this week?",
+          "Hey, been forever. Coffee this week."
         ],
-        [
-          "Yeah, the migration's blocked on auth, and we might need around two more days for staging, if that's cool.",
-          "Yeah, the migration's blocked on auth, and we would probably need about two more days for staging, I think.",
-          "Yeah, the migration's blocked on auth, and we should need about two more days for staging.",
-          "Yeah, the migration's blocked on auth, and we'll need two more days for staging.",
-          "Yeah, the migration's blocked on auth, and we need two more days for staging.",
-          "Yeah, the migration's blocked on auth. We need two more days for staging. Period."
+        [ // C=2
+          "Hey, been a while, coffee sometime if you're free?",
+          "Hey, been a while, coffee sometime if you're around?",
+          "Hey, been a while, wanna grab coffee soon?",
+          "Hey, let's grab coffee soon.",
+          "Hey, coffee this week?",
+          "Hey, coffee. This week."
         ],
-        [
-          "Yeah, the migration's blocked on auth, maybe two more days for staging?",
-          "Yeah, the migration's blocked on auth, probably two more days for staging.",
-          "Yeah, the migration's blocked on auth, likely two more days for staging.",
-          "Yeah, the migration's blocked on auth, two more days for staging.",
-          "Yeah, the migration's blocked on auth. Two more days for staging.",
-          "Yeah, the migration's blocked on auth. Two more days. Period."
+        [ // C=3
+          "Hey, coffee soon if you're free?",
+          "Hey, coffee soon if you're around?",
+          "Hey, coffee sometime?",
+          "Hey, coffee soon?",
+          "Hey, coffee this week?",
+          "Hey, coffee. This week."
         ],
-        [
-          "Yeah, migration's blocked on auth, maybe two more days?",
-          "Yeah, migration's blocked on auth, probably two more days.",
-          "Yeah, migration's blocked on auth, likely two more days.",
-          "Yeah, migration's blocked on auth, two more days for staging.",
-          "Yeah, migration's blocked on auth. +2 days for staging.",
-          "Yeah, migration's blocked on auth. +2 days. Final."
+        [ // C=4
+          "Hey, coffee maybe?",
+          "Hey, coffee sometime?",
+          "Hey, coffee soon?",
+          "Hey, let's coffee.",
+          "Hey, coffee this week.",
+          "Hey, coffee."
         ],
-        [
-          "Yeah, auth blocker, maybe +2 days?",
-          "Yeah, auth blocker, probably +2 days.",
-          "Yeah, auth blocker, likely +2 days.",
-          "Yeah, auth blocker. +2 days.",
-          "Yeah, auth blocker. +2 days, no question.",
-          "Yeah, auth blocker. +2 days. Final."
+        [ // C=5
+          "Coffee maybe?",
+          "Coffee sometime?",
+          "Coffee soon?",
+          "Coffee?",
+          "Coffee. This week.",
+          "Coffee. Now."
         ]
       ],
-      [ // F=2 informal
-        [
-          "The migration hit a snag with the auth piece earlier today, and we might possibly need around two more days to get it working in staging, if that's okay with everyone.",
-          "The migration hit a snag with the auth piece earlier today, and we would probably need about two more days to get it working in staging, I think.",
-          "The migration hit a snag with the auth piece earlier today, and we should probably need about two more days to get it working in staging.",
-          "The migration hit a snag with the auth piece earlier today, and we'll need two more days to get it working in staging.",
-          "The migration hit a snag with the auth piece earlier today, and we need two more days to get it working in staging.",
-          "The migration hit a snag with the auth piece earlier today. We need two more days for staging. Period."
+      [ // F=2 neutral lower ("Hey, want to")
+        [ // C=0
+          "Hey, it's been forever, how have you been? Would love to catch up over coffee sometime if you're around, no rush.",
+          "Hey, it's been forever, how have you been? Want to grab coffee sometime if you're around?",
+          "Hey, it's been forever, how have you been? Let's grab coffee soon, let me know when works.",
+          "Hey, it's been a while, how have you been? Let's grab coffee soon, let me know what works.",
+          "Hey, it's been forever, how have you been? Coffee this week?",
+          "Hey, it's been forever. Coffee this week."
         ],
-        [
-          "The migration hit a snag with the auth piece, and we might possibly need around two more days to reach staging, if that's okay.",
-          "The migration hit a snag with the auth piece, and we would probably need about two more days to reach staging, I think.",
-          "The migration hit a snag with the auth piece, and we should probably need about two more days to reach staging.",
-          "The migration hit a snag with the auth piece, and we'll need two more days to reach staging.",
-          "The migration hit a snag with the auth piece, and we need two more days to reach staging.",
-          "The migration hit a snag with the auth piece. We need two more days for staging. Period."
+        [ // C=1
+          "Hey, it's been forever, would love to catch up over coffee sometime if you're free.",
+          "Hey, it's been forever, want to grab coffee sometime if you're around?",
+          "Hey, it's been forever, we should grab coffee soon, let me know.",
+          "Hey, it's been a while, let's grab coffee soon, let me know what works.",
+          "Hey, it's been forever, coffee this week?",
+          "Hey, it's been forever. Coffee this week."
         ],
-        [
-          "The migration's blocked on auth, and we might need around two more days for staging, if that's okay.",
-          "The migration's blocked on auth, and we would probably need about two more days for staging, I think.",
-          "The migration's blocked on auth, and we should need about two more days for staging.",
-          "The migration's blocked on auth, and we'll need two more days for staging.",
-          "The migration's blocked on auth, and we need two more days for staging.",
-          "The migration's blocked on auth. We need two more days for staging. Period."
+        [ // C=2
+          "Hey, been a while, coffee sometime if you're free?",
+          "Hey, been a while, coffee sometime if you're around?",
+          "Hey, been a while, want to grab coffee soon?",
+          "Hey, let's grab coffee soon.",
+          "Hey, coffee this week?",
+          "Hey, coffee. This week."
         ],
-        [
-          "The migration's blocked on auth, maybe two more days for staging?",
-          "The migration's blocked on auth, probably two more days for staging.",
-          "The migration's blocked on auth, likely two more days for staging.",
-          "The migration's blocked on auth, two more days for staging.",
-          "The migration's blocked on auth. Two more days for staging.",
-          "The migration's blocked on auth. Two more days. Period."
+        [ // C=3
+          "Hey, coffee soon if you're free?",
+          "Hey, coffee soon if you're around?",
+          "Hey, coffee sometime?",
+          "Hey, coffee soon?",
+          "Hey, coffee this week?",
+          "Hey. Coffee this week."
         ],
-        [
-          "Migration's blocked on auth, maybe two more days for staging?",
-          "Migration's blocked on auth, probably two more days for staging.",
-          "Migration's blocked on auth, likely two more days for staging.",
-          "Migration's blocked on auth, two more days for staging.",
-          "Migration's blocked on auth. +2 days for staging.",
-          "Migration's blocked on auth. +2 days. Final."
+        [ // C=4
+          "Hey, coffee maybe?",
+          "Hey, coffee sometime?",
+          "Hey, coffee soon?",
+          "Hey, let's grab coffee.",
+          "Hey, coffee this week.",
+          "Hey. Coffee."
         ],
-        [
-          "Auth blocker, maybe +2 days?",
-          "Auth blocker, probably +2 days.",
-          "Auth blocker, likely +2 days.",
-          "Auth blocker. +2 days.",
-          "Auth blocker. +2 days, no question.",
-          "Auth blocker. +2 days. Final."
+        [ // C=5
+          "Coffee maybe?",
+          "Coffee sometime?",
+          "Coffee soon?",
+          "Coffee?",
+          "Coffee this week.",
+          "Coffee. Now."
         ]
       ],
-      [ // F=3 neutral
-        [
-          "The migration hit a snag with the auth piece earlier today, and we might possibly need around two more days to get it working in staging, if that's okay with everyone.",
-          "The migration hit a snag with the auth piece earlier today, and we would probably need about two more days to get it working in staging, I think.",
-          "The migration hit a snag with the auth piece earlier today, and we should probably need about two more days to get it working in staging.",
-          "The migration hit a snag with the auth piece earlier today, and we will need two more days to get it working in staging.",
-          "The migration hit a snag with the auth piece earlier today, and we need two more days to get it working in staging.",
-          "The migration hit a snag with the auth piece earlier today. We need two more days for staging. Period."
+      [ // F=3 neutral middle ("Hi, would")
+        [ // C=0
+          "Hi, it's been a while, how have you been? Would love to grab coffee sometime soon if you have time, no rush.",
+          "Hi, it's been a while, how have you been? Would love to grab coffee sometime soon if you have time.",
+          "Hi, it's been a while, how have you been? Want to grab coffee soon, let me know what works for you.",
+          "Hi, it's been a while, how have you been? Let's grab coffee soon, let me know what works.",
+          "Hi, it's been a while, how have you been? Let's grab coffee this week.",
+          "Hi, it's been a while. Coffee this week."
         ],
-        [
-          "The migration hit a snag with the auth piece, and we might possibly need around two more days to reach staging, if that's okay.",
-          "The migration hit a snag with the auth piece, and we would probably need about two more days to reach staging, I think.",
-          "The migration hit a snag with the auth piece, and we should probably need about two more days to reach staging.",
-          "The migration hit a snag with the auth piece, and we will need two more days to reach staging.",
-          "The migration hit a snag with the auth piece. We need two more days to reach staging.",
-          "The migration hit a snag with the auth piece. We need two more days to reach staging. Period."
+        [ // C=1
+          "Hi, been a while, would love to catch up over coffee sometime soon if you have time.",
+          "Hi, been a while, want to grab coffee sometime soon?",
+          "Hi, been a while, we should grab coffee soon, let me know what works.",
+          "Hi, been a while, let's grab coffee soon.",
+          "Hi, been a while, let's grab coffee this week.",
+          "Hi, been a while. Coffee this week."
         ],
-        [
-          "The migration is blocked on auth, and we might need around two more days for staging, if that's okay.",
-          "The migration is blocked on auth, and we would probably need about two more days for staging, I think.",
-          "The migration is blocked on auth, and we should need about two more days for staging.",
-          "The migration is blocked on auth, and we will need two more days for staging.",
-          "The migration is blocked on auth. We need two more days for staging.",
-          "The migration is blocked on auth. Two more days needed for staging. Period."
+        [ // C=2
+          "Hi, been a while, coffee sometime if you have time?",
+          "Hi, been a while, coffee sometime if you're around?",
+          "Hi, been a while, want to grab coffee soon?",
+          "Hi, let's grab coffee soon.",
+          "Hi, coffee this week?",
+          "Hi. Coffee this week."
         ],
-        [
-          "The migration is blocked on auth. We might need two more days for staging, if that's okay.",
-          "The migration is blocked on auth. We would probably need two more days for staging, I think.",
-          "The migration is blocked on auth. We should need two more days for staging.",
-          "The migration is blocked on auth. We will need two more days for staging.",
-          "The migration is blocked on auth. We need two more days for staging.",
-          "The migration is blocked on auth. Two more days needed for staging."
+        [ // C=3
+          "Hi, coffee soon if you have time?",
+          "Hi, coffee soon if you're around?",
+          "Hi, want to grab coffee sometime soon?",
+          "Hi, want to grab coffee soon?",
+          "Hi, coffee this week?",
+          "Hi. Coffee this week."
         ],
-        [
-          "Migration blocked on auth, maybe two more days for staging?",
-          "Migration blocked on auth, probably two more days for staging.",
-          "Migration blocked on auth. Two more days for staging, likely.",
-          "Migration blocked on auth. Two more days for staging.",
-          "Migration blocked on auth. Need two more days for staging.",
-          "Migration blocked on auth. +2 days to staging. Final."
+        [ // C=4
+          "Hi, coffee sometime if you can?",
+          "Hi, coffee sometime soon?",
+          "Hi, want to grab coffee soon?",
+          "Hi, let's grab coffee.",
+          "Hi, coffee this week.",
+          "Hi. Coffee."
         ],
-        [
-          "Auth blocker. Maybe +2 days?",
-          "Auth blocker. Probably +2 days.",
-          "Auth blocker. Likely +2 days.",
-          "Auth blocker. +2 days.",
-          "Auth blocker. +2 days, no question.",
-          "Auth blocker. +2 days. Final."
+        [ // C=5
+          "Coffee sometime?",
+          "Coffee soon?",
+          "Coffee this week?",
+          "Coffee?",
+          "Coffee. This week.",
+          "Coffee. Now."
         ]
       ],
-      [ // F=4 formal
-        [
-          "The migration hit a blocker with the auth dependency earlier today, and we might possibly need around two additional days to get it working in staging, if that's acceptable.",
-          "The migration hit a blocker with the auth dependency earlier today, and we would probably need about two additional days to get it working in staging.",
-          "The migration hit a blocker with the auth dependency earlier today, and we should need about two additional days to get it working in staging.",
-          "The migration hit a blocker with the auth dependency earlier today, and we will need two additional days to get it working in staging.",
-          "The migration hit a blocker with the auth dependency earlier today, and we need two additional days to get it working in staging.",
-          "The migration hit a blocker with the auth dependency earlier today. We need two additional days for staging. Confirmed."
+      [ // F=4 polite ("Hi, would you be free")
+        [ // C=0
+          "Hi, it's been some time since we last connected. I hope you've been well. I'd love to grab coffee sometime if your schedule allows, no rush.",
+          "Hi, it's been some time since we last connected. I hope you've been well. Would you be interested in grabbing coffee sometime soon?",
+          "Hi, it's been some time since we last connected. I hope you've been well. We should grab coffee soon, let me know what works for you.",
+          "Hi, it's been a while since we last connected. I hope you've been well. Let's grab coffee soon, let me know what works.",
+          "Hi, it's been some time since we last connected. I hope you've been well. Let's grab coffee this week.",
+          "Hi, it's been some time. Let's grab coffee this week."
         ],
-        [
-          "The migration hit a blocker with the auth dependency, and we might need around two additional days to reach staging, if acceptable.",
-          "The migration hit a blocker with the auth dependency, and we would probably need about two additional days to reach staging.",
-          "The migration hit a blocker with the auth dependency, and we should need about two additional days to reach staging.",
-          "The migration hit a blocker with the auth dependency, and we will need two additional days to reach staging.",
-          "The migration hit a blocker with the auth dependency. We need two additional days to reach staging.",
-          "The migration hit a blocker with the auth dependency. Two additional days are required for staging. Confirmed."
+        [ // C=1
+          "Hi, it's been some time, would love to grab coffee sometime if you're free.",
+          "Hi, it's been some time, would you be interested in grabbing coffee sometime soon?",
+          "Hi, it's been some time, we should grab coffee soon, let me know what works.",
+          "Hi, it's been a while, let's grab coffee soon.",
+          "Hi, it's been a while, let's grab coffee this week.",
+          "Hi, it's been some time. Coffee this week."
         ],
-        [
-          "The migration is blocked by the auth dependency, and we might need around two additional days for staging, if acceptable.",
-          "The migration is blocked by the auth dependency, and we would probably need about two additional days for staging.",
-          "The migration is blocked by the auth dependency, and we should need about two additional days for staging.",
-          "The migration is blocked by the auth dependency, and we will need two additional days for staging.",
-          "The migration is blocked by the auth dependency. We need two additional days for staging.",
-          "The migration is blocked by the auth dependency. Two additional days are required. Confirmed."
+        [ // C=2
+          "Hi, been some time, would you like to grab coffee sometime?",
+          "Hi, been some time, would you be free to grab coffee sometime?",
+          "Hi, been a while, would you like to grab coffee soon?",
+          "Hi, let's grab coffee soon.",
+          "Hi, would you be free for coffee this week?",
+          "Hi. Coffee this week."
         ],
-        [
-          "The migration is blocked by the auth dependency. We might need two additional days for staging, if acceptable.",
-          "The migration is blocked by the auth dependency. We would probably need two additional days for staging.",
-          "The migration is blocked by the auth dependency. We should need two additional days for staging.",
-          "The migration is blocked by the auth dependency. We will need two additional days for staging.",
-          "The migration is blocked by the auth dependency. We need two additional days for staging.",
-          "The migration is blocked by the auth dependency. Two additional days required."
+        [ // C=3
+          "Hi, would you like to grab coffee sometime if you have time?",
+          "Hi, would you like to grab coffee sometime soon?",
+          "Hi, would you like to grab coffee soon?",
+          "Hi, let's grab coffee soon.",
+          "Hi, are you free for coffee this week?",
+          "Hi. Coffee this week."
         ],
-        [
-          "Migration blocked by auth dependency, possibly two additional days for staging.",
-          "Migration blocked by auth dependency, likely two additional days for staging.",
-          "Migration blocked by auth dependency. Two additional days for staging, expected.",
-          "Migration blocked by auth dependency. Two additional days for staging.",
-          "Migration blocked by auth dependency. Two additional days required for staging.",
-          "Migration blocked: auth dependency. +2 days to staging. Confirmed."
+        [ // C=4
+          "Hi, would you be free for coffee sometime?",
+          "Hi, would you like coffee sometime?",
+          "Hi, free for coffee soon?",
+          "Hi, let's grab coffee.",
+          "Hi, free for coffee this week?",
+          "Hi. Coffee."
         ],
-        [
-          "Auth dependency blocker. Possibly +2 days.",
-          "Auth dependency blocker. Likely +2 days.",
-          "Auth dependency blocker. Expected +2 days.",
-          "Auth dependency blocker. +2 days.",
-          "Auth dependency blocker. +2 days, confirmed.",
-          "Auth dependency blocker. +2 days. Final."
+        [ // C=5
+          "Coffee sometime, if free?",
+          "Coffee sometime soon?",
+          "Free for coffee soon?",
+          "Coffee soon.",
+          "Free for coffee this week?",
+          "Coffee. This week."
         ]
       ],
-      [ // F=5 very formal
-        [
-          "Per our standup, the migration has encountered an obstacle related to the authentication dependency. The team might possibly require approximately two additional days to achieve staging readiness, subject to approval.",
-          "Per our standup, the migration has encountered an obstacle related to the authentication dependency. The team would likely require approximately two additional days to achieve staging readiness.",
-          "Per our standup, the migration has encountered an obstacle related to the authentication dependency. The team should require approximately two additional days to achieve staging readiness.",
-          "Per our standup, the migration has encountered an obstacle related to the authentication dependency. The team will require approximately two additional days to achieve staging readiness.",
-          "Per our standup, the migration has encountered an obstacle related to the authentication dependency. The team requires two additional days to achieve staging readiness.",
-          "Per our standup, the migration has encountered an obstacle related to the authentication dependency. Two additional days are required to achieve staging readiness. Confirmed."
+      [ // F=5 formal ("Hello, I hope this finds you well")
+        [ // C=0
+          "Hello, I hope this finds you well. It's been quite some time since we last spoke, and I would love to reconnect over coffee sometime soon if your schedule allows, no urgency.",
+          "Hello, I hope this finds you well. It's been quite some time since we last spoke, and I would love to reconnect over coffee sometime soon if you're available.",
+          "Hello, I hope this finds you well. It's been quite some time since we last spoke. Let's plan to meet for coffee soon, please let me know what works for you.",
+          "Hello, I hope this finds you well. It's been some time since we last spoke. Let's plan to meet for coffee soon, please let me know what works.",
+          "Hello, I hope this finds you well. It's been some time since we last spoke. Please let me know when you're free for coffee this week.",
+          "Hello. It's been some time. Coffee this week."
         ],
-        [
-          "Per our standup, the migration has encountered an issue with the authentication dependency. Approximately two additional days may possibly be required to achieve staging readiness, if acceptable.",
-          "Per our standup, the migration has encountered an issue with the authentication dependency. Approximately two additional days will likely be required to achieve staging readiness.",
-          "Per our standup, the migration has encountered an issue with the authentication dependency. Approximately two additional days should be required to achieve staging readiness.",
-          "Per our standup, the migration has encountered an issue with the authentication dependency. Approximately two additional days will be required to achieve staging readiness.",
-          "Per our standup, the migration has encountered an issue with the authentication dependency. Two additional days are required to achieve staging readiness.",
-          "Per our standup, the migration has encountered an issue with the authentication dependency. Two additional days are required. Confirmed."
+        [ // C=1
+          "Hello, it's been quite some time, would love to reconnect over coffee sometime soon if you're available.",
+          "Hello, it's been quite some time, would you be available to meet for coffee sometime soon?",
+          "Hello, it's been quite some time, let's plan to meet for coffee soon, please let me know what works.",
+          "Hello, it's been some time, let's meet for coffee soon.",
+          "Hello, it's been some time, please let me know when you're free for coffee this week.",
+          "Hello. Coffee this week."
         ],
-        [
-          "The migration is blocked by the authentication dependency, and we may possibly require two additional days for staging, if acceptable.",
-          "The migration is blocked by the authentication dependency, and we will likely require two additional days for staging.",
-          "The migration is blocked by the authentication dependency, and we should require two additional days for staging.",
-          "The migration is blocked by the authentication dependency, and we will require two additional days for staging.",
-          "The migration is blocked by the authentication dependency. We require two additional days for staging.",
-          "The migration is blocked by the authentication dependency. Two additional days are required. Confirmed."
+        [ // C=2
+          "Hello, it's been some time, would you be available to meet for coffee sometime?",
+          "Hello, it's been some time, would you be free to meet for coffee sometime?",
+          "Hello, it's been some time, would you be available to meet for coffee soon?",
+          "Hello, let's meet for coffee soon.",
+          "Hello, are you available to meet for coffee this week?",
+          "Hello. Coffee this week."
         ],
-        [
-          "The migration is blocked by the authentication dependency. We may require two additional days for staging, if acceptable.",
-          "The migration is blocked by the authentication dependency. We will likely require two additional days for staging.",
-          "The migration is blocked by the authentication dependency. We should require two additional days for staging.",
-          "The migration is blocked by the authentication dependency. We will require two additional days for staging.",
-          "The migration is blocked by the authentication dependency. We require two additional days for staging.",
-          "The migration is blocked by the authentication dependency. Two additional days are required for staging."
+        [ // C=3
+          "Hello, would you be available to meet for coffee sometime?",
+          "Hello, would you be free to meet for coffee sometime soon?",
+          "Hello, would you be available for coffee soon?",
+          "Hello, let's meet for coffee soon.",
+          "Hello, are you available for coffee this week?",
+          "Hello. Coffee this week."
         ],
-        [
-          "Migration blocked by authentication dependency. Possibly two additional days required for staging.",
-          "Migration blocked by authentication dependency. Likely two additional days required for staging.",
-          "Migration blocked by authentication dependency. Two additional days expected for staging.",
-          "Migration blocked by authentication dependency. Two additional days for staging.",
-          "Migration blocked by authentication dependency. Two additional days required for staging.",
-          "Migration blocked: authentication. Two additional days required. Confirmed."
+        [ // C=4
+          "Hello, free for coffee sometime?",
+          "Hello, available for coffee sometime?",
+          "Hello, free for coffee soon?",
+          "Hello, let's meet for coffee.",
+          "Hello, free for coffee this week?",
+          "Hello. Coffee."
         ],
-        [
-          "Authentication blocker. Possibly +2 days.",
-          "Authentication blocker. Likely +2 days.",
-          "Authentication blocker. Expected +2 days.",
-          "Authentication blocker. +2 days.",
-          "Authentication blocker. +2 days, confirmed.",
-          "Authentication blocker. +2 days. Final."
+        [ // C=5
+          "Free for coffee sometime?",
+          "Free for coffee soon?",
+          "Available for coffee soon?",
+          "Coffee soon.",
+          "Free for coffee this week?",
+          "Coffee. This week."
         ]
       ]
     ];

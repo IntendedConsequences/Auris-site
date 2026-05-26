@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>How it works · Auris</title>
+<title>How Auris voice-to-text works · Hotkey, transcribe, polish</title>
 <script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","wwzponhh5a");</script>
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://auris.talk/how/">
@@ -28,7 +28,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
 <link rel="shortcut icon" href="/favicon.ico">
 <meta name="theme-color" content="#010100">
-<meta name="description" content="The dictation loop, tone sliders, app-specific rules, learning dictionary, spoken snippets, privacy patterns, first-run setup. How Auris turns speech into clean text.">
+<meta name="description" content="The dictation loop, tone sliders, app-aware modes, learning dictionary, and snippets. How Auris turns voice into clean polished text on Mac and Windows.">
 <meta property="og:title" content="How it works · Auris">
 <meta property="og:description" content="The dictation loop, tone sliders, app-specific rules, learning dictionary, spoken snippets, privacy patterns, first-run setup. How Auris turns speech into clean text.">
 <meta property="og:url" content="https://auris.talk/how">
@@ -254,8 +254,8 @@
   }
   .control-tb {
     border-bottom: 1px solid var(--line-2); padding: 0 18px;
-    display: grid; grid-template-columns: auto 1fr auto;
-    align-items: center; gap: 16px; height: 42px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 16px; height: 42px;
     font-size: 11px; font-weight: 700; letter-spacing: 0.10em;
     color: var(--paper-3); text-transform: uppercase;
     background: var(--ink-2);
@@ -266,7 +266,16 @@
     color: var(--paper); text-transform: none;
   }
   .control-tb .l .mk .cy { color: var(--signal); }
-  .control-tb .c { text-align: center; }
+  .control-tb .c {
+    display: inline-flex; align-items: center; gap: 7px;
+    color: var(--signal); font-family: var(--mono);
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .control-tb .c .led {
+    width: 6px; height: 6px; border-radius: 99px; background: var(--signal);
+    box-shadow: 0 0 8px rgba(250,227,83,0.5);
+  }
   .control-tb .r { display: inline-flex; align-items: center; gap: 7px; color: var(--signal); }
   .control-tb .r .led {
     width: 6px; height: 6px; border-radius: 99px; background: var(--signal);
@@ -1032,6 +1041,30 @@
     .secnav a { padding: 11px 0 7px; font-size: 10px; letter-spacing: 0.06em; }
     .secnav .idx { margin-right: 5px; }
   }
+
+  /* BETA STATUS PILL: closed-beta announcement at top of every page */
+  .beta-pill-wrap {
+    display: flex; justify-content: center;
+    margin: 18px 0 8px;
+  }
+  .beta-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--signal);
+    padding: 8px 14px; border-radius: 99px;
+    border: 1px solid rgba(250,227,83,0.25);
+    background: rgba(250,227,83,0.06);
+  }
+  .beta-pill::before {
+    content: ''; width: 6px; height: 6px; background: var(--signal);
+    border-radius: 99px; box-shadow: 0 0 8px rgba(250,227,83,0.7);
+    animation: beta-pill-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes beta-pill-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
 </style>
 </head>
 <body>
@@ -1069,6 +1102,9 @@
     </div>
   </header>
 
+  <!-- BETA STATUS PILL: present on every page -->
+  <div class="beta-pill-wrap"><span class="beta-pill">Closed beta · Public launch TBD</span></div>
+
   <main>
 
   <!-- HERO -->
@@ -1097,7 +1133,7 @@
         <div class="ch-eyebrow">The loop</div>
         <h2>Hold. Speak. Release.</h2>
       </div>
-      <div class="ch-tag">Hold the hotkey, talk, release.<br>The full loop runs in <b>one to two seconds.</b></div>
+      <div class="ch-tag">Hold the hotkey, talk, release.<br>The full loop runs in <b>under two seconds.</b></div>
     </div>
 
     <!-- Pipeline: 4-stage timeline (gesture + transcribe + polish + result) -->
@@ -1106,7 +1142,7 @@
         <div class="pipeline-cell user">
           <span class="stage">01 &middot; You</span>
           <span class="label">Hold, talk, <em>release</em></span>
-          <span class="timing"><b style="color: var(--signal); font-weight: 700;">⌃⌘</b> Mac &middot; <b style="color: var(--signal); font-weight: 700;">⌃Win</b> Windows</span>
+          <span class="timing"><b style="color: var(--signal); font-weight: 700;">⌃fn</b> Mac &middot; <b style="color: var(--signal); font-weight: 700;">⌃Win</b> Windows</span>
         </div>
         <div class="pipeline-cell software">
           <span class="stage">02 &middot; Auris</span>
@@ -1142,36 +1178,30 @@
 
     <div class="control" role="group" aria-label="Style controls">
       <div class="control-tb">
-        <div class="l"><span class="mk">auris<span class="cy">.</span></span><span>style</span></div>
-        <div class="c">live preview</div>
-        <div class="r"><span class="led" aria-hidden="true"></span>private</div>
+        <div class="c"><span class="led" aria-hidden="true"></span>live demo</div>
       </div>
       <div class="control-grid">
         <div class="control-sliders">
           <label class="slider">
-            <span class="top"><span class="name">Formality</span><span class="v" id="v1">3 / 5</span></span>
-            <input type="range" min="0" max="5" value="3" id="s1" aria-label="Formality">
+            <span class="top"><span class="name">Formality</span><span class="v" id="v1">1 / 5</span></span>
+            <input type="range" min="0" max="5" value="1" id="s1" aria-label="Formality">
             <span class="ends"><span>casual</span><span>professional</span></span>
           </label>
           <label class="slider">
-            <span class="top"><span class="name">Conciseness</span><span class="v" id="v2">3 / 5</span></span>
-            <input type="range" min="0" max="5" value="3" id="s2" aria-label="Conciseness">
+            <span class="top"><span class="name">Conciseness</span><span class="v" id="v2">1 / 5</span></span>
+            <input type="range" min="0" max="5" value="1" id="s2" aria-label="Conciseness">
             <span class="ends"><span>verbose</span><span>tight</span></span>
           </label>
           <label class="slider">
-            <span class="top"><span class="name">Assertiveness</span><span class="v" id="v3">3 / 5</span></span>
-            <input type="range" min="0" max="5" value="3" id="s3" aria-label="Assertiveness">
+            <span class="top"><span class="name">Assertiveness</span><span class="v" id="v3">1 / 5</span></span>
+            <input type="range" min="0" max="5" value="1" id="s3" aria-label="Assertiveness">
             <span class="ends"><span>soft</span><span>direct</span></span>
           </label>
         </div>
         <div class="control-preview">
           <span class="lbl">same dictation, drag to repolish</span>
-          <p class="out" id="preview">Following up on Tuesday: shipping the redesign as an opt-in beta. Target: end of month.</p>
+          <p class="out" id="preview">You should probably try the new Italian place on Main, food is really good and prices are reasonable.</p>
         </div>
-      </div>
-      <div class="control-foot">
-        <span><b>global defaults</b> · overridden per app</span>
-        <span><b>updates instantly</b> · no reload</span>
       </div>
     </div>
 
@@ -1301,12 +1331,12 @@
       <article class="how-card">
         <span class="num">02 · Polish path</span>
         <h3 style="font-size: 24px;">Pick your polish path</h3>
-        <p>Choose where Auris runs the polish step: <b>OpenAI, Anthropic, or Groq</b> with your own key, or a <b>local model</b> on your machine.</p>
+        <p>Choose where Auris runs the polish step: <b>OpenAI, Anthropic, or Groq</b> with your API key, or a <b>local model</b> for full privacy.</p>
       </article>
       <article class="how-card">
         <span class="num">03 · Hotkey</span>
         <h3 style="font-size: 24px;">Confirm hotkeys</h3>
-        <p><b>Ctrl + Cmd</b> on Mac, <b>Ctrl + Win</b> on Windows by default. Change them if you want.</p>
+        <p><b>Ctrl + Fn</b> on Mac, <b>Ctrl + Win</b> on Windows by default. Change them if you want.</p>
       </article>
       <article class="how-card">
         <span class="num">04 · Speak</span>
@@ -1386,22 +1416,317 @@
     const preview = document.getElementById('preview');
     if (sliders.some(s => !s) || !preview) return;
 
-    const variants = [
-      { max: 1,  text: "hey yeah so um following up on tuesday like, the team and i, we talked about your suggestion and basically you know, we kinda agree that we should ship the redesign as like an opt-in beta first, and we're thinking end of the month maybe" },
-      { max: 3,  text: "hey, following up on tuesday \u2014 the team talked about your suggestion and we basically agree, we'll ship the redesign as an opt-in beta first, probably end of month" },
-      { max: 5,  text: "following up on tuesday's chat \u2014 the team agrees on shipping the redesign as an opt-in beta first. targeting end of month." },
-      { max: 7,  text: "Following up on Tuesday. The team agrees on shipping the redesign as an opt-in beta first. Targeting end of month." },
-      { max: 9,  text: "Following up on Tuesday: the team agrees on shipping the redesign as an opt-in beta. Target: end of month." },
-      { max: 11, text: "Following up on Tuesday: shipping the redesign as an opt-in beta. Target: end of month." },
-      { max: 13, text: "Tuesday follow-up: opt-in beta for the redesign. Target: end of month." },
-      { max: 14, text: "Opt-in beta for the redesign. End of month." },
-      { max: 15, text: "Opt-in beta. End of month." }
+    // matrix[formality 0-5][conciseness 0-5][assertiveness 0-5] = output text
+    const matrix = [
+      [ // F=0 very casual lowercase
+        [ // C=0 very verbose
+          "you might wanna try that new italian place on main street if you have a chance, the food is pretty good and the prices are pretty reasonable, kinda better than the old spot maybe",
+          "you should probably try the new italian place on main street, the food is really good and the prices are pretty reasonable, better than the old spot",
+          "you should try the new italian place on main, the food is really good and the prices are reasonable, way better than the old spot",
+          "you gotta try the new italian place on main, food is amazing and prices are reasonable, way better than the old spot",
+          "you gotta try the new italian place on main street, food is amazing, prices are good, way better than the old spot",
+          "go to the new italian spot on main now. food is amazing, prices are great, blows the old spot out of the water"
+        ],
+        [ // C=1 verbose
+          "you might wanna try the italian place on main, food is pretty good and the prices are okay",
+          "you should probably try the new italian place on main, food is really good and prices are reasonable",
+          "you should try the italian place on main, food is really good and prices are reasonable",
+          "you gotta try the italian place on main, food is amazing and prices are pretty good",
+          "you gotta try the italian place on main, food is amazing, prices are great",
+          "italian place on main, food is amazing. go there"
+        ],
+        [ // C=2 medium
+          "you might wanna check out the italian place on main, food is pretty good",
+          "you should try the italian place on main, food is really good",
+          "you should try the italian place on main, food is amazing",
+          "you gotta try the italian place on main, food is amazing",
+          "you gotta try the italian place on main, amazing food",
+          "italian place on main. go now, amazing food"
+        ],
+        [ // C=3 medium-short
+          "the italian place on main is pretty good, maybe check it out",
+          "try the italian place on main, it's pretty good",
+          "try the italian place on main, it's really good",
+          "try the italian place on main, it's amazing",
+          "italian place on main, you gotta try it",
+          "italian on main. go now"
+        ],
+        [ // C=4 short
+          "italian place on main is pretty good",
+          "the italian place on main is really good",
+          "the italian place on main is amazing",
+          "try the new italian place on main",
+          "italian on main is amazing",
+          "italian on main. best spot"
+        ],
+        [ // C=5 telegraphic
+          "italian on main, maybe?",
+          "italian on main, probably worth it",
+          "italian on main, recommend",
+          "italian on main, try it",
+          "italian on main, must try",
+          "italian on main. best."
+        ]
+      ],
+      [ // F=1 casual (capitalized)
+        [ // C=0
+          "You might want to try the new Italian place on Main Street if you have a chance, the food is pretty good and the prices are pretty reasonable, kinda better than the old spot maybe",
+          "You should probably try the new Italian place on Main Street, the food is really good and the prices are pretty reasonable, better than the old spot",
+          "You should try the new Italian place on Main, the food is really good and the prices are reasonable, way better than the old spot",
+          "You have to try the new Italian place on Main, food is amazing and prices are reasonable, way better than the old spot",
+          "You gotta try the new Italian place on Main Street, food is amazing, prices are good, way better than the old spot",
+          "Go to the new Italian spot on Main now. Food is amazing, prices are great, blows the old spot out of the water."
+        ],
+        [ // C=1
+          "You might want to try the Italian place on Main, food is pretty good and prices are okay.",
+          "You should probably try the new Italian place on Main, food is really good and prices are reasonable.",
+          "You should try the Italian place on Main, food is really good and prices are reasonable.",
+          "You have to try the Italian place on Main, food is amazing and prices are pretty good.",
+          "You gotta try the Italian place on Main, food is amazing, prices are great.",
+          "Italian place on Main. Food is amazing. Go there."
+        ],
+        [ // C=2
+          "You might want to check out the Italian place on Main, food is pretty good.",
+          "You should try the Italian place on Main, food is really good.",
+          "You should try the Italian place on Main, food is amazing.",
+          "You have to try the Italian place on Main, food is amazing.",
+          "You gotta try the Italian place on Main, amazing food.",
+          "Italian place on Main. Go now. Amazing food."
+        ],
+        [ // C=3
+          "The Italian place on Main is pretty good, maybe check it out.",
+          "Try the Italian place on Main, it's pretty good.",
+          "Try the Italian place on Main, it's really good.",
+          "Try the Italian place on Main, it's amazing.",
+          "Italian place on Main, you gotta try it.",
+          "Italian on Main. Go now."
+        ],
+        [ // C=4
+          "Italian place on Main is pretty good.",
+          "The Italian place on Main is really good.",
+          "The Italian place on Main is amazing.",
+          "Try the new Italian place on Main.",
+          "Italian on Main is amazing.",
+          "Italian on Main. Best spot."
+        ],
+        [ // C=5
+          "Italian on Main, maybe?",
+          "Italian on Main, probably worth it.",
+          "Italian on Main, recommend.",
+          "Italian on Main, try it.",
+          "Italian on Main, must try.",
+          "Italian on Main. Best."
+        ]
+      ],
+      [ // F=2 neutral lower
+        [ // C=0
+          "You might want to try the new Italian place on Main Street if you have a chance. The food is pretty good and the prices are reasonable, possibly better than the old spot.",
+          "You should probably try the new Italian place on Main Street. The food is really good and the prices are reasonable, likely better than the old spot.",
+          "You should try the new Italian place on Main Street. The food is really good and the prices are reasonable, way better than the old spot.",
+          "You have to try the new Italian place on Main Street. The food is amazing and the prices are reasonable, way better than the old spot.",
+          "You have to try the new Italian place on Main Street. Amazing food, great prices, way better than the old spot.",
+          "Go to the new Italian place on Main Street. Amazing food, great prices, blows the old spot away."
+        ],
+        [ // C=1
+          "You might want to try the Italian place on Main, food is pretty good and prices are reasonable.",
+          "You should probably try the new Italian place on Main, food is really good and prices are reasonable.",
+          "You should try the new Italian place on Main, food is really good and prices are reasonable.",
+          "You have to try the Italian place on Main, food is amazing and prices are great.",
+          "You have to try the Italian place on Main. Amazing food, great prices.",
+          "Try the Italian place on Main. Amazing food. Go now."
+        ],
+        [ // C=2
+          "You might want to check out the Italian place on Main, food is pretty good.",
+          "You should try the Italian place on Main, food is really good.",
+          "You should try the Italian place on Main, food is amazing.",
+          "You have to try the Italian place on Main, food is amazing.",
+          "You have to try the Italian place on Main. Amazing food.",
+          "Italian place on Main. Go now. Amazing food."
+        ],
+        [ // C=3
+          "The Italian place on Main is pretty good. Maybe check it out.",
+          "Try the Italian place on Main, it's pretty good.",
+          "Try the Italian place on Main, it's really good.",
+          "Try the Italian place on Main, it's amazing.",
+          "Italian place on Main is amazing. You should try it.",
+          "Italian place on Main. Go now."
+        ],
+        [ // C=4
+          "Italian place on Main, probably worth a try.",
+          "Italian place on Main is really good.",
+          "Italian place on Main is amazing.",
+          "Try the new Italian place on Main.",
+          "Italian on Main. Amazing.",
+          "Italian on Main. Best spot."
+        ],
+        [ // C=5
+          "Italian on Main, maybe?",
+          "Italian on Main, worth a try.",
+          "Italian on Main. Recommend.",
+          "Italian on Main. Try it.",
+          "Italian on Main. Must try.",
+          "Italian on Main. Best."
+        ]
+      ],
+      [ // F=3 neutral middle (default)
+        [ // C=0
+          "You might want to try the new Italian place on Main Street. The food is pretty good and the prices are reasonable, and it seems possibly better than the old spot.",
+          "You should probably try the new Italian place on Main Street. The food is really good and the prices are reasonable, and it's likely better than the old spot.",
+          "Try the new Italian place on Main Street. The food is really good and the prices are reasonable, considerably better than the old spot.",
+          "Try the new Italian place on Main Street. The food is excellent and the prices are reasonable, much better than the old spot.",
+          "You have to try the new Italian place on Main Street. Excellent food, reasonable prices, far better than the old spot.",
+          "Go to the new Italian place on Main Street. Excellent food, reasonable prices, completely outclasses the old spot."
+        ],
+        [ // C=1
+          "You might want to try the Italian place on Main, the food is pretty good and the prices are reasonable.",
+          "You should probably try the new Italian place on Main, the food is really good and the prices are reasonable.",
+          "Try the new Italian place on Main, the food is really good and the prices are reasonable.",
+          "Try the Italian place on Main, the food is excellent and the prices are great.",
+          "Try the Italian place on Main. Excellent food, great prices.",
+          "The Italian place on Main is excellent. Go now."
+        ],
+        [ // C=2
+          "You might want to check out the Italian place on Main, the food is pretty good.",
+          "Try the Italian place on Main, the food is really good.",
+          "Try the Italian place on Main, the food is excellent.",
+          "Try the Italian place on Main. The food is excellent.",
+          "The Italian place on Main is excellent. You should try it.",
+          "Italian place on Main. Go now. Excellent food."
+        ],
+        [ // C=3
+          "The Italian place on Main might be worth a try.",
+          "The Italian place on Main is pretty good, worth trying.",
+          "The Italian place on Main is really good, worth trying.",
+          "The Italian place on Main is excellent, definitely try it.",
+          "Try the new Italian place on Main, it's excellent.",
+          "The Italian place on Main is the best. Go."
+        ],
+        [ // C=4
+          "Italian place on Main, maybe worth a try.",
+          "Italian place on Main, worth trying.",
+          "Italian place on Main is really good.",
+          "Try the Italian place on Main.",
+          "Italian place on Main. Excellent.",
+          "Italian place on Main. Best in town."
+        ],
+        [ // C=5
+          "Italian on Main, maybe?",
+          "Italian on Main, worth trying.",
+          "Italian on Main, recommended.",
+          "Italian on Main. Try it.",
+          "Italian on Main. Must try.",
+          "Italian on Main. Best."
+        ]
+      ],
+      [ // F=4 polite
+        [ // C=0
+          "I would recommend the new Italian restaurant on Main Street, if you have the opportunity. The food is quite good and the prices are reasonable, and it does seem to compare favorably with the previous establishment.",
+          "I would probably recommend the new Italian restaurant on Main Street. The food is really good and the prices are reasonable, and it's likely better than the previous place.",
+          "I would recommend the new Italian restaurant on Main Street. The food is excellent and the prices are reasonable, and it's noticeably better than the previous place.",
+          "I highly recommend the new Italian restaurant on Main Street. The food is excellent and the prices are reasonable, and it's significantly better than the previous place.",
+          "I highly recommend the new Italian restaurant on Main Street. Excellent food, reasonable prices, considerably better than the previous place.",
+          "Go to the new Italian restaurant on Main Street. Excellent food, reasonable prices, far surpasses the previous place."
+        ],
+        [ // C=1
+          "You might want to try the Italian restaurant on Main, the food is quite good and the prices are reasonable.",
+          "I would probably recommend the new Italian restaurant on Main, the food is really good and prices are reasonable.",
+          "I would recommend the new Italian restaurant on Main, the food is excellent and the prices are reasonable.",
+          "I highly recommend the Italian restaurant on Main, the food is excellent and prices are reasonable.",
+          "I highly recommend the Italian restaurant on Main. Excellent food, reasonable prices.",
+          "Try the Italian restaurant on Main. Excellent. Go now."
+        ],
+        [ // C=2
+          "You might want to consider the Italian restaurant on Main, the food is quite good.",
+          "I would recommend the Italian restaurant on Main, the food is really good.",
+          "I would recommend the Italian restaurant on Main, the food is excellent.",
+          "I highly recommend the Italian restaurant on Main, the food is excellent.",
+          "The Italian restaurant on Main is excellent. Highly recommend.",
+          "Italian restaurant on Main. Excellent. Go now."
+        ],
+        [ // C=3
+          "The Italian restaurant on Main might be worth a visit.",
+          "I would recommend the Italian restaurant on Main, it's quite good.",
+          "I would recommend the Italian restaurant on Main, it's excellent.",
+          "I highly recommend the Italian restaurant on Main.",
+          "Highly recommend the new Italian restaurant on Main.",
+          "The Italian restaurant on Main is the best in town."
+        ],
+        [ // C=4
+          "Italian restaurant on Main, possibly worth a visit.",
+          "Italian restaurant on Main, would recommend.",
+          "Italian restaurant on Main is excellent.",
+          "Recommend the Italian restaurant on Main.",
+          "Italian restaurant on Main. Highly recommend.",
+          "Italian restaurant on Main. Best in town."
+        ],
+        [ // C=5
+          "Italian on Main, possibly worth a visit?",
+          "Italian on Main, would recommend.",
+          "Italian on Main, recommended.",
+          "Italian on Main. Highly recommend.",
+          "Italian on Main. Must try.",
+          "Italian on Main. Best."
+        ]
+      ],
+      [ // F=5 formal
+        [ // C=0
+          "I would respectfully suggest the new Italian restaurant on Main Street as a possibility, should you have the opportunity. The food is of good quality and the prices are quite reasonable, and it appears to compare favorably with the previous establishment in the area.",
+          "I would tentatively recommend the new Italian restaurant on Main Street. The food is of high quality and the prices are reasonable, and it seems to be an improvement over the previous establishment.",
+          "I would recommend the new Italian restaurant on Main Street. The food is excellent and the prices are reasonable, and it is a notable improvement over the previous establishment in the area.",
+          "I strongly recommend the new Italian restaurant on Main Street. The food is excellent and the prices are reasonable, and it represents a significant improvement over the previous establishment.",
+          "I strongly recommend the new Italian restaurant on Main Street. Excellent cuisine, reasonable prices, a marked improvement over the previous establishment.",
+          "The new Italian restaurant on Main Street comes highly recommended. Excellent cuisine, reasonable prices, decisively superior to the previous establishment."
+        ],
+        [ // C=1
+          "You may wish to consider the new Italian restaurant on Main Street, as the food is of good quality and the prices are reasonable.",
+          "I would tentatively recommend the new Italian restaurant on Main Street, as the food is of high quality and the prices are reasonable.",
+          "I would recommend the new Italian restaurant on Main Street, as the food is excellent and the prices are reasonable.",
+          "I strongly recommend the new Italian restaurant on Main Street. The food is excellent and the prices are reasonable.",
+          "I strongly recommend the new Italian restaurant on Main Street. Excellent cuisine, reasonable prices.",
+          "The new Italian restaurant on Main Street comes highly recommended. Excellent cuisine."
+        ],
+        [ // C=2
+          "You may wish to consider the Italian restaurant on Main Street, as the food is of good quality.",
+          "I would recommend the Italian restaurant on Main Street, the food is of high quality.",
+          "I would recommend the Italian restaurant on Main Street, the food is excellent.",
+          "I strongly recommend the Italian restaurant on Main Street, the food is excellent.",
+          "The Italian restaurant on Main Street is excellent. I strongly recommend it.",
+          "Italian restaurant on Main Street. Excellent cuisine. Highly recommended."
+        ],
+        [ // C=3
+          "The Italian restaurant on Main Street may be worth a visit.",
+          "I would recommend visiting the Italian restaurant on Main Street.",
+          "I would recommend the Italian restaurant on Main Street, it is excellent.",
+          "I strongly recommend the Italian restaurant on Main Street.",
+          "The Italian restaurant on Main Street is highly recommended.",
+          "The Italian restaurant on Main Street is the finest in the area."
+        ],
+        [ // C=4
+          "Italian restaurant on Main Street, possibly worth a visit.",
+          "Italian restaurant on Main Street, I would recommend.",
+          "Italian restaurant on Main Street is excellent.",
+          "Italian restaurant on Main Street. I strongly recommend.",
+          "Italian restaurant on Main Street. Highly recommended.",
+          "Italian restaurant on Main Street. Finest in the area."
+        ],
+        [ // C=5
+          "Italian on Main, possibly worth a visit?",
+          "Italian on Main, I would recommend.",
+          "Italian on Main, recommended.",
+          "Italian on Main. Strongly recommend.",
+          "Italian on Main. Highly recommended.",
+          "Italian on Main. The best."
+        ]
+      ]
     ];
     function render() {
-      const sum = sliders.reduce((acc, s, i) => { values[i].textContent = s.value + ' / 5'; return acc + Number(s.value); }, 0);
-      const v = variants.find(x => sum <= x.max) || variants[variants.length - 1];
+      sliders.forEach((s, i) => { values[i].textContent = s.value + ' / 5'; });
+      const f = +sliders[0].value;
+      const c = +sliders[1].value;
+      const a = +sliders[2].value;
+      const text = matrix[f][c][a];
       preview.style.opacity = '0';
-      setTimeout(() => { preview.textContent = v.text; preview.style.opacity = '1'; }, 90);
+      setTimeout(() => { preview.textContent = text; preview.style.opacity = '1'; }, 90);
     }
     sliders.forEach(s => s.addEventListener('input', render));
     render();
