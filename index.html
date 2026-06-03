@@ -1834,6 +1834,10 @@
     align-items: center;
     overflow: hidden;
   }
+  /* Lock both columns to vertical center so the form doesn't drift to the
+     top of its grid cell and leave dead space under the button. */
+  .founders-box .fb-left { align-self: center; }
+  .founders-box form.fb-form { align-self: center; }
   .founders-box::before {
     content: '';
     position: absolute; top: 0; left: 0; right: 0;
