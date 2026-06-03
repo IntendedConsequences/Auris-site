@@ -170,6 +170,19 @@
     backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--line-2);
   }
+  .secnav-wrap::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0; bottom: 1px;
+    width: 32px;
+    background: linear-gradient(to right, rgba(1,1,0,0) 0%, rgba(1,1,0,0.92) 80%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 180ms;
+  }
+  @media (max-width: 760px) {
+    .secnav-wrap::after { opacity: 1; }
+  }
   .secnav {
     max-width: clamp(1280px, 92vw, 1480px); margin: 0 auto; padding: 0 40px;
     display: flex; gap: 32px; align-items: center;
@@ -719,6 +732,9 @@
   .final .links a:hover { color: var(--signal); }
   .final .links .sep { color: var(--dim); }
 
+  /* Mobile-only line break — hidden by default, shown in the ≤700 block. */
+  br.m-only { display: none; }
+
   /* COLOPHON ------------------------------------------------ */
   .colophon {
     padding: 22px 0 26px;
@@ -744,6 +760,9 @@
     .chapter:first-of-type { padding-top: 32px; }
     .ch-head { grid-template-columns: 1fr; gap: 18px; margin-bottom: 32px; }
     .feature-grid { grid-template-columns: 1fr; }
+    /* Desktop's 132px floor keeps the 3-column row even; once the cards
+       stack vertically each one should hug its content. */
+    .feature { min-height: 0 !important; }
     .modes-grid { grid-template-columns: 1fr 1fr; }
     .mode { border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
     .mode:nth-child(3n) { border-right: 1px solid var(--line-2); }
@@ -899,12 +918,18 @@
     .workspace-tree li.file { padding-left: 24px !important; }
     .workspace-tree li.file.l2 { padding-left: 36px !important; }
     .we-tb { padding: 8px 14px !important; font-size: 10px !important; gap: 10px !important; flex-wrap: wrap; }
-    .we-body { padding: 16px 18px !important; font-size: 12px !important; }
+    .we-body { padding: 16px 18px 10px !important; font-size: 12px !important; flex: 0 0 auto !important; }
     .we-body .md-h1 { font-size: 20px !important; margin-bottom: 12px !important; }
     .we-body .md-h2 { font-size: 14px !important; margin: 16px 0 8px !important; }
     .we-body .md-p { font-size: 13px !important; }
-    .workspace-caps { margin-top: 18px !important; }
+    .workspace-caps { margin-top: 10px !important; }
+    /* The workspace section ends with a tight set of ws-caps; the default
+       40px chapter padding-bottom then leaves a big void before the next
+       section divider. Tighten it for this section only. */
+    #workspace { padding-bottom: 18px !important; }
     .ws-cap { padding: 14px 0 !important; }
+    .ws-cap:first-child { padding-top: 0 !important; }
+    .ws-cap:last-child { padding-bottom: 0 !important; }
     .ws-cap .ttl { font-size: 15px !important; }
     .ws-cap .desc { font-size: 13px !important; }
     .bar-row .bar-label { font-size: 15px !important; }
@@ -921,6 +946,29 @@
     .feature-grid, .keep-grid, .pricing-grid, .provider-grid, .modes-grid, .lives-grid, .ways-grid, .slider-details {
       grid-template-columns: 1fr !important;
     }
+    /* App-aware modes: put the heading and "MODE · 0X" label on the same row,
+       description on its own row below — kills the empty bottom of each card. */
+    .mode {
+      display: grid !important;
+      grid-template-columns: 1fr auto;
+      column-gap: 14px;
+      row-gap: 6px;
+      align-items: baseline;
+      padding: 14px 18px !important;
+      border-bottom-color: var(--line-3) !important;
+    }
+    /* The .default card's yellow radial gradient at top washes out the
+       previous card's 1px border; force an explicit top border so the
+       separator reads cleanly. */
+    .mode.default { border-top: 1px solid var(--line-3); }
+    .mode h4 { grid-column: 1; grid-row: 1; }
+    .mode .lbl { grid-column: 2; grid-row: 1; order: 0; }
+    .mode p { grid-column: 1 / -1; grid-row: 2; margin-top: 0 !important; }
+    /* Hide the app-aware screenshot on mobile — the UI inside the shot
+       (rows of select dropdowns) is unreadable at this width. Desktop keeps it. */
+    #app-aware .chapter-shot { display: none !important; }
+    /* `<br class="m-only">` is hidden on desktop, shown on mobile. */
+    br.m-only { display: inline; }
     .vs-row { grid-template-columns: 1fr !important; }
     .vs-row > * { padding: 8px 12px !important; }
     .vs-tab { font-size: 15px !important; }
@@ -1044,6 +1092,94 @@
   @keyframes beta-pill-pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.35; }
+  }
+
+  /* === MOBILE FIXES: placed last so they override base + earlier @media === */
+  @media (max-width: 760px) {
+    /* Provider matrix: compact 3-row card per provider on mobile.
+       Row 1: name (left) + cost (right, signal yellow)
+       Row 2: hosting (left) + use-for (right) — small mono
+       Row 3: default model — full-width mono code line */
+    .preset-matrix-wrap {
+      border: 0 !important;
+      background: transparent !important;
+      overflow: visible !important;
+    }
+    .preset-matrix { display: block; background: transparent !important; }
+    .preset-matrix thead { display: none; }
+    .preset-matrix tbody { display: block; }
+    .preset-matrix tr {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      column-gap: 14px;
+      row-gap: 6px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      border: 1px solid var(--line-2);
+      border-radius: 6px;
+      background: var(--ink-3);
+    }
+    .preset-matrix tr:last-child { margin-bottom: 0; }
+    .preset-matrix td {
+      display: block;
+      padding: 0 !important;
+      border: 0 !important;
+      font-size: 14px !important;
+    }
+    .preset-matrix td::before { display: none !important; }
+
+    /* Row 1: name + cost */
+    .preset-matrix td.app-name {
+      grid-column: 1; grid-row: 1;
+      background: transparent !important;
+      color: var(--paper);
+      font-size: 18px !important;
+      font-weight: 700;
+      letter-spacing: -0.010em;
+    }
+    .preset-matrix td[data-label="Cost/hr"] {
+      grid-column: 2; grid-row: 1;
+      color: var(--signal);
+      font-size: 18px !important;
+      font-weight: 700;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    .preset-matrix td[data-label="Cost/hr"]::after {
+      content: ' /hr';
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--paper-3);
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      margin-left: 3px;
+    }
+
+    /* Row 2: hosting + use-for as small mono labels */
+    .preset-matrix td[data-label="Hosting"],
+    .preset-matrix td[data-label="Use for"] {
+      grid-row: 2;
+      font-family: var(--mono);
+      font-size: 11px !important;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--paper-3);
+    }
+    .preset-matrix td[data-label="Hosting"] { grid-column: 1; }
+    .preset-matrix td[data-label="Use for"] { grid-column: 2; text-align: right; }
+
+    /* Row 3: default model on its own line, mono */
+    .preset-matrix td[data-label="Default model"] {
+      grid-column: 1 / -1; grid-row: 3;
+      font-family: var(--mono);
+      font-size: 12px !important;
+      color: var(--paper-2);
+      letter-spacing: -0.003em;
+      padding-top: 2px !important;
+      border-top: 1px dashed var(--line-2) !important;
+      margin-top: 4px;
+      padding-top: 8px !important;
+    }
   }
 </style>
 </head>
@@ -1309,7 +1445,7 @@
 
     <img width="2880" height="1704" decoding="async" loading="lazy" class="chapter-shot chapter-shot-dark" src="/assets/screenshots/insights-editorial.webp" alt="Auris Insights tab showing 3.7 hours time saved, 3.2 times faster than typing, 13,288 total words dictated, 5-day streak, top apps bar chart, and backend latency stats">
     <p class="ch-body" style="margin-top: 22px; max-width: 70ch;">
-      <b>History · Inline editing · Range filters · Top-apps chart · Backend latency.</b> Every dictation goes to <code style="font-family: var(--mono); font-size: 14px; padding: 1px 6px; background: var(--ink-3); border: 1px solid var(--line-2); border-radius: 3px;">history.jsonl</code> in your Auris folder. Grep it, edit it, delete the file to wipe history.
+      <b>History · Inline editing · Range filters · Top-apps chart · Backend latency.</b> Every dictation goes to <code style="font-family: var(--mono); font-size: 14px; padding: 1px 6px; background: var(--ink-3); border: 1px solid var(--line-2); border-radius: 3px;">history.jsonl</code> in your Auris folder. Search it, edit it, delete the file to wipe history.
     </p>
   </section>
 
@@ -1318,7 +1454,7 @@
     <div class="ch-head">
       <div>
         <div class="ch-eyebrow">Workspace</div>
-        <h2>Open the folder. <em class="sig">Read the files.</em></h2>
+        <h2>Open the folder. <br class="m-only"><em class="sig">Read the files.</em></h2>
       </div>
       <div class="ch-tag">Memos are real <b>.md</b> files. History is one <b>.jsonl</b>. Dictionary is plain <b>.json</b>. Auris owns nothing. Open them in any editor, sync them via Dropbox or git, version them however you like.</div>
     </div>
@@ -1451,39 +1587,39 @@
         </thead>
         <tbody>
           <tr>
-            <td class="app-name">Anthropic</td>
-            <td>cloud</td>
-            <td>polish</td>
-            <td>claude-haiku-4-5</td>
-            <td>$0.12</td>
+            <td class="app-name" data-label="Provider">Anthropic</td>
+            <td data-label="Hosting">cloud</td>
+            <td data-label="Use for">polish</td>
+            <td data-label="Default model">claude-haiku-4-5</td>
+            <td data-label="Cost/hr">$0.12</td>
           </tr>
           <tr>
-            <td class="app-name">OpenAI</td>
-            <td>cloud</td>
-            <td>polish</td>
-            <td>gpt-5.4-mini</td>
-            <td>$0.02</td>
+            <td class="app-name" data-label="Provider">OpenAI</td>
+            <td data-label="Hosting">cloud</td>
+            <td data-label="Use for">polish</td>
+            <td data-label="Default model">gpt-5.4-mini</td>
+            <td data-label="Cost/hr">$0.02</td>
           </tr>
           <tr>
-            <td class="app-name">Groq</td>
-            <td>cloud</td>
-            <td>polish + STT</td>
-            <td>llama-3.3-70b · whisper-large-v3-turbo</td>
-            <td>$0.05</td>
+            <td class="app-name" data-label="Provider">Groq</td>
+            <td data-label="Hosting">cloud</td>
+            <td data-label="Use for">polish + STT</td>
+            <td data-label="Default model">llama-3.3-70b · whisper-large-v3-turbo</td>
+            <td data-label="Cost/hr">$0.05</td>
           </tr>
           <tr>
-            <td class="app-name">Ollama</td>
-            <td>local</td>
-            <td>polish</td>
-            <td>any model you've pulled</td>
-            <td>$0</td>
+            <td class="app-name" data-label="Provider">Ollama</td>
+            <td data-label="Hosting">local</td>
+            <td data-label="Use for">polish</td>
+            <td data-label="Default model">any model you've pulled</td>
+            <td data-label="Cost/hr">$0</td>
           </tr>
           <tr>
-            <td class="app-name">Whisper Local</td>
-            <td>local</td>
-            <td>STT</td>
-            <td>base (74 MB) up to large-v3 (1.55 GB)</td>
-            <td>$0</td>
+            <td class="app-name" data-label="Provider">Whisper Local</td>
+            <td data-label="Hosting">local</td>
+            <td data-label="Use for">STT</td>
+            <td data-label="Default model">base (74 MB) up to large-v3 (1.55 GB)</td>
+            <td data-label="Cost/hr">$0</td>
           </tr>
         </tbody>
       </table>

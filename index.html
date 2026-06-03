@@ -13,6 +13,14 @@
   "mainEntity": [
     {
       "@type": "Question",
+      "name": "Will there be a free version or a free trial?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, both, at public launch. The free version runs the core dictation flow (hotkey, transcribe, insert) with a limited feature set. Use it as long as you want, no time limit, no card required. If you outgrow it, upgrade once and you're done. The free trial unlocks the full app: every feature, every model, every preset, for a fixed window after install. When the trial ends, you decide: buy a license, or drop back to the free version. Your settings and dictionary stay. Either path, no subscription. You pay once or you don't pay at all."
+      }
+    },
+    {
+      "@type": "Question",
       "name": "Do I need to set anything up after I buy?",
       "acceptedAnswer": {
         "@type": "Answer",
@@ -284,6 +292,9 @@
     color: var(--paper); max-width: 52ch; letter-spacing: -0.005em;
   }
   .hero-dek b { font-weight: 700; color: var(--signal); }
+  /* Helper: mobile-only inline space (paired with br.d-only). Hidden by
+     default; revealed inside the mobile media query. */
+  .m-space { display: none; }
   .hero-values {
     list-style: none; padding: 0; margin: -8px 0 0;
     display: flex; gap: 32px; flex-wrap: wrap;
@@ -1278,6 +1289,8 @@
   .vs-row .ours { font-size: 15px; color: var(--paper); font-weight: 500; line-height: 1.55; letter-spacing: 0; }
   .vs-row .ours b { color: var(--signal); font-weight: 700; }
   .vs-row .ours.empty { color: var(--dim); font-weight: 500; }
+  .vs-row .ours .o-i { display: block; }
+  .vs-row .ours .o-i + .o-i { margin-top: 4px; }
   .vs-row .others { font-size: 15px; color: var(--paper-3); font-weight: 500; line-height: 1.55; letter-spacing: 0.005em; }
   .vs-row .others b { color: var(--paper); font-weight: 700; }
   .vs-row .others .o-i { display: block; }
@@ -1306,7 +1319,7 @@
   .pricing { padding: 64px 0; border-bottom: 1px solid var(--line-2); }
   .pricing-grid {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 36px;
-    align-items: start;
+    align-items: stretch;
   }
   .price-card {
     background: var(--ink-3); border: 1px solid var(--line-2);
@@ -1456,8 +1469,18 @@
     .live-cap { grid-template-columns: 1fr; gap: 16px; }
     .pillar { padding: 64px 0; }
     .pillar-grid { grid-template-columns: 1fr; gap: 28px; }
-    .pillar-num { font-size: clamp(140px, 36vw, 240px); text-align: left; line-height: 0.85; }
-    .pillar-num .underbar { margin-left: 0; width: 36%; }
+    /* Flatten .pillar-body into the grid so the eyebrow can sit above the "0"
+       on mobile (desktop keeps eyebrow next to the 0 in the right column). */
+    .pillar-body { display: contents; }
+    .pillar-body .eb { order: -1; justify-self: start; }
+    .pillar-num { font-size: clamp(140px, 36vw, 240px); text-align: center; line-height: 0.85; }
+    .pillar-num .underbar { margin: 22px auto 0; width: 80px; }
+    .pillar-body h2 { text-align: center; margin-left: auto; margin-right: auto; }
+    .pillar-body p { text-align: center; margin-left: auto; margin-right: auto; }
+    /* The 56px + 56px desktop spacers between the pillar paragraph and the
+       keep-grid become a ~112px void on phones; tighten to one section break. */
+    .pillar.chapter .pillar-grid { padding-bottom: 28px; }
+    .pillar.chapter .keep-grid { margin-top: 28px; }
     .g-grid { grid-template-columns: 1fr 1fr; }
     .guarantee { border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
     .guarantee:nth-child(2n) { border-right: 0; }
@@ -1477,7 +1500,11 @@
     .control-input, .control-output { padding: 0; min-height: 0; }
     .control-output { border-top: 1px solid var(--line-2); padding-top: 18px; }
     .provider-grid { grid-template-columns: 1fr; }
-    .provider { border-right: 0; border-bottom: 1px solid var(--line-2); }
+    .provider { border-right: 0; border-bottom: 1px solid var(--line-2); min-height: 0; }
+    /* Desktop pushes the paragraph to the bottom of each card so the 4 columns
+       align tabularly. In a stacked single-column layout that just leaves an
+       awkward gap between the heading and the description — undo it. */
+    .provider p { margin-top: 0; }
     .provider:last-child { border-bottom: 0; }
     .keep-grid { grid-template-columns: 1fr 1fr; }
     .keep-card { border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
@@ -1513,6 +1540,9 @@
     .page-hero h1, .final h2, .ch-head h2 {
       font-size: clamp(36px, 9vw, 56px) !important;
     }
+    /* #faq h2 has white-space: nowrap on desktop ("The usual questions." sits
+       tight on one line); on phones that overflows the viewport. */
+    #faq .ch-head h2 { white-space: normal !important; }
     .hero-lead { font-size: clamp(32px, 8.5vw, 48px) !important; max-width: none; margin-bottom: 22px !important; }
     .hero-polished h2 { font-size: clamp(22px, 5.5vw, 32px) !important; }
     .hero-wedge { grid-template-columns: 1fr 1fr !important; margin-top: 18px !important; padding-top: 0 !important; }
@@ -1531,9 +1561,12 @@
     .g-grid { grid-template-columns: 1fr !important; }
     .guarantee { border-right: 0 !important; border-bottom: 1px solid var(--line-2) !important; padding: 24px 20px !important; }
     .guarantee:last-child { border-bottom: 0 !important; }
-    .guarantee h4 { font-size: 17px !important; }
-    .guarantee p { font-size: 13px !important; }
-    .guarantee .stamp-link { font-size: 10px !important; }
+    /* Center icon, heading, and body text on mobile. Keep stamp-link
+       stretched so the dashed divider above it still spans the card. */
+    .guarantee .g-seal { align-self: center; }
+    .guarantee h4 { font-size: 17px !important; text-align: center; }
+    .guarantee p { font-size: 13px !important; text-align: center; }
+    .guarantee .stamp-link { font-size: 10px !important; justify-content: center; }
     .feat-section { padding: 48px 0 !important; }
     .feat-grid { grid-template-columns: 1fr !important; }
     .feat-card { min-height: 0 !important; padding: 22px 18px !important; }
@@ -1557,9 +1590,41 @@
       padding: 0 !important;
       line-height: 1.25;
     }
-    .hero-spine { display: none !important; }
+    /* Mobile spine: horizontal divider with the waveform centered on it,
+       so the transformation between raw and polished reads clearly. */
+    .hero-spine {
+      display: flex !important;
+      height: 56px;
+      margin: 4px 0;
+      position: relative;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-spine::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 0; right: 0;
+      height: 1px;
+      background: var(--line-2);
+      transform: translateY(-0.5px);
+    }
+    .hero-spine .waveform {
+      transform: none;
+      height: auto;
+      gap: 3px;
+      padding: 0 14px;
+      background: var(--ink);
+      position: relative;
+      z-index: 1;
+    }
+    .hero-spine .waveform i {
+      width: 2.5px;
+      max-height: 28px;
+    }
+    .hero-spine .waveform i:nth-child(4) { height: 28px; }
+    .hero-spine .waveform i:nth-child(8) { height: 30px; }
     .hero-polished { padding: 0 !important; }
-    .hero-polished .stamp { display: none; }
+    .hero-polished .stamp { display: inline-flex; margin-bottom: 12px; }
     .hero-eyebrow { gap: 10px !important; margin-bottom: 22px !important; }
     .hero-eyebrow .ti, .pill { font-size: 11px !important; }
     .hero { padding: 24px 0 36px !important; }
@@ -1622,6 +1687,15 @@
       margin-top: 4px;
     }
     .vs-row .others .o-i + .o-i::before { display: none; }
+    /* Mirror the indented-continuation pattern in the Auris column so
+       "$0 running fully local." aligns under "$2 to $4 in API credits"
+       (52px Auris label + 8px gap = 60px indent). */
+    .vs-row .ours .o-i { display: inline; }
+    .vs-row .ours .o-i + .o-i {
+      display: block;
+      padding-left: 60px;
+      margin-top: 4px;
+    }
     /* Final CTA: side-by-side on mobile, not stacked. */
     .final .row { flex-wrap: nowrap !important; gap: 10px !important; }
     .final .row .btn {
@@ -1633,14 +1707,39 @@
     .feature-grid, .keep-grid, .pricing-grid, .provider-grid, .modes-grid, .lives-grid, .ways-grid, .slider-details {
       grid-template-columns: 1fr !important;
     }
+    /* keep-card uses a 2-up border scheme at the 980 breakpoint; the rules
+       leave phantom right borders on odd cards and drop the divider between
+       cards 3 and 4 once we're stacked in a single column. Reset them. */
+    .keep-card { border-right: 0 !important; border-bottom: 1px solid var(--line-2) !important; }
+    .keep-card:last-child { border-bottom: 0 !important; }
     .vs-row { grid-template-columns: 1fr !important; }
     .vs-row > * { padding: 8px 12px !important; }
-    .vs-tab { font-size: 15px !important; }
+    .vs-tab { font-size: 15px !important; margin-top: 12px !important; }
     .vs-row .lbl { background: var(--ink-3); }
     .vs-row > * { border-right: 0 !important; border-bottom: 1px solid var(--line-2) !important; }
     .vs-row.head { display: none !important; }
-    .price-card { min-height: 0 !important; padding: 22px !important; }
-    .price-card .px { font-size: 40px !important; }
+    /* Desktop-only line breaks: collapse them on mobile so the next sentence
+       packs up onto the previous line instead of wasting a row. */
+    br.d-only { display: none !important; }
+    /* Mobile-only sentence-joining space: rendered when its sibling br.d-only
+       collapses. Hidden on desktop to avoid a leading-space indent after the
+       visible <br>. Pair: <br class="d-only"><span class="m-space">&nbsp;</span> */
+    .m-space { display: inline !important; }
+    .price-card {
+      min-height: 0 !important; padding: 22px !important;
+      /* Mobile-only: tuck the description beside the price (label/name stay
+         full-width on top) so we don't waste the column next to the dollar
+         number. Desktop keeps the original stacked-column flex layout. */
+      display: grid !important;
+      grid-template-columns: auto 1fr;
+      column-gap: 18px;
+      row-gap: 10px;
+      align-items: center;
+    }
+    .price-card .label,
+    .price-card .name { grid-column: 1 / -1; }
+    .price-card .px { font-size: 40px !important; grid-column: 1; }
+    .price-card .desc { grid-column: 2; margin-top: 0 !important; }
     .final { padding: 56px 0 !important; }
     .secnav-wrap { top: 56px !important; }
     .secnav { padding: 0 18px !important; gap: 18px !important; }
@@ -1666,6 +1765,20 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--line-2);
+  }
+  /* Mobile scroll-hint: right-edge fade so users see the strip is scrollable */
+  .secnav-wrap::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0; bottom: 1px;
+    width: 32px;
+    background: linear-gradient(to right, rgba(1,1,0,0) 0%, rgba(1,1,0,0.92) 80%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 180ms;
+  }
+  @media (max-width: 760px) {
+    .secnav-wrap::after { opacity: 1; }
   }
   .secnav {
     max-width: clamp(1280px, 92vw, 1480px);
@@ -1797,6 +1910,21 @@
       gap: 22px;
     }
     .founders-box h3 { font-size: 26px; }
+  }
+  @media (max-width: 540px) {
+    .founders-box { padding: 24px 20px; gap: 18px; }
+    .founders-box h3 { font-size: 23px; }
+    .founders-box form.fb-form { flex-direction: column; }
+    .founders-box form.fb-form input[type="email"] {
+      width: 100%;
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line-3);
+    }
+    .founders-box form.fb-form button[type="submit"] {
+      width: 100%;
+      justify-content: center;
+      padding: 13px 14px;
+    }
   }
 
 </style>
@@ -1935,7 +2063,7 @@
 
     <div class="hero-deck">
       <div class="hero-deck-l">
-        <p class="hero-dek">Hold a hotkey, talk, release.<br>Auris transcribes, polishes, and inserts clean text into your text box.<br>Bring <b>your own API keys</b> (<b style="color: var(--signal);">BYOK</b>), or run <b>fully local and private</b>.</p>
+        <p class="hero-dek">Hold a hotkey, talk, release.<br>Auris transcribes, polishes, and inserts clean text into your text box.<br class="d-only"><span class="m-space">&nbsp;</span>Bring <b>your own API keys</b> (<b style="color: var(--signal);">BYOK</b>), or run <b>fully local and private</b>.</p>
       </div>
     </div>
 
@@ -1944,7 +2072,7 @@
       <div class="fb-left">
         <span class="fb-eb">Early access</span>
         <h3>First 100 get Auris <em>free</em>.</h3>
-        <p class="fb-body">After that, everyone on the list locks in <b>$49 early access pricing</b>.<br>You'll be notified by email when public launch opens.</p>
+        <p class="fb-body">After that, everyone on the list locks in <b>$49 early access pricing</b>.<br class="d-only"><span class="m-space">&nbsp;</span>You'll be notified by email when public launch opens.</p>
       </div>
       <form class="fb-form" action="https://app.kit.com/forms/9456910/subscriptions" method="POST" novalidate>
         <input type="hidden" name="fields[source]" value="founders-list-hero">
@@ -2215,7 +2343,7 @@
         <div class="ch-eyebrow">Defaults</div>
         <h2>Cleanup work, <em class="sig">built in.</em></h2>
       </div>
-      <div class="ch-tag">Stray em-dashes, fillers, missing punctuation, wrong caps.<br><b>Auris fixes them by default and keeps your text <span style="color: var(--signal);">humanized</span>.</b></div>
+      <div class="ch-tag">Stray em-dashes, fillers, missing punctuation, wrong caps.<br class="d-only"><span class="m-space">&nbsp;</span><b>Auris fixes them by default and keeps your text <span style="color: var(--signal);">humanized</span>.</b></div>
     </div>
 
     <div class="feat-grid">
@@ -2464,7 +2592,7 @@
         <div class="ch-eyebrow">Guarantees</div>
         <h2>What we stand behind.</h2>
       </div>
-      <div class="ch-tag">Four claims, four proofs.<br>No marketing fluff, no buzzwords. Just plain proof.</div>
+      <div class="ch-tag">Four claims, four proofs.<br>No marketing fluff, no buzzwords.</div>
     </div>
 
     <div class="g-grid">
@@ -2540,12 +2668,12 @@
       </div>
       <div class="vs-row" role="row">
         <span class="lbl" role="cell">One-time / lifetime</span>
-        <span class="ours" role="cell"><b>$49</b> Founder &middot; <b>$79</b> Standard</span>
+        <span class="ours" role="cell"><b>$49</b> Early Access &middot; <b>$79</b> Standard</span>
         <span class="others" role="cell"><span class="o-i"><b>Wispr:</b> subscription only</span><span class="o-i"><b>Superwhisper:</b> $249</span></span>
       </div>
       <div class="vs-row" role="row">
         <span class="lbl" role="cell">Monthly</span>
-        <span class="ours" role="cell"><b>$2 to $4</b> in API credits<br><b>$0</b> running fully local.</span>
+        <span class="ours" role="cell"><span class="o-i"><b>$2 to $4</b> in API credits</span><span class="o-i"><b>$0</b> running fully local.</span></span>
         <span class="others" role="cell"><span class="o-i"><b>Wispr:</b> $15/mo</span><span class="o-i"><b>Superwhisper:</b> $8.49/mo + APIs</span></span>
       </div>
       <div class="vs-row" role="row">
@@ -2608,7 +2736,7 @@
       <div class="fb-left">
         <span class="fb-eb">Early access</span>
         <h3>First 100 get Auris <em>free</em>.</h3>
-        <p class="fb-body">After that, everyone on the list locks in <b>$49 early access pricing</b>.<br>You'll be notified by email when public launch opens.</p>
+        <p class="fb-body">After that, everyone on the list locks in <b>$49 early access pricing</b>.<br class="d-only"><span class="m-space">&nbsp;</span>You'll be notified by email when public launch opens.</p>
       </div>
       <form class="fb-form" action="https://app.kit.com/forms/9456910/subscriptions" method="POST" novalidate>
         <input type="hidden" name="fields[source]" value="founders-list-home">
@@ -2632,6 +2760,19 @@
         <details class="note">
           <summary>
             <span class="tag">N.01</span>
+            <h4>Will there be a free version or a free trial?</h4>
+            <span class="chev" aria-hidden="true">→</span>
+          </summary>
+          <div class="note-body">
+            <p>Yes, both, at public launch.</p>
+            <p>The <b>free version</b> runs the core dictation flow (hotkey, transcribe, insert) with a limited feature set. Use it as long as you want, no time limit, no card required. If you outgrow it, upgrade once and you're done.</p>
+            <p>The <b>free trial</b> unlocks the full app: every feature, every model, every preset, for a fixed window after install. When the trial ends, you decide: buy a license, or drop back to the free version. Your settings and dictionary stay.</p>
+            <p>Either path, no subscription. You pay once or you don't pay at all.</p>
+          </div>
+        </details>
+        <details class="note">
+          <summary>
+            <span class="tag">N.02</span>
             <h4>Do I need to set anything up after I buy?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>
@@ -2641,7 +2782,7 @@
         </details>
         <details class="note">
           <summary>
-            <span class="tag">N.02</span>
+            <span class="tag">N.03</span>
             <h4>What does the API usage actually cost?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>
@@ -2651,7 +2792,7 @@
         </details>
         <details class="note">
           <summary>
-            <span class="tag">N.03</span>
+            <span class="tag">N.04</span>
             <h4>What if I don't like it?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>
@@ -2661,7 +2802,7 @@
         </details>
         <details class="note">
           <summary>
-            <span class="tag">N.04</span>
+            <span class="tag">N.05</span>
             <h4>Will it run on my computer?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>
@@ -2673,7 +2814,7 @@
         </details>
         <details class="note">
           <summary>
-            <span class="tag">N.05</span>
+            <span class="tag">N.06</span>
             <h4>How accurate is it?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>

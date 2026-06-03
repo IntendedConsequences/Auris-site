@@ -432,6 +432,9 @@
     font-size: 15px; line-height: 1.55; color: var(--paper-2);
   }
   .keep-card p b { color: var(--paper); font-weight: 600; }
+  /* Helper: mobile-only inline space (paired with br.d-only). Hidden by
+     default; revealed inside the mobile media query. */
+  .m-space { display: none; }
 
   /* NOTES (FAQ) --------------------------------------------- */
   .notes-list { display: grid; margin-top: 36px; }
@@ -629,8 +632,17 @@
     .keep-card:nth-last-child(-n+2) { border-bottom: 0; }
     .final { padding: 48px 0; }
     .pillar-grid { grid-template-columns: 1fr; gap: 28px; }
-    .pillar-num { font-size: clamp(140px, 36vw, 240px) !important; text-align: left; line-height: 0.85; }
-    .pillar-num .underbar { margin-left: 0 !important; width: 36%; }
+    /* Flatten .pillar-body into the grid so the eyebrow can sit above the "0"
+       on mobile (matches the homepage pillar layout). The base .pillar-body
+       rule (display: flex) appears later in the file, so we need !important
+       to win the cascade. */
+    .pillar-body { display: contents !important; }
+    .pillar-body .eb { order: -1; justify-self: start; }
+    .pillar-num { font-size: clamp(140px, 36vw, 240px) !important; text-align: center; line-height: 0.85; }
+    .pillar-num .underbar { margin: 22px auto 0 !important; width: 80px !important; }
+    .pillar-body h2 { text-align: center; margin-left: auto; margin-right: auto; }
+    .pillar-body p { text-align: center; margin-left: auto; margin-right: auto; }
+    .pillar-strip { justify-content: center; }
     .g-grid { grid-template-columns: 1fr 1fr; }
     .guarantee { border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
     .guarantee:nth-child(2n) { border-right: 0; }
@@ -787,6 +799,9 @@
     .cost-row .px { text-align: left !important; font-size: 19px !important; }
     #license .lives-grid { grid-template-columns: 1fr !important; }
     #license .lives h4 { white-space: normal !important; font-size: 24px !important; }
+    /* Override the inline `max-width: 75%` on the Sensitive caveat note —
+       at 375px that collapses the paragraph to ~244px. */
+    #sensitive p.ch-body[style*="75%"] { max-width: 100% !important; }
     .team-block { grid-template-columns: 1fr !important; }
     .langs-grid { grid-template-columns: 1fr 1fr; }
     .stickbar { display: none !important; }
@@ -877,6 +892,19 @@
     -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--line-2);
   }
+  .secnav-wrap::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0; bottom: 1px;
+    width: 32px;
+    background: linear-gradient(to right, rgba(1,1,0,0) 0%, rgba(1,1,0,0.92) 80%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 180ms;
+  }
+  @media (max-width: 760px) {
+    .secnav-wrap::after { opacity: 1; }
+  }
   .secnav {
     max-width: clamp(1280px, 92vw, 1480px); margin: 0 auto; padding: 0 40px;
     display: flex; gap: 32px; align-items: center;
@@ -930,6 +958,112 @@
   @keyframes beta-pill-pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.35; }
+  }
+
+  /* === MOBILE FIXES: placed last so they override base + earlier @media === */
+  @media (max-width: 760px) {
+    /* Desktop-only line breaks: collapse them on mobile so the next sentence
+       packs up onto the previous line instead of wasting a row. */
+    br.d-only { display: none !important; }
+    /* Mobile-only sentence-joining space: rendered when its sibling br.d-only
+       collapses. Hidden on desktop to avoid a leading-space indent after the
+       visible <br>. Pair: <br class="d-only"><span class="m-space">&nbsp;</span> */
+    .m-space { display: inline !important; }
+    /* Pillar: stack the giant "0" above the text block (was side-by-side) */
+    .pillar { padding: 48px 0; }
+    .pillar-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .pillar-num {
+      font-size: clamp(140px, 38vw, 220px);
+      text-align: center;
+      line-height: 0.85;
+    }
+    .pillar-num .underbar { margin: 14px auto 0; width: 80px; }
+    .pillar-body h2 { font-size: clamp(28px, 7vw, 40px); max-width: none; text-align: center; }
+    .pillar-body p { font-size: 15px; text-align: center; }
+    /* 0-stat strip on mobile: flex-wrap so each row centers independently
+       (grid columns lock to the widest item and leave trailing space). */
+    .pillar-strip {
+      display: flex !important;
+      flex-wrap: wrap;
+      justify-content: center;
+      column-gap: 18px;
+      row-gap: 10px;
+      font-size: 13px;
+      margin-top: 10px;
+      padding-top: 18px;
+    }
+    .pillar-strip .item { gap: 8px; }
+    .pillar-strip .item .v { font-size: 16px; }
+    /* Tighten the pillar section's own bottom padding so there's no void
+       between the last stat row and the section divider. */
+    .pillar { padding-bottom: 24px !important; }
+    /* Drop the radial-yellow background tint on mobile — desktop keeps it. */
+    .pillar::before { display: none !important; }
+    /* Hide the data-flow board screenshot on mobile — the inline UI inside
+       (microphone row, audio/transcript routing) is unreadable at this width. */
+    #flow .chapter-shot { display: none !important; }
+
+    /* Guarantees section: desktop's 64px top/bottom padding leaves a ~108px
+       void above "GUARANTEES" on mobile. Tighten it. */
+    .guarantees { padding: 32px 0 !important; }
+    /* Guarantees: collapse 4-column grid to 2 (768+) or 1 (narrow) */
+    .g-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .guarantee {
+      border-right: 1px solid var(--line-2);
+      border-bottom: 1px solid var(--line-2);
+      padding: 22px 18px;
+    }
+    .guarantee:nth-child(2n) { border-right: 0; }
+    .guarantee:nth-last-child(-n+2) { border-bottom: 0; }
+
+    /* Flow grid: cards from 4-up to 2x2 already; tighten padding */
+    .flow-step { padding: 18px 14px; }
+    .flow-step h4 { font-size: 18px; }
+  }
+  @media (max-width: 540px) {
+    /* Single-column at very small widths */
+    .g-grid { grid-template-columns: 1fr; }
+    .guarantee {
+      border-right: 0 !important;
+      border-bottom: 1px solid var(--line-2) !important;
+    }
+    .guarantee:last-child { border-bottom: 0 !important; }
+    /* Center icon, heading, and body text on mobile — same treatment as
+       index.html's guarantees section. */
+    .guarantee .g-seal { align-self: center; }
+    .guarantee h4 { text-align: center; }
+    .guarantee p { text-align: center; }
+    .flow { grid-template-columns: 1fr; }
+    .flow-step { border-right: 0; border-bottom: 1px solid var(--line-2); }
+    .flow-step:last-child { border-bottom: 0; }
+    .flow-step .arrow { display: none; }
+    .keep-grid { grid-template-columns: 1fr !important; }
+    .keep-card {
+      border-right: 0 !important;
+      border-bottom: 1px solid var(--line-2) !important;
+      /* Mobile: put the struck-through label on the left, description on
+         the right — uses the empty space next to each short label. */
+      display: grid !important;
+      grid-template-columns: minmax(95px, auto) 1fr;
+      column-gap: 18px;
+      row-gap: 0;
+      align-items: center;
+      padding: 18px 22px !important;
+    }
+    .keep-card:last-child { border-bottom: 0 !important; }
+    /* Hug the strike to its text so the yellow line doesn't extend past
+       the word. Center the short labels (Email/Phone/SSN) within the
+       label column; Credit card fills the column naturally. */
+    .keep-card .strike {
+      align-self: center;
+      justify-self: center;
+    }
+    .keep-card p { margin-top: 0; }
   }
 </style>
 </head>
@@ -994,7 +1128,7 @@
     <div class="pillar-grid">
       <div class="pillar-num">0<span class="underbar" aria-hidden="true"></span></div>
       <div class="pillar-body">
-        <span class="eb">In local mode</span>
+        <span class="eb">Privacy &middot; in local mode</span>
         <h2>data leaves <em class="sig">your machine.</em></h2>
         <p>Run Whisper locally for transcription, Ollama (or any local LLM) for polish. Outbound network traffic is <b>empty</b>. No telemetry, no analytics, no error reporting, no update pings, no model-training payloads. <b>Pull the network cable. It still works.</b></p>
         <div class="pillar-strip">
@@ -1068,7 +1202,7 @@
         <h3>On your machine.</h3>
         <p>The polish step runs locally through <b>Ollama, LM Studio,</b> or any compatible local server. <b>Nothing leaves your computer.</b></p>
         <p>No API calls. No network. Works on a plane.</p>
-        <p>Or skip the LLM entirely. Auris ships with <b>built-in rules-based polish</b> — capitalization, spacing, and common fixes. Lighter touch than an LLM, but it works with zero setup and zero dependencies.</p>
+        <p>Or skip the LLM entirely. Auris ships with <b>built-in rules-based polish</b>. Capitalization, spacing, and common fixes. Lighter touch than an LLM, but it works with zero setup and zero dependencies.</p>
         <span class="meta"><b>Cost</b> · <span class="sg">$0 in API fees</span></span>
       </article>
     </div>
@@ -1134,7 +1268,7 @@
     <div class="keep-grid">
       <article class="keep-card">
         <span class="strike">Email</span>
-        <p>Anything matching an email pattern.<br>Never saved to your transcript history.</p>
+        <p>Anything matching an email&nbsp;pattern.<br class="d-only"><span class="m-space">&nbsp;</span>Never saved to your transcript history.</p>
       </article>
       <article class="keep-card">
         <span class="strike">Phone</span>
@@ -1162,7 +1296,7 @@
         <div class="ch-eyebrow">Guarantees</div>
         <h2>What we stand behind.</h2>
       </div>
-      <div class="ch-tag">Four claims, four proofs.<br>No marketing fluff, no buzzwords. Just plain proof.</div>
+      <div class="ch-tag">Four claims, four proofs.<br>No marketing fluff, no buzzwords.</div>
     </div>
 
     <div class="g-grid">

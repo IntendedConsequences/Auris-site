@@ -12,6 +12,14 @@
   "mainEntity": [
     {
       "@type": "Question",
+      "name": "Will there be a free version or a free trial?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, both, at public launch. The free version runs the core dictation flow (hotkey, transcribe, insert) with a limited feature set. Use it as long as you want, no time limit, no card required. If you outgrow it, upgrade once and you're done. The free trial unlocks the full app: every feature, every model, every preset, for a fixed window after install. When the trial ends, you decide: buy a license, or drop back to the free version. Your settings and dictionary stay. Either path, no subscription. You pay once or you don't pay at all."
+      }
+    },
+    {
+      "@type": "Question",
       "name": "How can you afford to charge once?",
       "acceptedAnswer": {
         "@type": "Answer",
@@ -262,7 +270,7 @@
   .pricing-grid {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
     margin: 0;
-    align-items: start;
+    align-items: stretch;
   }
   .price-card {
     background: var(--ink-3); border: 1px solid var(--line-2);
@@ -304,6 +312,9 @@
   }
   .price-card .desc b { color: var(--paper); font-weight: 600; }
   .price-card .cta { margin-top: 14px; }
+  /* Helper: mobile-only inline space (paired with br.d-only). Hidden by
+     default; revealed inside the mobile media query. */
+  .m-space { display: none; }
 
   /* PRICING WAITLIST ---------------------------------------- */
   .pricing-notify {
@@ -405,6 +416,8 @@
   .vs-row .ours { font-size: 15px; color: var(--paper); font-weight: 500; line-height: 1.55; letter-spacing: 0; }
   .vs-row .ours b { color: var(--signal); font-weight: 700; }
   .vs-row .ours.empty { color: var(--dim); font-weight: 500; }
+  .vs-row .ours .o-i { display: block; }
+  .vs-row .ours .o-i + .o-i { margin-top: 4px; }
   .vs-row .others { font-size: 15px; color: var(--paper-3); font-weight: 500; line-height: 1.55; letter-spacing: 0.005em; }
   .vs-row .others b { color: var(--paper); font-weight: 700; }
   .vs-row .others .o-i { display: block; }
@@ -794,6 +807,10 @@
     .hero-eyebrow .ti, .pill { font-size: 11px !important; }
     .hero { padding: 24px 0 36px !important; }
     .chapter, .versus, .pricing, .langs { padding: 40px 0 !important; }
+    /* Refund chapter is just a heading + one paragraph (no body grid/cards).
+       The default 40px bottom padding leaves a visible dead zone before the
+       divider on mobile. */
+    #refund.chapter { padding-bottom: 16px !important; }
     .bar-row .bar-label { font-size: 15px !important; }
     .bar-val { font-size: 24px !important; }
     .how-card { min-height: 0 !important; padding: 20px !important; }
@@ -848,18 +865,82 @@
       margin-top: 4px;
     }
     .vs-row .others .o-i + .o-i::before { display: none; }
-    .price-card { min-height: 0 !important; padding: 22px !important; }
-    .price-card .px { font-size: 40px !important; }
+    /* Mirror the indented-continuation pattern in the Auris column so
+       "$0 running fully local." aligns under "$2 to $4 in API credits"
+       (52px Auris label + 8px gap = 60px indent). */
+    .vs-row .ours .o-i { display: inline; }
+    .vs-row .ours .o-i + .o-i {
+      display: block;
+      padding-left: 60px;
+      margin-top: 4px;
+    }
+    /* Desktop-only line breaks: collapse them on mobile so the next sentence
+       packs up onto the previous line instead of wasting a row. */
+    br.d-only { display: none !important; }
+    /* Mobile-only sentence-joining space: rendered when its sibling br.d-only
+       collapses. Hidden on desktop to avoid a leading-space indent after the
+       visible <br>. Pair: <br class="d-only"><span class="m-space">&nbsp;</span> */
+    .m-space { display: inline !important; }
+    .price-card {
+      min-height: 0 !important; padding: 22px !important;
+      /* Mobile-only: tuck the description beside the price (label/name stay
+         full-width on top) so we don't waste the column next to the dollar
+         number. Desktop keeps the original stacked-column flex layout. */
+      display: grid !important;
+      grid-template-columns: auto 1fr;
+      column-gap: 18px;
+      row-gap: 10px;
+      align-items: center;
+    }
+    .price-card .label,
+    .price-card .name { grid-column: 1 / -1; }
+    .price-card .px { font-size: 40px !important; grid-column: 1; }
+    .price-card .desc { grid-column: 2; margin-top: 0 !important; }
     .final { padding: 56px 0 !important; }
     .secnav-wrap { top: 56px; }
     .secnav a { padding: 12px 14px; font-size: 11px; }
     .colophon { font-size: 11px; gap: 14px; }
     .keep-file { grid-template-columns: 1fr !important; gap: 8px !important; }
-    .cost-head, .cost-row { grid-template-columns: 1fr !important; gap: 4px !important; padding: 14px 18px !important; }
-    .cost-row .px { text-align: left !important; font-size: 19px !important; }
+    /* Cost table on mobile: was three stacked lines per row (provider/model/
+       price), which left awkward whitespace and made the header look like a
+       fourth row. Restructure to a 2-column row: provider+model stacked on
+       the left, big price right-aligned. Header row is redundant on mobile —
+       hide it. */
+    .cost-head { display: none !important; }
+    .cost-row {
+      display: grid !important;
+      grid-template-columns: 1fr auto !important;
+      column-gap: 16px !important;
+      row-gap: 2px !important;
+      padding: 16px 20px !important;
+      align-items: center !important;
+    }
+    .cost-row .name { grid-column: 1; grid-row: 1; }
+    .cost-row .model { grid-column: 1; grid-row: 2; font-size: 14px !important; }
+    .cost-row .px {
+      grid-column: 2; grid-row: 1 / span 2;
+      text-align: right !important;
+      font-size: 26px !important;
+      align-self: center;
+    }
     #license .lives-grid { grid-template-columns: 1fr !important; }
     #license .lives h4 { white-space: normal !important; font-size: 24px !important; }
-    .team-block { grid-template-columns: 1fr !important; }
+    /* Team block on mobile: mirror the price-card layout — heading full-width
+       on top, then big $59 left and paragraph right. Uses display: contents
+       on .l so its h3 and p become direct grid items and can be reordered. */
+    .team-block {
+      grid-template-columns: auto 1fr !important;
+      column-gap: 18px !important;
+      row-gap: 10px !important;
+      padding: 22px !important;
+      align-items: center !important;
+    }
+    .team-block .l { display: contents; }
+    .team-block .l h3 { grid-column: 1 / -1; grid-row: 1; }
+    .team-block .r { grid-column: 1; grid-row: 2; }
+    .team-block .l p { grid-column: 2; grid-row: 2; margin-top: 0 !important; }
+    .team-block .r .px { font-size: 40px !important; }
+    .team-block .r .px small { font-size: 10px !important; margin-top: 4px !important; }
     .langs-grid { grid-template-columns: 1fr 1fr; }
     .stickbar { display: none !important; }
   }
@@ -948,6 +1029,19 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--line-2);
+  }
+  .secnav-wrap::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0; bottom: 1px;
+    width: 32px;
+    background: linear-gradient(to right, rgba(1,1,0,0) 0%, rgba(1,1,0,0.92) 80%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 180ms;
+  }
+  @media (max-width: 760px) {
+    .secnav-wrap::after { opacity: 1; }
   }
   .secnav {
     max-width: clamp(1280px, 92vw, 1480px); margin: 0 auto; padding: 0 40px;
@@ -1071,6 +1165,21 @@
     .secnav a { padding: 11px 0 7px; font-size: 10px; letter-spacing: 0.06em; }
     .secnav .idx { margin-right: 5px; }
   }
+  @media (max-width: 540px) {
+    .founders-box { padding: 24px 20px; gap: 18px; }
+    .founders-box h3 { font-size: 23px; }
+    .founders-box form.fb-form { flex-direction: column; }
+    .founders-box form.fb-form input[type="email"] {
+      width: 100%;
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line-3);
+    }
+    .founders-box form.fb-form button[type="submit"] {
+      width: 100%;
+      justify-content: center;
+      padding: 13px 14px;
+    }
+  }
 
   /* BETA STATUS PILL: closed-beta announcement at top of every page */
   .beta-pill-wrap {
@@ -1094,6 +1203,61 @@
   @keyframes beta-pill-pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.35; }
+  }
+
+  /* === MOBILE FIXES: placed last so they override base + earlier @media === */
+  @media (max-width: 760px) {
+    /* 5-year cost table on mobile: each tool becomes a card with a horizontal
+       4-column year strip (Y1 → Y2 → Y3 → Y5). Tighter than a 2×2 grid and
+       the year-over-year trajectory reads at a glance. */
+    .cost-over-time { background: transparent; border: 0; }
+    .cot-tb { display: none; }
+    .cot-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: auto auto;
+      margin-bottom: 14px;
+      border: 1px solid var(--line-2);
+      border-radius: 6px;
+      background: var(--ink-3);
+      overflow: hidden;
+    }
+    .cot-row:last-child { margin-bottom: 0; }
+    .cot-row .label {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      padding: 14px 18px;
+      border-right: 0;
+      border-bottom: 1px solid var(--line-2);
+      background: var(--ink-2);
+    }
+    .cot-row .label .name { font-size: 16px; }
+    .cot-row .label .sub { font-size: 11px; }
+    .cot-row .cell {
+      grid-row: 2;
+      padding: 12px 8px;
+      border-right: 1px solid var(--line-2);
+      border-bottom: 0;
+      text-align: center;
+      display: flex; flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .cot-row .cell:last-child { border-right: 0; }
+    .cot-row .cell::before {
+      content: attr(data-year);
+      font-family: var(--mono); font-size: 9px; font-weight: 700;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: var(--paper-3);
+    }
+    .cot-row .cell .px { font-size: 17px; }
+    .cot-row .cell .delta {
+      font-size: 9px;
+      color: var(--paper-3);
+      letter-spacing: 0;
+      text-align: center;
+      line-height: 1.2;
+    }
   }
 </style>
 </head>
@@ -1202,7 +1366,7 @@
       <div class="fb-left">
         <span class="fb-eb">Early access</span>
         <h3>First 100 get Auris <em>free</em>.</h3>
-        <p class="fb-body">After that, everyone on the list locks in <b>$49 early access pricing</b>.<br>You'll be notified by email when public launch opens.</p>
+        <p class="fb-body">After that, everyone on the list locks in <b>$49 early access pricing</b>.<br class="d-only"><span class="m-space">&nbsp;</span>You'll be notified by email when public launch opens.</p>
       </div>
       <form class="fb-form" action="https://app.kit.com/forms/9456910/subscriptions" method="POST" novalidate>
         <input type="hidden" name="fields[source]" value="founders-list-pricing">
@@ -1251,7 +1415,7 @@
     </div>
 
     <p class="ch-body" style="max-width: 64ch; margin-top: 24px;">
-      Most people use <b>5 to 30 hours of dictation a month</b> and pay <b>$2 to $4</b> in API usage.<br>Pick local and pay nothing.
+      Most people use <b>5 to 30 hours of dictation a month</b> and pay <b>$2 to $4</b> in API usage.<br class="d-only"><span class="m-space">&nbsp;</span>Pick local and pay nothing.
     </p>
   </section>
 
@@ -1262,7 +1426,7 @@
         <div class="ch-eyebrow">Math</div>
         <h2>One-time vs<br><em class="sig">every-time.</em></h2>
       </div>
-      <div class="ch-tag">Wispr Flow Pro is <b>$15 a month</b>, billed monthly.<br>The features stack up next to Auris. <span style="color: var(--signal); font-weight: 700;">Same job. Different math.</span></div>
+      <div class="ch-tag">Wispr Flow Pro is <b>$15 a month</b>, billed monthly.<br class="d-only"><span class="m-space">&nbsp;</span>Auris brings the same features. <span style="color: var(--signal); font-weight: 700;">Same job. Different math.</span></div>
     </div>
 
     <div class="vs-tab" role="table" aria-label="Versus the competition">
@@ -1273,12 +1437,12 @@
       </div>
       <div class="vs-row" role="row">
         <span class="lbl" role="cell">One-time / lifetime</span>
-        <span class="ours" role="cell"><b>$49</b> Founder &middot; <b>$79</b> Standard</span>
+        <span class="ours" role="cell"><b>$49</b> Early Access &middot; <b>$79</b> Standard</span>
         <span class="others" role="cell"><span class="o-i"><b>Wispr:</b> subscription only</span><span class="o-i"><b>Superwhisper:</b> $249</span></span>
       </div>
       <div class="vs-row" role="row">
         <span class="lbl" role="cell">Monthly</span>
-        <span class="ours" role="cell"><b>$2 to $4</b> in API credits<br><b>$0</b> running fully local.</span>
+        <span class="ours" role="cell"><span class="o-i"><b>$2 to $4</b> in API credits</span><span class="o-i"><b>$0</b> running fully local.</span></span>
         <span class="others" role="cell"><span class="o-i"><b>Wispr:</b> $15/mo</span><span class="o-i"><b>Superwhisper:</b> $8.49/mo + APIs</span></span>
       </div>
       <div class="vs-row" role="row">
@@ -1313,10 +1477,10 @@
           <span class="name">Auris</span>
           <span class="sub">$49 once, no subscription</span>
         </div>
-        <div class="cell"><span class="px">$49</span><span class="delta">one-time license</span></div>
-        <div class="cell"><span class="px">$0</span><span class="delta">no recurring cost</span></div>
-        <div class="cell"><span class="px">$0</span><span class="delta">no recurring cost</span></div>
-        <div class="cell"><span class="px">$0</span><span class="delta">no recurring cost</span></div>
+        <div class="cell" data-year="Year 1"><span class="px">$49</span><span class="delta">one-time license</span></div>
+        <div class="cell" data-year="Year 2"><span class="px">$0</span><span class="delta">no recurring cost</span></div>
+        <div class="cell" data-year="Year 3"><span class="px">$0</span><span class="delta">no recurring cost</span></div>
+        <div class="cell" data-year="Year 5"><span class="px">$0</span><span class="delta">no recurring cost</span></div>
       </div>
 
       <div class="cot-row wispr">
@@ -1324,10 +1488,10 @@
           <span class="name">Wispr Flow Pro</span>
           <span class="sub">$15/mo, billed monthly</span>
         </div>
-        <div class="cell"><span class="px">$180</span><span class="delta">subscription</span></div>
-        <div class="cell"><span class="px">$360</span><span class="delta">+ $180</span></div>
-        <div class="cell"><span class="px">$540</span><span class="delta">+ $180</span></div>
-        <div class="cell"><span class="px">$900</span><span class="delta">+ $180</span></div>
+        <div class="cell" data-year="Year 1"><span class="px">$180</span><span class="delta">subscription</span></div>
+        <div class="cell" data-year="Year 2"><span class="px">$360</span><span class="delta">+ $180</span></div>
+        <div class="cell" data-year="Year 3"><span class="px">$540</span><span class="delta">+ $180</span></div>
+        <div class="cell" data-year="Year 5"><span class="px">$900</span><span class="delta">+ $180</span></div>
       </div>
 
       <div class="cot-row wispr">
@@ -1335,10 +1499,10 @@
           <span class="name">Superwhisper</span>
           <span class="sub">$8.49/mo, billed monthly</span>
         </div>
-        <div class="cell"><span class="px">$102</span><span class="delta">subscription</span></div>
-        <div class="cell"><span class="px">$204</span><span class="delta">+ $102</span></div>
-        <div class="cell"><span class="px">$306</span><span class="delta">+ $102</span></div>
-        <div class="cell"><span class="px">$510</span><span class="delta">+ $102</span></div>
+        <div class="cell" data-year="Year 1"><span class="px">$102</span><span class="delta">subscription</span></div>
+        <div class="cell" data-year="Year 2"><span class="px">$204</span><span class="delta">+ $102</span></div>
+        <div class="cell" data-year="Year 3"><span class="px">$306</span><span class="delta">+ $102</span></div>
+        <div class="cell" data-year="Year 5"><span class="px">$510</span><span class="delta">+ $102</span></div>
       </div>
     </div>
 
@@ -1353,7 +1517,7 @@
     <div class="ch-head">
       <div>
         <div class="ch-eyebrow">Teams</div>
-        <h2>For teams of 3 to 50.</h2>
+        <h2>For Teams of 3+</h2>
       </div>
       <div class="ch-tag">The Team Self-Hosted license runs on <b>your team's own machines</b>. No vendor cloud in the polish path. Bring your own keys or run a local model across the team.</div>
     </div>
@@ -1361,7 +1525,7 @@
     <div class="team-block">
       <div class="l">
         <h3>Self-hosted, 3 seats and up.</h3>
-        <p><b>$59 per seat,</b> 3 seat minimum. <b>Volume discounts</b> at 10, 25, and 50 seats. Email <b><a href="mailto:hello@auris.talk" style="color: var(--signal);">hello@auris.talk</a></b> for a quote. Above 50 seats, get in touch and we'll work something out.</p>
+        <p><b>Volume discounts</b> at 10, 25, and 50 seats. Email <b><a href="mailto:hello@auris.talk" style="color: var(--signal);">hello@auris.talk</a></b> for a quote.</p>
       </div>
       <div class="r">
         <span class="px">$59<small>per seat · 3 min</small></span>
@@ -1376,7 +1540,7 @@
         <div class="ch-eyebrow">Refund</div>
         <h2>30 days, no questions.</h2>
       </div>
-      <div class="ch-tag">Buy Auris, try it for thirty days, refund if it isn't worth the price.<br>You <b>don't have to explain why.</b> We'd appreciate a sentence about what didn't work, but it's not a condition.</div>
+      <div class="ch-tag">Buy Auris, try it for thirty days, refund if it isn't worth the price.<br class="d-only"><span class="m-space">&nbsp;</span>You <b>don't have to explain why.</b> We'd appreciate a sentence about what didn't work, but it's not a condition.</div>
     </div>
   </section>
 
@@ -1394,6 +1558,19 @@
         <details class="note">
           <summary>
             <span class="tag">N.01</span>
+            <h4>Will there be a free version or a free trial?</h4>
+            <span class="chev" aria-hidden="true">→</span>
+          </summary>
+          <div class="note-body">
+            <p>Yes, both, at public launch.</p>
+            <p>The <b>free version</b> runs the core dictation flow (hotkey, transcribe, insert) with a limited feature set. Use it as long as you want, no time limit, no card required. If you outgrow it, upgrade once and you're done.</p>
+            <p>The <b>free trial</b> unlocks the full app: every feature, every model, every preset, for a fixed window after install. When the trial ends, you decide: buy a license, or drop back to the free version. Your settings and dictionary stay.</p>
+            <p>Either path, no subscription. You pay once or you don't pay at all.</p>
+          </div>
+        </details>
+        <details class="note">
+          <summary>
+            <span class="tag">N.02</span>
             <h4>How can you afford to charge once?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>
@@ -1403,7 +1580,7 @@
         </details>
         <details class="note">
           <summary>
-            <span class="tag">N.02</span>
+            <span class="tag">N.03</span>
             <h4>What does "lifetime updates" mean?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>
@@ -1413,7 +1590,7 @@
         </details>
         <details class="note">
           <summary>
-            <span class="tag">N.03</span>
+            <span class="tag">N.04</span>
             <h4>Can I switch tiers?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>
@@ -1423,7 +1600,7 @@
         </details>
         <details class="note">
           <summary>
-            <span class="tag">N.04</span>
+            <span class="tag">N.05</span>
             <h4>What payment methods?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>
@@ -1433,7 +1610,7 @@
         </details>
         <details class="note">
           <summary>
-            <span class="tag">N.05</span>
+            <span class="tag">N.06</span>
             <h4>Do you offer purchase orders or invoicing?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>
@@ -1443,7 +1620,7 @@
         </details>
         <details class="note">
           <summary>
-            <span class="tag">N.06</span>
+            <span class="tag">N.07</span>
             <h4>What about education or non-profit discounts beyond the Student tier?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>
@@ -1453,7 +1630,7 @@
         </details>
         <details class="note">
           <summary>
-            <span class="tag">N.07</span>
+            <span class="tag">N.08</span>
             <h4>What happens to my license if I switch computers?</h4>
             <span class="chev" aria-hidden="true">→</span>
           </summary>

@@ -156,6 +156,10 @@
     color: var(--paper); max-width: 50ch; letter-spacing: -0.005em;
   }
 
+  /* Helper: mobile-only inline space (paired with br.d-only). Hidden by
+     default; revealed inside the mobile media query. */
+  .m-space { display: none; }
+
   /* CHAPTER ------------------------------------------------- */
   .chapter { padding: 50px 0; border-bottom: 1px solid var(--line-2); }
   .ch-head {
@@ -632,8 +636,18 @@
     .keep-card { border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
     .keep-card:nth-child(2n) { border-right: 0; }
     .keep-card:nth-last-child(-n+2) { border-bottom: 0; }
-    .term-row { grid-template-columns: 1fr; gap: 6px; }
-    .term-row .k { justify-self: start; }
+    /* Mobile/tablet: put the pill on the left and stack the description +
+       example to its right so the row uses the full width instead of
+       leaving ~half the row empty. */
+    .term-row {
+      grid-template-columns: auto minmax(0, 1fr);
+      column-gap: 14px;
+      row-gap: 4px;
+      align-items: center;
+    }
+    .term-row .k { justify-self: start; grid-row: 1 / span 2; align-self: center; }
+    .term-row .v { grid-column: 2; grid-row: 1; }
+    .term-row .ex { grid-column: 2; grid-row: 2; }
     .final { padding: 48px 0; }
   }
 
@@ -652,6 +666,9 @@
       font-size: clamp(36px, 9vw, 56px) !important;
     }
     .ch-head { gap: 14px !important; margin-bottom: 24px !important; }
+    /* #loop h2 sets white-space: nowrap on desktop so "Hold. Speak. Release."
+       reads as one tight line; on phones that overflows the viewport. */
+    #loop .ch-head h2 { white-space: normal !important; }
     .ch-tag, .hero-dek, .page-hero .dek { font-size: 15px !important; }
     .ch-body p { font-size: 15px !important; }
     .hero-raw, .hero-spine { display: none !important; }
@@ -699,6 +716,9 @@
     .cost-head, .cost-row { grid-template-columns: 1fr !important; gap: 4px !important; padding: 14px 18px !important; }
     .cost-row .px { text-align: left !important; font-size: 19px !important; }
     #license .lives-grid { grid-template-columns: 1fr !important; }
+    /* Override the inline `max-width: 75%` on the Sensitive caveat note —
+       at 375px that collapses the paragraph to ~244px. */
+    #sensitive p.ch-body[style*="75%"] { max-width: 100% !important; }
     #license .lives h4 { white-space: normal !important; font-size: 24px !important; }
     .team-block { grid-template-columns: 1fr !important; }
     .langs-grid { grid-template-columns: 1fr 1fr; }
@@ -922,6 +942,28 @@
     .pipeline-row { grid-template-columns: 1fr 1fr; }
     .pipeline-cell:nth-child(2n) { border-right: 0; }
     .pipeline-cell { border-bottom: 1px solid var(--line-2); }
+    /* Last 2-up row sits flush against the container border — drop its own. */
+    .pipeline-cell:nth-last-child(-n+2) { border-bottom: 0; }
+    /* Desktop pushes timing to the bottom of each cell so all four align in
+       one row; on a 2-up mobile grid where one cell carries the two-line
+       keyboard hint, the others get an awkward gap between label and timing.
+       Tuck timing right under the label instead — empty space lands at the
+       bottom of the cell where it reads as padding. */
+    .pipeline-cell .timing { margin-top: 0; }
+    /* Hide the Dictionary section screenshot on mobile — it shrinks to a size
+       where the UI inside is unreadable. Desktop keeps it. */
+    #dict .chapter-shot { display: none; }
+    /* Mobile-only: collapse the line break between the two dict subtext
+       sentences so they flow on one paragraph. Desktop keeps the break. */
+    br.d-only { display: none !important; }
+    /* Mobile-only sentence-joining space: rendered when its sibling br.d-only
+       collapses. Hidden on desktop to avoid a leading-space indent after the
+       visible <br>. Pair: <br class="d-only"><span class="m-space">&nbsp;</span> */
+    .m-space { display: inline !important; }
+    /* Tighter bottom padding on the dict chapter — without the screenshot
+       and with the subtext now one paragraph, the section ends earlier
+       and the desktop 40px bottom looks like dead space. */
+    #dict.chapter { padding-bottom: 20px !important; }
     .hud-mock-wrap { padding: 44px 16px 24px; }
   }
 
@@ -1010,6 +1052,19 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--line-2);
+  }
+  .secnav-wrap::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0; bottom: 1px;
+    width: 32px;
+    background: linear-gradient(to right, rgba(1,1,0,0) 0%, rgba(1,1,0,0.92) 80%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 180ms;
+  }
+  @media (max-width: 760px) {
+    .secnav-wrap::after { opacity: 1; }
   }
   .secnav {
     max-width: clamp(1280px, 92vw, 1480px); margin: 0 auto; padding: 0 40px;
@@ -1142,7 +1197,7 @@
         <div class="pipeline-cell user">
           <span class="stage">01 &middot; You</span>
           <span class="label">Hold, talk, <em>release</em></span>
-          <span class="timing"><b style="color: var(--signal); font-weight: 700;">⌃fn</b> Mac &middot; <b style="color: var(--signal); font-weight: 700;">⌃Win</b> Windows</span>
+          <span class="timing"><b style="color: var(--signal); font-weight: 700;">⌃fn</b> Mac<br><b style="color: var(--signal); font-weight: 700;">⌃Win</b> Windows</span>
         </div>
         <div class="pipeline-cell software">
           <span class="stage">02 &middot; Auris</span>
@@ -1279,7 +1334,7 @@
     </div>
 
     <p class="ch-body" style="margin-top: 16px; max-width: 64ch;">
-      Build your own snippets in the <b>Dict</b> tab. Edit them whenever.<br><b>They live on your machine.</b>
+      Build your own snippets in the <b>Dict</b> tab. Edit them whenever.<br class="d-only"><span class="m-space">&nbsp;</span><b>They live on your machine.</b>
     </p>
   </section>
 
