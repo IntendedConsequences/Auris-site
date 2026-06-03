@@ -1834,15 +1834,8 @@
     align-items: center;
     overflow: hidden;
   }
-  /* Lock both columns to vertical center so the form doesn't drift to the
-     top of its grid cell and leave dead space under the button.
-     LEFT uses stretch + flex centering so any oversize form column gets the
-     text content visually centered (no gap parked at the bottom). */
-  .founders-box .fb-left {
-    align-self: stretch;
-    justify-content: center;
-  }
-  .founders-box form.fb-form { align-self: center; }
+  /* Anchor the form to the bottom so there's no visible gap below it. */
+  .founders-box form.fb-form { align-self: end; }
   .founders-box::before {
     content: '';
     position: absolute; top: 0; left: 0; right: 0;
